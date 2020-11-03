@@ -7,11 +7,11 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.llama.rick_and_morty_mvvm.R
-import com.llama.rick_and_morty_mvvm.ui.model.Character
+import com.llama.rick_and_morty_mvvm.data.model.Character
 
 class HomeAdapter(
-        private val items: List<Character>,
-        private val listener: (Character) -> Unit
+    private val items: List<Character>,
+    private val listener: (Character) -> Unit
 ) : RecyclerView.Adapter<HomeAdapter.HomeViewHolder>() {
 
     class HomeViewHolder(itemsView: View) : RecyclerView.ViewHolder(itemsView) {
