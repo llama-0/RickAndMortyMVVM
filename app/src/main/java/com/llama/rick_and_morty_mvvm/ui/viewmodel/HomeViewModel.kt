@@ -1,19 +1,14 @@
 package com.llama.rick_and_morty_mvvm.ui.viewmodel
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.llama.rick_and_morty_mvvm.data.RepositoryImpl
-import com.llama.rick_and_morty_mvvm.data.model.Character
+import com.llama.rick_and_morty_mvvm.data.model.SimpleCharacter
 
-class HomeViewModel(private val repository: RepositoryImpl) : ViewModel() {
+class HomeViewModel(repository: RepositoryImpl) : ViewModel() {
 
-    private var liveDataList: LiveData<List<Character>> = MutableLiveData() // migrate to LiveData and repository
+    private val liveDataList: LiveData<List<SimpleCharacter>> = repository.getCharacters()
 
-    fun getCharacterListObserver(): LiveData<List<Character>> =
+    fun getCharacterListObserver(): LiveData<List<SimpleCharacter>> =
             liveDataList
-
-    fun getCharactersFromRepository() {
-        liveDataList = repository.getCharacters()
-    }
 }
