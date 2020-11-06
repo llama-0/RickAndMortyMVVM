@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/constraint_layout_of_fragment_home"
+    android:id="@+id/fragment_home_layout"
     tools:context=".ui.view.HomeFragment">
 
     <androidx.recyclerview.widget.RecyclerView
@@ -13,4 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
+    <include layout="@layout/progressbar_layout"/>
+    <include layout="@layout/recycler_error_layout"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
