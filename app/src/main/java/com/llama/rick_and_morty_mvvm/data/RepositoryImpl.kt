@@ -1,8 +1,6 @@
 package com.llama.rick_and_morty_mvvm.data
 
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.llama.rick_and_morty_mvvm.data.model.Character
 import com.llama.rick_and_morty_mvvm.data.model.CharactersInfo
 import com.llama.rick_and_morty_mvvm.data.model.SimpleCharacter
@@ -17,12 +15,12 @@ class RepositoryImpl : Repository {
 
     private val apiService: ApiService = ApiServiceBuilder.buildService()
 
-    override fun getCharacters(): LiveData<Resource<List<SimpleCharacter>>> {
-        val data = MutableLiveData<Resource<List<SimpleCharacter>>>()
+    override fun getCharacters(resource: Resource) {
         apiService.getCharactersInfo().enqueue(object : Callback<CharactersInfo> {
             override fun onFailure(call: Call<CharactersInfo>, t: Throwable) {
                 Log.e("characters() main", "Failed to execute request, t.toString() = $t")
-                data.value = Resource.error(t)
+                resource.onError(t)
+                // networkException (or unknown)
             }
 
             override fun onResponse(
@@ -31,17 +29,16 @@ class RepositoryImpl : Repository {
             ) {
                 if (response.isSuccessful) {
                     val characterList: List<Character>? = response.body()?.characters
-                    data.value = Resource.success(mapSimpleCharacterList(characterList ?: emptyList()) {
+                    resource.onSuccess(mapSimpleCharacterList(characterList ?: emptyList()) {
                         mapSimpleCharacter(it)
                     })
                 } else {
                     Log.d(this@RepositoryImpl.toString(), "onResponse: data is null")
-//                    data.value = Resource.loading(emptyList())
-                    data.value = Resource.error(Throwable("response isNotSuccessful, data is null"))
+                    resource.onError(Throwable("response isNotSuccessful, data is null"))
+                    // parse error body to determine apiError or unknownError
                 }
             }
         })
-        return data
     }
 
     private fun mapSimpleCharacter(input: Character) : SimpleCharacter =

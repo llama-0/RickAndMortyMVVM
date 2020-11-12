@@ -1,7 +1,8 @@
-package com.llama.rick_and_morty_mvvm.data
+package com.llama.rick_and_morty_mvvm.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.llama.rick_and_morty_mvvm.data.RepositoryImpl
 
 class HomeViewModelFactory(
     private val repository: RepositoryImpl

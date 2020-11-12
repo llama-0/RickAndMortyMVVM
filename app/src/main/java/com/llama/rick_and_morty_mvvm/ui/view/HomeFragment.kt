@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
 import com.llama.rick_and_morty_mvvm.R
-import com.llama.rick_and_morty_mvvm.data.HomeViewModelFactory
+import com.llama.rick_and_morty_mvvm.ui.viewmodel.HomeViewModelFactory
 import com.llama.rick_and_morty_mvvm.data.RepositoryImpl
 import com.llama.rick_and_morty_mvvm.data.model.SimpleCharacter
 import com.llama.rick_and_morty_mvvm.data.network.Resource
@@ -36,11 +36,12 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun refreshRecyclerViewData() {
-        viewModel.getCharacterListObserver().observe(viewLifecycleOwner, {
-            when (it.status) {
-                Resource.Status.SUCCESS -> initAdapter(it.data!!)
-                Resource.Status.ERROR -> showErrorLayout()
-                Resource.Status.LOADING -> showLoading()
+//        progress_bar_layout.visibility = View.GONE
+//        recycler_error_layout.visibility = View.GONE
+        viewModel.getLiveDataList().observe(viewLifecycleOwner, {
+            when {
+                it.isNotEmpty() -> initAdapter(it)
+                it.isEmpty() -> showErrorLayout()
             }
         })
     }
@@ -58,8 +59,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         btn_retry.setOnClickListener {
             if (isNetworkConnected()) {
                 showLoading()
-                recycler_error_layout.visibility = View.GONE
-//                refreshRecyclerViewData()
+                recycler_error_layout.visibility = View.GONE // something funny is happening here...
+                progress_bar_layout.visibility = View.GONE
+                refreshRecyclerViewData()
             } else {
                 showSnackbar(fragment_home_layout, getString(R.string.check_internet_connection_message))
             }
@@ -71,6 +73,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         Log.d(this@HomeFragment.toString(), "showLoading: progress bar")
     }
 
+    // todo: rewrite this logic without deprecation or use something else instead
     private fun isNetworkConnected(): Boolean {
         val cm = activity?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val activeNetwork: NetworkInfo? = cm.activeNetworkInfo

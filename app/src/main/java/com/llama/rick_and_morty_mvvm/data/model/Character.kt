@@ -1,6 +1,6 @@
 package com.llama.rick_and_morty_mvvm.data.model
 
-data class Character(
+class Character(
     val created: String,
     val episode: List<String>,
     val gender: String,
