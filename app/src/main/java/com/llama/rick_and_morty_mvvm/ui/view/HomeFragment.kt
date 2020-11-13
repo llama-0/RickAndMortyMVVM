@@ -8,11 +8,10 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
 import com.llama.rick_and_morty_mvvm.R
 import com.llama.rick_and_morty_mvvm.data.RepositoryImpl
-import com.llama.rick_and_morty_mvvm.data.model.SimpleCharacter
+import com.llama.rick_and_morty_mvvm.domain.model.SimpleCharacter
 import com.llama.rick_and_morty_mvvm.ui.viewmodel.HomeViewModel
 import com.llama.rick_and_morty_mvvm.ui.viewmodel.HomeViewModelFactory
 import kotlinx.android.synthetic.main.fragment_home.*
-import kotlinx.android.synthetic.main.progressbar_layout.*
 import kotlinx.android.synthetic.main.recycler_error_layout.*
 
 class HomeFragment : Fragment(R.layout.fragment_home) {
@@ -43,6 +42,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private fun initAdapter(list: List<SimpleCharacter>) {
         Log.d(this@HomeFragment.toString(), "initAdapter: called")
         recycler_error_layout.visibility = View.GONE
+        rv_items.visibility = View.VISIBLE
         rv_items.adapter = HomeAdapter(list) { character ->
             showSnackbar(rv_items, character.name)
         }
@@ -51,6 +51,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private fun showErrorLayout() {
         Log.d(this@HomeFragment.toString(), "showErrorScreen: error")
         recycler_error_layout.visibility = View.VISIBLE
+        rv_items.visibility = View.GONE
     }
 
     private fun showSnackbar(view: View, message: String) {

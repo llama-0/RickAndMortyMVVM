@@ -3,7 +3,7 @@ package com.llama.rick_and_morty_mvvm.data
 import android.util.Log
 import com.llama.rick_and_morty_mvvm.data.model.Character
 import com.llama.rick_and_morty_mvvm.data.model.CharactersInfo
-import com.llama.rick_and_morty_mvvm.data.model.SimpleCharacter
+import com.llama.rick_and_morty_mvvm.domain.model.SimpleCharacter
 import com.llama.rick_and_morty_mvvm.data.network.ApiService
 import com.llama.rick_and_morty_mvvm.data.network.ApiServiceBuilder
 import com.llama.rick_and_morty_mvvm.data.network.Resource

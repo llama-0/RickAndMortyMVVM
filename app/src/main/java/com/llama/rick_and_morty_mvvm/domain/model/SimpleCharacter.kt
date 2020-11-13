@@ -1,4 +1,4 @@
-package com.llama.rick_and_morty_mvvm.data.model
+package com.llama.rick_and_morty_mvvm.domain.model
 
 class SimpleCharacter(
     val id: Int,
