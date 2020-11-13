@@ -35,14 +35,13 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         viewModel.getLiveDataList().observe(viewLifecycleOwner, {
             when {
                 it.isNotEmpty() -> initAdapter(it)
-                it.isEmpty() -> showErrorLayout()
+                else -> showErrorLayout()
             }
         })
     }
 
     private fun initAdapter(list: List<SimpleCharacter>) {
         Log.d(this@HomeFragment.toString(), "initAdapter: called")
-        progress_bar_layout.visibility = View.GONE
         recycler_error_layout.visibility = View.GONE
         rv_items.adapter = HomeAdapter(list) { character ->
             showSnackbar(rv_items, character.name)

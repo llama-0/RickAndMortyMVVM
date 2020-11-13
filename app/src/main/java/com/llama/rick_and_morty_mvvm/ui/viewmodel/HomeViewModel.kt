@@ -17,8 +17,8 @@ class HomeViewModel(private val repository: RepositoryImpl) : ViewModel() {
                 liveDataList.value = data
             }
 
-            override fun onError(t: Throwable) {
-                liveDataList.value = emptyList() // remove throwable from onError() args or find out how to handle it
+            override fun onError() {
+                liveDataList.value = emptyList()
             }
 
         })

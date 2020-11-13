@@ -19,7 +19,7 @@ class RepositoryImpl : Repository {
         apiService.getCharactersInfo().enqueue(object : Callback<CharactersInfo> {
             override fun onFailure(call: Call<CharactersInfo>, t: Throwable) {
                 Log.e("characters() main", "Failed to execute request, t.toString() = $t")
-                resource.onError(t)
+                resource.onError()
                 // networkException (or unknown)
             }
 
@@ -34,7 +34,8 @@ class RepositoryImpl : Repository {
                     })
                 } else {
                     Log.d(this@RepositoryImpl.toString(), "onResponse: data is null")
-                    resource.onError(Throwable("response isNotSuccessful, data is null"))
+                    resource.onError()
+//                    resource.onError(Throwable("response isNotSuccessful, data is null"))
                     // parse error body to determine apiError or unknownError
                 }
             }
