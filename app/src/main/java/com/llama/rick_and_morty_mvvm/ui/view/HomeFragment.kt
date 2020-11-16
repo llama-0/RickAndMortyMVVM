@@ -5,12 +5,12 @@ import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.liveData
 import com.google.android.material.snackbar.Snackbar
+import com.llama.rick_and_morty_mvvm.App
 import com.llama.rick_and_morty_mvvm.R
-import com.llama.rick_and_morty_mvvm.data.RepositoryImpl
 import com.llama.rick_and_morty_mvvm.domain.model.SimpleCharacter
 import com.llama.rick_and_morty_mvvm.ui.viewmodel.HomeViewModel
-import com.llama.rick_and_morty_mvvm.ui.viewmodel.HomeViewModelFactory
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.recycler_error_layout.*
 
@@ -26,16 +26,19 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun initViewModel() {
-        val viewModelFactory = HomeViewModelFactory(RepositoryImpl())
-        viewModel = ViewModelProvider(this, viewModelFactory).get(HomeViewModel::class.java)
+        activity?.application.let {
+            if (it is App) {
+                viewModel = ViewModelProvider(this, it.factory).get(HomeViewModel::class.java)
+            }
+        }
     }
 
     private fun refreshRecyclerViewData() {
-        viewModel.getLiveDataList().observe(viewLifecycleOwner, {
-            when {
-                it.isNotEmpty() -> initAdapter(it)
-                else -> showErrorLayout()
-            }
+        viewModel.errorState.observe(viewLifecycleOwner, {
+            showErrorLayout()
+        })
+        viewModel.updateUI().observe(viewLifecycleOwner, {
+            initAdapter(it)
         })
     }
 

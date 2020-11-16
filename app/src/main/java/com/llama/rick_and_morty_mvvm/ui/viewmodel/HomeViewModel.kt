@@ -11,7 +11,15 @@ class HomeViewModel(private val repository: RepositoryImpl) : ViewModel() {
 
     private val liveDataList: MutableLiveData<List<SimpleCharacter>> = MutableLiveData()
 
-    fun getLiveDataList(): LiveData<List<SimpleCharacter>> {
+    // todo: 1. make fun getLiveDataList(): LiveData<List<SimpleCharacter>>  void
+    //  2. and then rename method.
+
+    private val eventLiveData: MutableLiveData<Boolean> = MutableLiveData()
+
+    val errorState: LiveData<Boolean>
+        get() = eventLiveData
+
+    private fun setLiveDataList() {
         repository.getCharacters(object : Resource{
             override fun onSuccess(data: List<SimpleCharacter>) {
                 liveDataList.value = data
@@ -22,6 +30,25 @@ class HomeViewModel(private val repository: RepositoryImpl) : ViewModel() {
             }
 
         })
+    }
+
+    fun updateUI(): LiveData<List<SimpleCharacter>> {
+        if (liveDataList.value.isNullOrEmpty()) {
+//            onShowError()
+            setLiveDataList()
+//            onHideError()
+        }
         return liveDataList
     }
+
+    /** Method for managing error state **/
+
+    fun onShowError() {
+        eventLiveData.value = true
+    }
+
+    fun onHideError() {
+        eventLiveData.value = false
+    }
+
 }
