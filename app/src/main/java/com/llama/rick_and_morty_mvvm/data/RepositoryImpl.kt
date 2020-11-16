@@ -1,12 +1,11 @@
 package com.llama.rick_and_morty_mvvm.data
 
-import android.util.Log
 import com.llama.rick_and_morty_mvvm.data.model.Character
 import com.llama.rick_and_morty_mvvm.data.model.CharactersInfo
-import com.llama.rick_and_morty_mvvm.domain.model.SimpleCharacter
 import com.llama.rick_and_morty_mvvm.data.network.ApiService
 import com.llama.rick_and_morty_mvvm.data.network.ApiServiceBuilder
 import com.llama.rick_and_morty_mvvm.data.network.Resource
+import com.llama.rick_and_morty_mvvm.domain.model.SimpleCharacter
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -18,7 +17,6 @@ class RepositoryImpl : Repository {
     override fun getCharacters(resource: Resource) {
         apiService.getCharactersInfo().enqueue(object : Callback<CharactersInfo> {
             override fun onFailure(call: Call<CharactersInfo>, t: Throwable) {
-                Log.e("characters() main", "Failed to execute request, t.toString() = $t")
                 resource.onError()
                 // networkException (or unknown)
             }
@@ -33,7 +31,6 @@ class RepositoryImpl : Repository {
                         mapSimpleCharacter(it)
                     })
                 } else {
-                    Log.d(this@RepositoryImpl.toString(), "onResponse: data is null")
                     resource.onError()
 //                    resource.onError(Throwable("response isNotSuccessful, data is null"))
                     // parse error body to determine apiError or unknownError
