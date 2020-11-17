@@ -16,6 +16,23 @@ class HomeViewModel(private val repository: RepositoryImpl) : ViewModel() {
 
     private val snackBarAction = ActionLiveData<SnackbarMessage>()
 
+    private val loadingState: MutableLiveData<Boolean> = MutableLiveData()
+
+//    // UIModel (progressBar, snackbar, buttonRetry, recyclerView)
+//    private val updateUIModel: MutableLiveData<UIModel> = MutableLiveData()
+//
+//    fun refreshView(): LiveData<UIModel> = updateUIModel
+//
+//    private fun renderView() {
+//
+//    }
+
+    fun showLoadingState(): LiveData<Boolean> = loadingState
+
+    fun doneShowingLoadingState() {
+        loadingState.value = false
+    }
+
     fun interceptNoInternetConnection(msg: String): ActionLiveData<SnackbarMessage> {
         snackBarAction.sendAction(SnackbarMessage(msg))
         return snackBarAction

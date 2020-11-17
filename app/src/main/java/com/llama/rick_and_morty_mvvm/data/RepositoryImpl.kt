@@ -1,5 +1,6 @@
 package com.llama.rick_and_morty_mvvm.data
 
+import com.llama.rick_and_morty_mvvm.App
 import com.llama.rick_and_morty_mvvm.data.model.Character
 import com.llama.rick_and_morty_mvvm.data.model.CharactersInfo
 import com.llama.rick_and_morty_mvvm.data.network.ApiService
@@ -12,7 +13,7 @@ import retrofit2.Response
 
 class RepositoryImpl : Repository {
 
-    private val apiService: ApiService = ApiServiceBuilder.buildService()
+    private val apiService: ApiService = ApiServiceBuilder(App.url).buildService()
 
     override fun getCharacters(resource: Resource) {
         apiService.getCharactersInfo().enqueue(object : Callback<CharactersInfo> {

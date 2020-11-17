@@ -5,5 +5,19 @@ import com.llama.rick_and_morty_mvvm.data.RepositoryImpl
 import com.llama.rick_and_morty_mvvm.ui.viewmodel.HomeViewModelFactory
 
 class App : Application() {
-    val factory = HomeViewModelFactory(RepositoryImpl())
+
+    lateinit var factory: HomeViewModelFactory
+
+    override fun onCreate() {
+        super.onCreate()
+
+        url = getString(R.string.base_url)
+        factory = HomeViewModelFactory(RepositoryImpl())
+    }
+
+    companion object {
+        lateinit var url: String
+            private set
+    }
+
 }

@@ -1,10 +1,13 @@
 package com.llama.rick_and_morty_mvvm.data.network
 
+import android.util.Log
+import com.llama.rick_and_morty_mvvm.App
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.security.cert.CertificateException
+import java.util.concurrent.TimeUnit
 import javax.net.ssl.SSLContext
 import javax.net.ssl.SSLSocketFactory
 import javax.net.ssl.TrustManager
@@ -14,9 +17,7 @@ import javax.net.ssl.X509TrustManager
 * If there is no problem with certificates use the usual OkHttpClient
 * */
 
-object ApiServiceBuilder {
-
-    private const val BASE_URL = "https://rickandmortyapi.com/api/"
+class ApiServiceBuilder(url: String) {
 
     private val interceptor: HttpLoggingInterceptor = HttpLoggingInterceptor().apply {
         this.level = HttpLoggingInterceptor.Level.BODY
@@ -24,10 +25,11 @@ object ApiServiceBuilder {
 
     private val unsafeClient: OkHttpClient = getUnsafeOkHttpClient().apply {
         this.addInterceptor(interceptor)
+            .connectTimeout(40, TimeUnit.SECONDS)
     }.build()
 
     private val retrofit: Retrofit = Retrofit.Builder()
-        .baseUrl(BASE_URL)
+        .baseUrl(url)
         .addConverterFactory(GsonConverterFactory.create())
         .client(unsafeClient)
         .build()
@@ -55,7 +57,7 @@ object ApiServiceBuilder {
             })
 
             // Install the all-trusting trust manager
-            val sslContext: SSLContext = SSLContext.getInstance("SSL")
+            val sslContext: SSLContext = SSLContext.getInstance(STR_PROTOCOL_SSL)
             sslContext.init(null, trustAllCerts, java.security.SecureRandom())
             // Create an ssl socket factory with our all-trusting manager
             val sslSocketFactory: SSLSocketFactory = sslContext.socketFactory
@@ -68,6 +70,11 @@ object ApiServiceBuilder {
         } catch (e: Exception) {
             throw RuntimeException(e)
         }
+    }
+
+    companion object {
+        private const val STR_PROTOCOL_SSL = "SSL"
+        private const val STR_BASE_URL = "https://rickandmortyapi.com/api/"
     }
 
 }
