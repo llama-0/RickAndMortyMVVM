@@ -3,6 +3,7 @@ package com.llama.rick_and_morty_mvvm.ui.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.llama.rick_and_morty_mvvm.ActionLiveData
 import com.llama.rick_and_morty_mvvm.data.RepositoryImpl
 import com.llama.rick_and_morty_mvvm.data.network.Resource
 import com.llama.rick_and_morty_mvvm.domain.model.SimpleCharacter
@@ -12,6 +13,14 @@ class HomeViewModel(private val repository: RepositoryImpl) : ViewModel() {
     private val liveDataList: MutableLiveData<List<SimpleCharacter>> = MutableLiveData()
 
     private val isErrorPresent: MutableLiveData<Boolean> = MutableLiveData()
+
+    private val snackBarAction = ActionLiveData<SnackbarMessage>()
+
+    fun interceptNoInternetConnection(msg: String): ActionLiveData<SnackbarMessage> {
+        snackBarAction.sendAction(SnackbarMessage(msg))
+        return snackBarAction
+    }
+
 
     private fun loadCharacters() {
         repository.getCharacters(object : Resource{
@@ -38,3 +47,5 @@ class HomeViewModel(private val repository: RepositoryImpl) : ViewModel() {
         return liveDataList
     }
 }
+
+class SnackbarMessage(val text: String)

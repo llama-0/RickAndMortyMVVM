@@ -61,7 +61,10 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 progress_bar_layout.visibility = View.VISIBLE
                 viewModel.updateUI().observe(viewLifecycleOwner, { initAdapter(it) })
             } else {
-                showSnackbar(fragment_home_layout, getString(R.string.check_internet_connection_message))
+                viewModel.interceptNoInternetConnection(getString(R.string.check_internet_connection_message))
+                    .observe(viewLifecycleOwner, {
+                    showSnackbar(fragment_home_layout, it.text)
+                })
             }
         }
     }
