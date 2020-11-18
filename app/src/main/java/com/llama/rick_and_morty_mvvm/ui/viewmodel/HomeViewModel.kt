@@ -14,12 +14,27 @@ class HomeViewModel(private val repository: RepositoryImpl) : ViewModel() {
 
     private val isErrorPresent: MutableLiveData<Boolean> = MutableLiveData()
 
-    private val snackBarAction = ActionLiveData<SnackbarMessage>()
+    private val snackBarAction = ActionLiveData<Boolean>()
 
-    fun interceptNoInternetConnection(msg: String): ActionLiveData<SnackbarMessage> {
-        snackBarAction.sendAction(SnackbarMessage(msg))
-        return snackBarAction
+    private val isButtonClicked = MutableLiveData<Boolean>()
+
+    // this all is no use
+    fun onButtonClicked(): LiveData<Boolean> {
+        if (isErrorPresent.value == true) {
+            snackBarAction.sendAction(true)
+        }
+        return isButtonClicked
     }
+
+    fun onButtonClickedDone() {
+        isButtonClicked.value = false
+        snackBarAction.value = false
+    }
+
+//    fun interceptNoInternetConnection(msg: String): LiveData<SnackbarMessage> {
+//        snackBarAction.value = SnackbarMessage(msg)
+//        return snackBarAction
+//    }
 
 
     private fun loadCharacters() {

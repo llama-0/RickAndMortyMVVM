@@ -56,6 +56,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         setUpErrorView()
         btn_retry.setOnClickListener {
             progress_bar_layout.visibility = View.VISIBLE
+            viewModel.onButtonClicked()
+                    .observe(viewLifecycleOwner, {
+                showSnackbar(fragment_home_layout, getString(R.string.check_internet_connection_message))
+            })
+            viewModel.onButtonClickedDone()
             viewModel.updateUI().observe(viewLifecycleOwner, { initAdapter(it) })
             // how to intercept connection timeout ?
         }
