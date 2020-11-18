@@ -33,17 +33,31 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
     }
 
+    /*
+    * 1. как работает лайвдата?
+    * 2. почему setUpNormalView иногда со второго раза появляется?
+    * 3. почему progressbar постоянно Visible до тех пор, пока не загрузятся данные,
+    *   если зайти в приложение с изначально выключенным интернетом, хотя по логам
+    *   isLoading == false !?!
+    * Бонусы: 1. вернулась к состоянию лишних запросов при повороте экрана
+    *         2. по кнопке retry без интернета больше не показываю снекбар
+    *         3. всё ещё есть логика во фрагменте, а надо убрать
+    *         4. общий класс не создан
+    * */
     private fun refreshRecyclerViewData() {
-        viewModel.updateUI().observe(viewLifecycleOwner, {
+        viewModel.dataList.observe(viewLifecycleOwner, {
             initAdapter(it)
+            Log.d(TAG, "refreshRecyclerViewData: initing daapter for the `first` time")
         })
-        viewModel.updateErrorState().observe(viewLifecycleOwner, {
-            if (it) {
-                showErrorLayout()
-            }
+        viewModel.errorState.observe(viewLifecycleOwner, {
+            showErrorLayout()
+        })
+        viewModel.loadState.observe(viewLifecycleOwner, {
+            progress_bar_layout.visibility = it
         })
     }
 
+    // через vm вызов снекбара сделать.
     private fun initAdapter(list: List<SimpleCharacter>) {
         setUpNormalView()
         rv_items.adapter = HomeAdapter(list) { character ->
@@ -51,24 +65,28 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
     }
 
+    // getCharacters явно вызывать. на onError менять value
+
     private fun showErrorLayout() {
         Log.d("TAG", "showErrorLayout: inside")
         setUpErrorView()
         btn_retry.setOnClickListener {
-            progress_bar_layout.visibility = View.VISIBLE
-            viewModel.onButtonClicked()
-                    .observe(viewLifecycleOwner, {
-                showSnackbar(fragment_home_layout, getString(R.string.check_internet_connection_message))
+//            viewModel.onButtonClicked()
+//                    .observe(viewLifecycleOwner, {
+//                showSnackbar(fragment_home_layout, getString(R.string.check_internet_connection_message))
+//            })
+//            viewModel.onButtonClickedDone()
+            viewModel.dataList.observe(viewLifecycleOwner, {
+                Log.d(TAG, "refreshRecyclerViewData: initing adapter for the `second` time")
+                initAdapter(it)
             })
-            viewModel.onButtonClickedDone()
-            viewModel.updateUI().observe(viewLifecycleOwner, { initAdapter(it) })
             // how to intercept connection timeout ?
         }
     }
 
     private fun setUpNormalView() {
         recycler_error_layout.visibility = View.GONE
-        progress_bar_layout.visibility = View.GONE
+//        progress_bar_layout.visibility = View.GONE
         rv_items.visibility = View.VISIBLE
     }
 
@@ -83,5 +101,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 message,
                 Snackbar.LENGTH_SHORT
         ).show()
+    }
+
+    companion object {
+        private const val TAG = "TAG"
     }
 }
