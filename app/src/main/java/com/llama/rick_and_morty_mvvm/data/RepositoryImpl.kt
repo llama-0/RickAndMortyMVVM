@@ -1,5 +1,6 @@
 package com.llama.rick_and_morty_mvvm.data
 
+import android.util.Log
 import com.llama.rick_and_morty_mvvm.App
 import com.llama.rick_and_morty_mvvm.data.model.Character
 import com.llama.rick_and_morty_mvvm.data.model.CharactersInfo
@@ -10,6 +11,7 @@ import com.llama.rick_and_morty_mvvm.domain.model.SimpleCharacter
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.net.SocketTimeoutException
 
 class RepositoryImpl : Repository {
 

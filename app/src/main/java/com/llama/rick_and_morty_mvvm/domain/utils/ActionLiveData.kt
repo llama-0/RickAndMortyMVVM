@@ -1,4 +1,4 @@
-package com.llama.rick_and_morty_mvvm
+package com.llama.rick_and_morty_mvvm.domain.utils
 
 import androidx.annotation.MainThread
 import androidx.lifecycle.LifecycleOwner

@@ -1,7 +1,5 @@
 package com.llama.rick_and_morty_mvvm.data.network
 
-import android.util.Log
-import com.llama.rick_and_morty_mvvm.App
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -24,8 +22,10 @@ class ApiServiceBuilder(url: String) {
     }
 
     private val unsafeClient: OkHttpClient = getUnsafeOkHttpClient().apply {
-        this.addInterceptor(interceptor)
-            .connectTimeout(40, TimeUnit.SECONDS)
+        this.addInterceptor(interceptor) // default is 10 seconds. So problem is in passing this interception to repo and then ui
+                .readTimeout(30, TimeUnit.SECONDS)
+                .writeTimeout(30, TimeUnit.SECONDS)
+            .connectTimeout(30, TimeUnit.SECONDS)
     }.build()
 
     private val retrofit: Retrofit = Retrofit.Builder()
@@ -74,7 +74,6 @@ class ApiServiceBuilder(url: String) {
 
     companion object {
         private const val STR_PROTOCOL_SSL = "SSL"
-        private const val STR_BASE_URL = "https://rickandmortyapi.com/api/"
     }
 
 }

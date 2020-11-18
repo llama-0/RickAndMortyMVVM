@@ -1,9 +1,7 @@
 package com.llama.rick_and_morty_mvvm.ui.view
 
-import android.content.Context
-import android.net.ConnectivityManager
-import android.net.NetworkInfo
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -36,12 +34,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun refreshRecyclerViewData() {
-        viewModel.showLoadingState().observe(viewLifecycleOwner, {
-            if (it) {
-                progress_bar_layout.visibility = View.VISIBLE
-            }
-            viewModel.doneShowingLoadingState()
-        })
         viewModel.updateUI().observe(viewLifecycleOwner, {
             initAdapter(it)
         })
@@ -60,17 +52,12 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun showErrorLayout() {
+        Log.d("TAG", "showErrorLayout: inside")
         setUpErrorView()
         btn_retry.setOnClickListener {
-            if (isNetworkConnected()) {
-//                progress_bar_layout.visibility = View.VISIBLE
-                viewModel.updateUI().observe(viewLifecycleOwner, { initAdapter(it) })
-            } else {
-                viewModel.interceptNoInternetConnection(getString(R.string.check_internet_connection_message))
-                    .observe(viewLifecycleOwner, {
-                    showSnackbar(fragment_home_layout, it.text)
-                })
-            }
+            progress_bar_layout.visibility = View.VISIBLE
+            viewModel.updateUI().observe(viewLifecycleOwner, { initAdapter(it) })
+            // how to intercept connection timeout ?
         }
     }
 
@@ -91,12 +78,5 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 message,
                 Snackbar.LENGTH_SHORT
         ).show()
-    }
-
-    // todo: rewrite this logic without deprecation or use something else instead (tried with live data, unsuccessful)
-    private fun isNetworkConnected(): Boolean {
-        val cm: ConnectivityManager = activity?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val activeNetwork: NetworkInfo? = cm.activeNetworkInfo
-        return activeNetwork?.isConnectedOrConnecting == true
     }
 }
