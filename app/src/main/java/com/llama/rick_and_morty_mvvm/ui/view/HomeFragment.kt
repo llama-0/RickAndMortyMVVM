@@ -1,10 +1,8 @@
 package com.llama.rick_and_morty_mvvm.ui.view
 
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import androidx.core.view.isEmpty
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -25,8 +23,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         super.onViewCreated(view, savedInstanceState)
 
         initViewModel()
-        initRetryButton()
         refreshRecyclerViewData()
+        initRetryButton()
     }
 
     private fun initViewModel() {
@@ -40,7 +38,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private fun initRetryButton() {
         btn_retry.setOnClickListener {
             viewModel.retryBtn.observe(viewLifecycleOwner, {
+                Log.d(TAG, "initRetryButton: called -------------------- called retryBtn")
                 viewModel.snackbarMessage.observe(viewLifecycleOwner, {
+                    Log.d(TAG, "initRetryButton: called -------------------- called snackbarMessage")
                     showSnackbar(fragment_home_layout, getString(R.string.check_internet_connection_message))
                 })
             })

@@ -14,7 +14,7 @@ class ActionLiveData<T> : MutableLiveData<T>() {
         // Being strict about the observer numbers is up to you
         // I thought it made sense to only allow one to handle the event
         if (hasObservers()) {
-            throw Throwable("Only one observer at a time may subscribe to a ActionLiveData")
+            throw Throwable("Only one observer at a time may subscribe to an ActionLiveData")
         }
 
         super.observe(owner, Observer { data ->
