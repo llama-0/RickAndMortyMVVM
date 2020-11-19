@@ -39,10 +39,12 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         btn_retry.setOnClickListener {
             viewModel.retryBtn.observe(viewLifecycleOwner, {
                 Log.d(TAG, "initRetryButton: called -------------------- called retryBtn")
-                viewModel.snackbarMessage.observe(viewLifecycleOwner, {
+            })
+            viewModel.snackbarMessage.observe(viewLifecycleOwner, {
+                it.getContentIfNotHandled()?.let {
                     Log.d(TAG, "initRetryButton: called -------------------- called snackbarMessage")
                     showSnackbar(fragment_home_layout, getString(R.string.check_internet_connection_message))
-                })
+                }
             })
         }
     }
