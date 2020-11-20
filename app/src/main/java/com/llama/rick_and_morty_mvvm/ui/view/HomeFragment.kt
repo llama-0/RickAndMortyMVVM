@@ -6,6 +6,7 @@ import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.llama.rick_and_morty_mvvm.App
 import com.llama.rick_and_morty_mvvm.R
@@ -22,6 +23,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        Log.d(TAG, "onViewCreated: view created")
         initViewModel()
         refreshRecyclerViewData()
         initRetryButton()
@@ -36,10 +38,13 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun initRetryButton() {
+        Log.d(TAG, "initRetryButton: init")
         btn_retry.setOnClickListener {
-            viewModel.retryBtn.observe(viewLifecycleOwner, {
-                Log.d(TAG, "initRetryButton: called -------------------- called retryBtn")
-            })
+            Log.d(TAG, "initRetryButton: on Click")
+            viewModel.retryBtn
+//                    .observe(viewLifecycleOwner, {
+//                Log.d(TAG, "initRetryButton: called -------------------- called retryBtn")
+//            })
             viewModel.snackbarMessage.observe(viewLifecycleOwner, {
                 it.getContentIfNotHandled()?.let {
                     Log.d(TAG, "initRetryButton: called -------------------- called snackbarMessage")
@@ -50,9 +55,19 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun refreshRecyclerViewData() {
-        viewModel.dataList.observe(viewLifecycleOwner, { initAdapter(it) })
-        viewModel.errorState.observe(viewLifecycleOwner, { recycler_error_layout.isVisible = it })
-        viewModel.loadState.observe(viewLifecycleOwner, { progress_bar_layout.isVisible = it })
+        Log.d(TAG, "refreshRecyclerViewData: dataList, errorState, loadState")
+        viewModel.loadState.observe(viewLifecycleOwner, {
+            Log.d(TAG, "refreshRecyclerViewData: loadState")
+            progress_bar_layout.isVisible = it
+        })
+        viewModel.errorState.observe(viewLifecycleOwner, {
+            Log.d(TAG, "refreshRecyclerViewData: errorState")
+            recycler_error_layout.isVisible = it
+        })
+        viewModel.dataList.observe(viewLifecycleOwner, {
+            Log.d(TAG, "refreshRecyclerViewData: dataList")
+            initAdapter(it)
+        })
     }
 
     // через vm вызов снекбара сделать.

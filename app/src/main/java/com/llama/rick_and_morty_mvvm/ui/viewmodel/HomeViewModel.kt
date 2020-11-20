@@ -38,35 +38,28 @@ class HomeViewModel(private val repository: RepositoryImpl) : ViewModel() {
     private fun loadCharacters() {
         uiModel.progressBarVisibility.value = true
         repository.getCharacters(object : Resource {
-            override fun onSuccess(data: List<SimpleCharacter>) {
-                setSuccessState()
-                uiModel.liveDataList.value = data
-            }
-
             override fun onError() {
                 setErrorState()
             }
-
+            override fun onSuccess(data: List<SimpleCharacter>) {
+                uiModel.liveDataList.value = data
+                setSuccessState()
+            }
         })
     }
 
     fun setErrorState() {
-        uiModel.recyclerViewVisibility.value = false
-        uiModel.errorLayoutVisibility.value = true
-        uiModel.progressBarVisibility.value = false
         if (uiModel.isRetryButtonClicked.value == true) {
-            Log.d(TAG, "setErrorState: isBtnClicked = ${uiModel.isRetryButtonClicked.value}")
             Log.d(TAG, "setErrorState: ready to set snackbarAction to true")
             uiModel.snackbarAction.value = Event(true) // how to call only when internet is down? теперь один лишний раз
-            Log.d(TAG, "setErrorState: snackbarAction = ${uiModel.snackbarAction.value!!.peekContent()}")
-        } else {
-            uiModel.snackbarAction.value = Event(false)
         }
+        uiModel.errorLayoutVisibility.value = true
+        uiModel.progressBarVisibility.value = false
     }
 
     fun setSuccessState() {
-        uiModel.recyclerViewVisibility.value = true
         uiModel.isRetryButtonClicked.value = false
+        Log.d(TAG, "setSuccessState: retryBtn.value = ${uiModel.isRetryButtonClicked.value}")
         uiModel.snackbarAction.value = Event(false)
         uiModel.progressBarVisibility.value = false
         uiModel.errorLayoutVisibility.value = false
