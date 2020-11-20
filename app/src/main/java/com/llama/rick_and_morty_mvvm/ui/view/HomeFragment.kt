@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
@@ -12,6 +13,7 @@ import com.llama.rick_and_morty_mvvm.App
 import com.llama.rick_and_morty_mvvm.R
 import com.llama.rick_and_morty_mvvm.domain.model.SimpleCharacter
 import com.llama.rick_and_morty_mvvm.ui.viewmodel.HomeViewModel
+import com.llama.rick_and_morty_mvvm.ui.viewmodel.HomeViewModelFactory
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.progressbar_layout.*
 import kotlinx.android.synthetic.main.recycler_error_layout.*
@@ -23,9 +25,14 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // проверить, что в лайв дате что-то есть
+                // в HomeViewModel в поле сохранить данные списка. разобраться, почему лайв дата может очищаться
+        // локальный кеш сделать и оттуда брать список
+
         Log.d(TAG, "onViewCreated: view created")
         initViewModel()
         refreshRecyclerViewData()
+        Log.d(TAG, "onViewCreated: data ================== ${viewModel.dataList.value}")
         initRetryButton()
     }
 
