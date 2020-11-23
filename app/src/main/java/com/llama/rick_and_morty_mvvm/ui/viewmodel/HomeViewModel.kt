@@ -16,22 +16,18 @@ class HomeViewModel(private val repository: RepositoryImpl) : ViewModel() {
 
     val errorState: LiveData<Boolean> = uiModel.errorLayoutVisibility
     val loadState: LiveData<Boolean> = uiModel.progressBarVisibility
-    val snackbarMessage: LiveData<Event<Boolean>> = uiModel.snackbarAction
+    val snackbarMessage: LiveData<Boolean> = uiModel.snackbarAction
     val dataList: LiveData<List<SimpleCharacter>> = uiModel.liveDataList
-
-    val retryBtn: LiveData<Boolean>
-        get() {
-            loadCharacters()
-            uiModel.isRetryButtonClicked.value = true
-            return uiModel.isRetryButtonClicked
-        }
 
     init {
         Log.d(TAG, "viewModel: init")
         loadCharacters()
     }
 
-    fun getList(): List<SimpleCharacter>? = uiModel.liveDataList.value
+    fun onButtonRetryClicked() {
+        loadCharacters()
+        uiModel.isRetryButtonClicked.value = true
+    }
 
     private fun loadCharacters() {
         uiModel.progressBarVisibility.value = true
@@ -49,7 +45,7 @@ class HomeViewModel(private val repository: RepositoryImpl) : ViewModel() {
     fun setErrorState() {
         if (uiModel.isRetryButtonClicked.value == true) {
             Log.d(TAG, "setErrorState: ready to set snackbarAction to true")
-            uiModel.snackbarAction.value = Event(true) // how to call only when internet is down? теперь один лишний раз
+            uiModel.snackbarAction.value = true // how to call only when internet is down? теперь один лишний раз
         }
         uiModel.errorLayoutVisibility.value = true
         uiModel.progressBarVisibility.value = false
@@ -57,8 +53,9 @@ class HomeViewModel(private val repository: RepositoryImpl) : ViewModel() {
 
     fun setSuccessState() {
         uiModel.isRetryButtonClicked.value = false
-        Log.d(TAG, "setSuccessState: retryBtn.value = ${uiModel.isRetryButtonClicked.value}")
-        uiModel.snackbarAction.value = Event(false)
+        Log.d(TAG, "setSuccessState: retryBtn.value false = ${uiModel.isRetryButtonClicked.value}")
+        uiModel.snackbarAction.value = false // всё равно два раза
+        Log.d(TAG, "setSuccessState: snackbarAction.value false = ${uiModel.snackbarAction.value}")
         uiModel.progressBarVisibility.value = false
         uiModel.errorLayoutVisibility.value = false
     }
@@ -67,5 +64,3 @@ class HomeViewModel(private val repository: RepositoryImpl) : ViewModel() {
         private const val TAG = "TAG"
     }
 }
-
-class SnackbarMessage(val text: String)

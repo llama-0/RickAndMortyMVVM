@@ -29,7 +29,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         Log.d(TAG, "onViewCreated: view created")
         initViewModel()
         initAdapter()
-        refreshRecyclerViewData()
+        subscribeToViewModelObservables()
         initRetryButton()
     }
 
@@ -42,31 +42,31 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun initAdapter() {
-        val list: List<SimpleCharacter>? = viewModel.getList()
+        val list: List<SimpleCharacter>? = emptyList()
         list?.let {
             setAdapter(it)
         }
     }
 
     private fun initRetryButton() {
-        Log.d(TAG, "initRetryButton: init")
         btn_retry.setOnClickListener {
             Log.d(TAG, "initRetryButton: on Click")
-            viewModel.retryBtn
-            viewModel.snackbarMessage.observe(viewLifecycleOwner, {
-                it.getContentIfNotHandled()?.let {
-                    Log.d(TAG, "initRetryButton: called -------------------- called snackbarMessage")
-                    showSnackbar(fragment_home_layout, getString(R.string.check_internet_connection_message))
-                }
-            })
+            viewModel.onButtonRetryClicked()
+            subscribeToSnackbarObservable()
         }
     }
 
-    private fun refreshRecyclerViewData() {
-        Log.d(TAG, "refreshRecyclerViewData: dataList, errorState, loadState")
-        viewModel.loadState.observe(viewLifecycleOwner, { progress_bar_layout.isVisible = it })
-        viewModel.errorState.observe(viewLifecycleOwner, { recycler_error_layout.isVisible = it })
-        viewModel.dataList.observe(viewLifecycleOwner, { setAdapter(it) })
+    private fun subscribeToSnackbarObservable() {
+        viewModel.snackbarMessage.observe(viewLifecycleOwner, {
+            Log.d(TAG, "initRetryButton: called -------------------- called snackbarMessage")
+            showSnackbar(fragment_home_layout, getString(R.string.check_internet_connection_message))
+        })
+    }
+
+    private fun subscribeToViewModelObservables() {
+        viewModel.loadState.observe(viewLifecycleOwner) { progress_bar_layout.isVisible = it }
+        viewModel.errorState.observe(viewLifecycleOwner) { recycler_error_layout.isVisible = it }
+        viewModel.dataList.observe(viewLifecycleOwner) { setAdapter(it) }
     }
 
     // через vm вызов снекбара сделать.

@@ -1,21 +1,18 @@
 package com.llama.rick_and_morty_mvvm.data
 
-import android.util.Log
-import com.llama.rick_and_morty_mvvm.App
 import com.llama.rick_and_morty_mvvm.data.model.Character
 import com.llama.rick_and_morty_mvvm.data.model.CharactersInfo
 import com.llama.rick_and_morty_mvvm.data.network.ApiService
-import com.llama.rick_and_morty_mvvm.data.network.ApiServiceBuilder
 import com.llama.rick_and_morty_mvvm.data.network.Resource
+import com.llama.rick_and_morty_mvvm.data.utils.ModelMapper
 import com.llama.rick_and_morty_mvvm.domain.model.SimpleCharacter
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.net.SocketTimeoutException
 
-class RepositoryImpl : Repository {
+class RepositoryImpl(private val apiService: ApiService) : Repository {
 
-    private val apiService: ApiService = ApiServiceBuilder(App.url).buildService()
+    private val modelMapper = ModelMapper()
 
     override fun getCharacters(resource: Resource) {
         apiService.getCharactersInfo().enqueue(object : Callback<CharactersInfo> {
@@ -30,8 +27,8 @@ class RepositoryImpl : Repository {
             ) {
                 if (response.isSuccessful) {
                     val characterList: List<Character>? = response.body()?.characters
-                    resource.onSuccess(mapSimpleCharacterList(characterList ?: emptyList()) {
-                        mapSimpleCharacter(it)
+                    resource.onSuccess(modelMapper.mapSimpleCharacterList(characterList ?: emptyList()) {
+                        modelMapper.mapSimpleCharacter(it)
                     })
                 } else {
                     resource.onError()
@@ -41,13 +38,4 @@ class RepositoryImpl : Repository {
             }
         })
     }
-
-    private fun mapSimpleCharacter(input: Character) : SimpleCharacter =
-        SimpleCharacter(
-                input.id,
-                input.name
-        )
-
-    private fun mapSimpleCharacterList(input: List<Character>, mapSingle: (Character) -> SimpleCharacter): List<SimpleCharacter> =
-            input.map { mapSingle(it) }
 }

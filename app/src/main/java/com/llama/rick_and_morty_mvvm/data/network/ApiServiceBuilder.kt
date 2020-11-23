@@ -22,7 +22,7 @@ class ApiServiceBuilder(url: String) {
     }
 
     private val unsafeClient: OkHttpClient = getUnsafeOkHttpClient().apply {
-        this.addInterceptor(interceptor) // default is 10 seconds. So problem is in passing this interception to repo and then ui
+        this.addInterceptor(interceptor)
                 .readTimeout(30, TimeUnit.SECONDS)
                 .writeTimeout(30, TimeUnit.SECONDS)
             .connectTimeout(30, TimeUnit.SECONDS)
