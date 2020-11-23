@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.llama.rick_and_morty_mvvm.App
+import com.llama.rick_and_morty_mvvm.MainActivity
 import com.llama.rick_and_morty_mvvm.R
 import com.llama.rick_and_morty_mvvm.domain.model.SimpleCharacter
 import com.llama.rick_and_morty_mvvm.ui.viewmodel.HomeViewModel
@@ -25,14 +26,10 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // проверить, что в лайв дате что-то есть
-                // в HomeViewModel в поле сохранить данные списка. разобраться, почему лайв дата может очищаться
-        // локальный кеш сделать и оттуда брать список
-
         Log.d(TAG, "onViewCreated: view created")
         initViewModel()
+        initAdapter()
         refreshRecyclerViewData()
-        Log.d(TAG, "onViewCreated: data ================== ${viewModel.dataList.value}")
         initRetryButton()
     }
 
@@ -44,14 +41,18 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
     }
 
+    private fun initAdapter() {
+        val list: List<SimpleCharacter>? = viewModel.getList()
+        list?.let {
+            setAdapter(it)
+        }
+    }
+
     private fun initRetryButton() {
         Log.d(TAG, "initRetryButton: init")
         btn_retry.setOnClickListener {
             Log.d(TAG, "initRetryButton: on Click")
             viewModel.retryBtn
-//                    .observe(viewLifecycleOwner, {
-//                Log.d(TAG, "initRetryButton: called -------------------- called retryBtn")
-//            })
             viewModel.snackbarMessage.observe(viewLifecycleOwner, {
                 it.getContentIfNotHandled()?.let {
                     Log.d(TAG, "initRetryButton: called -------------------- called snackbarMessage")
@@ -63,22 +64,13 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private fun refreshRecyclerViewData() {
         Log.d(TAG, "refreshRecyclerViewData: dataList, errorState, loadState")
-        viewModel.loadState.observe(viewLifecycleOwner, {
-            Log.d(TAG, "refreshRecyclerViewData: loadState")
-            progress_bar_layout.isVisible = it
-        })
-        viewModel.errorState.observe(viewLifecycleOwner, {
-            Log.d(TAG, "refreshRecyclerViewData: errorState")
-            recycler_error_layout.isVisible = it
-        })
-        viewModel.dataList.observe(viewLifecycleOwner, {
-            Log.d(TAG, "refreshRecyclerViewData: dataList")
-            initAdapter(it)
-        })
+        viewModel.loadState.observe(viewLifecycleOwner, { progress_bar_layout.isVisible = it })
+        viewModel.errorState.observe(viewLifecycleOwner, { recycler_error_layout.isVisible = it })
+        viewModel.dataList.observe(viewLifecycleOwner, { setAdapter(it) })
     }
 
     // через vm вызов снекбара сделать.
-    private fun initAdapter(list: List<SimpleCharacter>) {
+    private fun setAdapter(list: List<SimpleCharacter>) {
         rv_items.adapter = HomeAdapter(list) { character ->
             showSnackbar(rv_items, character.name) // viewModel.onItemClicked() ?
         }

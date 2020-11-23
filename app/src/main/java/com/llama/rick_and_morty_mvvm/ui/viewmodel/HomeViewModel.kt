@@ -14,17 +14,10 @@ class HomeViewModel(private val repository: RepositoryImpl) : ViewModel() {
 
     private val uiModel = UIModel()
 
-    val errorState: LiveData<Boolean>
-        get() = uiModel.errorLayoutVisibility
-
-    val loadState: LiveData<Boolean>
-        get() = uiModel.progressBarVisibility
-
-    val dataList: LiveData<List<SimpleCharacter>>
-        get() {
-            loadCharacters()
-            return uiModel.liveDataList
-        }
+    val errorState: LiveData<Boolean> = uiModel.errorLayoutVisibility
+    val loadState: LiveData<Boolean> = uiModel.progressBarVisibility
+    val snackbarMessage: LiveData<Event<Boolean>> = uiModel.snackbarAction
+    val dataList: LiveData<List<SimpleCharacter>> = uiModel.liveDataList
 
     val retryBtn: LiveData<Boolean>
         get() {
@@ -33,8 +26,12 @@ class HomeViewModel(private val repository: RepositoryImpl) : ViewModel() {
             return uiModel.isRetryButtonClicked
         }
 
-    val snackbarMessage: LiveData<Event<Boolean>>
-        get() = uiModel.snackbarAction
+    init {
+        Log.d(TAG, "viewModel: init")
+        loadCharacters()
+    }
+
+    fun getList(): List<SimpleCharacter>? = uiModel.liveDataList.value
 
     private fun loadCharacters() {
         uiModel.progressBarVisibility.value = true
