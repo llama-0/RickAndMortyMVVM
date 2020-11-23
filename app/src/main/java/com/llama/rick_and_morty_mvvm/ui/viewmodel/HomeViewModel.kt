@@ -2,12 +2,10 @@ package com.llama.rick_and_morty_mvvm.ui.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.llama.rick_and_morty_mvvm.data.RepositoryImpl
 import com.llama.rick_and_morty_mvvm.data.network.Resource
 import com.llama.rick_and_morty_mvvm.domain.model.SimpleCharacter
-import com.llama.rick_and_morty_mvvm.domain.utils.Event
 import com.llama.rick_and_morty_mvvm.ui.model.UIModel
 
 class HomeViewModel(private val repository: RepositoryImpl) : ViewModel() {
@@ -29,6 +27,10 @@ class HomeViewModel(private val repository: RepositoryImpl) : ViewModel() {
         uiModel.isRetryButtonClicked.value = true
     }
 
+//    fun showSnackbarMessage(msg: SnackbarMessage) {
+//        uiModel.snackbarAction.value = msg
+//    }
+
     private fun loadCharacters() {
         uiModel.progressBarVisibility.value = true
         repository.getCharacters(object : Resource {
@@ -44,8 +46,7 @@ class HomeViewModel(private val repository: RepositoryImpl) : ViewModel() {
 
     fun setErrorState() {
         if (uiModel.isRetryButtonClicked.value == true) {
-            Log.d(TAG, "setErrorState: ready to set snackbarAction to true")
-            uiModel.snackbarAction.value = true // how to call only when internet is down? теперь один лишний раз
+            uiModel.snackbarAction.value = true
         }
         uiModel.errorLayoutVisibility.value = true
         uiModel.progressBarVisibility.value = false
@@ -53,9 +54,7 @@ class HomeViewModel(private val repository: RepositoryImpl) : ViewModel() {
 
     fun setSuccessState() {
         uiModel.isRetryButtonClicked.value = false
-        Log.d(TAG, "setSuccessState: retryBtn.value false = ${uiModel.isRetryButtonClicked.value}")
-        uiModel.snackbarAction.value = false // всё равно два раза
-        Log.d(TAG, "setSuccessState: snackbarAction.value false = ${uiModel.snackbarAction.value}")
+        uiModel.snackbarAction.value = false
         uiModel.progressBarVisibility.value = false
         uiModel.errorLayoutVisibility.value = false
     }
@@ -64,3 +63,5 @@ class HomeViewModel(private val repository: RepositoryImpl) : ViewModel() {
         private const val TAG = "TAG"
     }
 }
+
+//class SnackbarMessage(val text: String)

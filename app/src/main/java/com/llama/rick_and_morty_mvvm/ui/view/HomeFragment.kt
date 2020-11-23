@@ -5,16 +5,12 @@ import android.util.Log
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.llama.rick_and_morty_mvvm.App
-import com.llama.rick_and_morty_mvvm.MainActivity
 import com.llama.rick_and_morty_mvvm.R
 import com.llama.rick_and_morty_mvvm.domain.model.SimpleCharacter
 import com.llama.rick_and_morty_mvvm.ui.viewmodel.HomeViewModel
-import com.llama.rick_and_morty_mvvm.ui.viewmodel.HomeViewModelFactory
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.progressbar_layout.*
 import kotlinx.android.synthetic.main.recycler_error_layout.*
@@ -43,9 +39,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private fun initAdapter() {
         val list: List<SimpleCharacter>? = emptyList()
-        list?.let {
-            setAdapter(it)
-        }
+        list?.let { setAdapter(it) }
     }
 
     private fun initRetryButton() {
@@ -58,8 +52,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private fun subscribeToSnackbarObservable() {
         viewModel.snackbarMessage.observe(viewLifecycleOwner, {
-            Log.d(TAG, "initRetryButton: called -------------------- called snackbarMessage")
-            showSnackbar(fragment_home_layout, getString(R.string.check_internet_connection_message))
+            if (it == true) { // todo: move this logic to VM
+                showSnackbar(fragment_home_layout, getString(R.string.check_internet_connection_message))
+            }
         })
     }
 
