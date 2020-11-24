@@ -52,7 +52,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private fun subscribeToSnackbarObservable() {
         viewModel.snackbarMessage.observe(viewLifecycleOwner, {
-            if (it == true) { // todo: move this logic to VM
+            if (it == true) {
                 showSnackbar(fragment_home_layout, getString(R.string.check_internet_connection_message))
             }
         })

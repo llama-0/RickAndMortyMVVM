@@ -27,10 +27,6 @@ class HomeViewModel(private val repository: RepositoryImpl) : ViewModel() {
         uiModel.isRetryButtonClicked.value = true
     }
 
-//    fun showSnackbarMessage(msg: SnackbarMessage) {
-//        uiModel.snackbarAction.value = msg
-//    }
-
     private fun loadCharacters() {
         uiModel.progressBarVisibility.value = true
         repository.getCharacters(object : Resource {
@@ -63,5 +59,3 @@ class HomeViewModel(private val repository: RepositoryImpl) : ViewModel() {
         private const val TAG = "TAG"
     }
 }
-
-//class SnackbarMessage(val text: String)
