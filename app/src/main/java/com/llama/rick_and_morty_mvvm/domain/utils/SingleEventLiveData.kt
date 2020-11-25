@@ -5,6 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import java.util.concurrent.atomic.AtomicBoolean
 
+/*
+* probably domain should not contain this,
+* cause domain should no nothing about framework
+* */
 class SingleEventLiveData<T> : MutableLiveData<T>() {
     private val pending = AtomicBoolean(false)
 
