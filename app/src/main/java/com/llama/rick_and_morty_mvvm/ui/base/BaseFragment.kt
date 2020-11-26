@@ -1,25 +1,50 @@
 package com.llama.rick_and_morty_mvvm.ui.base
 
+import android.os.Bundle
+import android.view.View
 import androidx.annotation.CallSuper
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import com.llama.rick_and_morty_mvvm.domain.utils.SingleEventLiveData
 
 abstract class BaseFragment<
         ScreenState : RefreshableScreenState<*>,
         SupportedCommandType : Command,
-        ViewModel : BaseViewModel<ScreenState, Command>> ( // why name the BaseViewModel Refreshable ?
+        ViewModel : BaseViewModel<ScreenState, SupportedCommandType>> ( // why name the BaseViewModel Refreshable ?
     @LayoutRes val layoutResId: Int,
             viewModelClass: Class<ViewModel>
 ) : Fragment(layoutResId) {
 
+    protected open val viewModel: ViewModel by lazy(LazyThreadSafetyMode.NONE) {
+        ViewModelProvider(this).get(viewModelClass)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+
+        subscribeToViewModelObservables()
+    }
+
+    private fun subscribeToViewModelObservables() {
+        val modelObserver = Observer(this::renderView)
+        viewModel.modelUpdate.observe(viewLifecycleOwner, modelObserver)
+        val commandObserver = Observer(this::executeCommand)
+        viewModel.commandsLiveData.observe(viewLifecycleOwner, commandObserver)
+
+    }
+
+    protected abstract fun renderView(model: ScreenState)
+
+    protected open fun executeCommand(command: SupportedCommandType) {
+//        todo:
+//        showUnderConstructionMessage()
+    }
 }
 
 /*
-* a class for `screen states` (aka `view states`)
+* A class for `screen states` (aka `view states`)
 * */
 sealed class RefreshableScreenState<out T : Any>
 class Success<out T : Any>(val data: T) : RefreshableScreenState<T>()
@@ -28,8 +53,10 @@ class Error<out T : Any> : RefreshableScreenState<T>() // can have `val error: T
 class NoInternetState<T : Any> : RefreshableScreenState<T>()
 
 
-// Tip. Declare commands without parameters as `object`
-//      to avoid having to create new instances of them
+/*
+* Tip. Declare commands without parameters as `object`
+*      to avoid having to create new instances of them
+* */
 sealed class Command
 object ClickButton : Command()
 class ShowSnackbar(val message: String) : Command()
@@ -39,8 +66,7 @@ class ShowSnackbar(val message: String) : Command()
 abstract class BaseViewModel<
         ScreenState : RefreshableScreenState<*>,
         SupportedCommandType : Command>(
-//        val repository: RepositoryImpl // should I place it here or directly in HomeViewModel?
-//                                          (I think directly into HomeViewModel)
+        val model: ScreenState
 ) : ViewModel() {
 
     private val modelUpdateEvent = MutableLiveData<ScreenState>()
@@ -56,8 +82,7 @@ abstract class BaseViewModel<
         commandsMutableLiveData.value = command
     }
 
-    // what is this model? What I tried to do in UIModel, but totally missed the point?
-    @CallSuper // Denotes that any overriding methods should invoke this method as well.
+    @CallSuper /* Denotes that any overriding methods should invoke this method as well. */
     protected open fun refreshView() {
         modelUpdateEvent.value = model
     }
