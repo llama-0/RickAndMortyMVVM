@@ -8,12 +8,15 @@ import com.llama.rick_and_morty_mvvm.domain.model.SimpleCharacter
 * */
 class ModelMapper {
 
-    fun mapSimpleCharacter(input: Character) : SimpleCharacter =
+    fun mapSimpleCharacter(input: Character): SimpleCharacter =
         SimpleCharacter(
             input.id,
             input.name
         )
 
-    fun mapSimpleCharacterList(input: List<Character>, mapSingle: (Character) -> SimpleCharacter): List<SimpleCharacter> =
+    fun mapSimpleCharacterList(
+        input: List<Character>,
+        mapSingle: (Character) -> SimpleCharacter
+    ): List<SimpleCharacter> =
         input.map { mapSingle(it) }
 }

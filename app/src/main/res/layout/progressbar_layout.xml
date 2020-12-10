@@ -10,7 +10,7 @@
     tools:visibility="visible">
 
     <ProgressBar
-        android:id="@+id/pb_loading"
+        android:id="@+id/pbLoading"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

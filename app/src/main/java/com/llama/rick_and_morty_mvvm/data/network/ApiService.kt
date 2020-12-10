@@ -7,5 +7,5 @@ import retrofit2.http.GET
 interface ApiService {
 
     @GET("character")
-    fun getCharactersInfo() : Call<CharactersInfo>
+    fun getCharactersInfo(): Call<CharactersInfo>
 }

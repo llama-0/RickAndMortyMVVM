@@ -1,13 +1,12 @@
 package com.llama.rick_and_morty_mvvm.ui.view
 
-import android.view.View
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.llama.rick_and_morty_mvvm.R
+import com.llama.rick_and_morty_mvvm.databinding.ListItemBinding
 
 
-class HomeViewHolder(itemsView: View) : RecyclerView.ViewHolder(itemsView) {
+class HomeViewHolder(binding: ListItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
-    val id: TextView = itemsView.findViewById(R.id.tv_id)
-    val name: TextView = itemsView.findViewById(R.id.tv_name)
+    val id: TextView = binding.tvId
+    val name: TextView = binding.tvName
 }

@@ -5,10 +5,10 @@ import androidx.lifecycle.ViewModelProvider
 import com.llama.rick_and_morty_mvvm.data.RepositoryImpl
 
 class HomeViewModelFactory(
-    private val repository: RepositoryImpl
+        private val repository: RepositoryImpl
 ) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T =
-        modelClass.getConstructor(RepositoryImpl::class.java)
-            .newInstance(repository)
+            modelClass.getConstructor(RepositoryImpl::class.java)
+                    .newInstance(repository)
 }

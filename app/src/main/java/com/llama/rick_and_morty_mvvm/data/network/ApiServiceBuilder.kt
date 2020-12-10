@@ -23,8 +23,8 @@ class ApiServiceBuilder(url: String) {
 
     private val unsafeClient: OkHttpClient = getUnsafeOkHttpClient().apply {
         this.addInterceptor(interceptor)
-                .readTimeout(30, TimeUnit.SECONDS)
-                .writeTimeout(30, TimeUnit.SECONDS)
+            .readTimeout(30, TimeUnit.SECONDS)
+            .writeTimeout(30, TimeUnit.SECONDS)
             .connectTimeout(30, TimeUnit.SECONDS)
     }.build()
 
@@ -45,11 +45,17 @@ class ApiServiceBuilder(url: String) {
             // Create a trust manager that does not validate certificate chains
             val trustAllCerts: Array<TrustManager> = arrayOf(object : X509TrustManager {
                 @Throws(CertificateException::class)
-                override fun checkClientTrusted(chain: Array<java.security.cert.X509Certificate>, authType: String): Unit =
+                override fun checkClientTrusted(
+                    chain: Array<java.security.cert.X509Certificate>,
+                    authType: String
+                ): Unit =
                     Unit
 
                 @Throws(CertificateException::class)
-                override fun checkServerTrusted(chain: Array<java.security.cert.X509Certificate>, authType: String): Unit =
+                override fun checkServerTrusted(
+                    chain: Array<java.security.cert.X509Certificate>,
+                    authType: String
+                ): Unit =
                     Unit
 
                 override fun getAcceptedIssuers(): Array<java.security.cert.X509Certificate> =

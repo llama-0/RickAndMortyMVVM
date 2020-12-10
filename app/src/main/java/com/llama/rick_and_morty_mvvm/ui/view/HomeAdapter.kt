@@ -4,7 +4,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.llama.rick_and_morty_mvvm.R
+import com.llama.rick_and_morty_mvvm.databinding.ListItemBinding
 import com.llama.rick_and_morty_mvvm.domain.model.SimpleCharacter
 
 class HomeAdapter(
@@ -13,7 +13,13 @@ class HomeAdapter(
 ) : RecyclerView.Adapter<HomeViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeViewHolder =
-        HomeViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.list_item, parent, false))
+        HomeViewHolder(
+            ListItemBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
 
     override fun onBindViewHolder(holder: HomeViewHolder, position: Int) {
         val item: SimpleCharacter = items[position]

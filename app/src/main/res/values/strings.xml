@@ -7,4 +7,5 @@
     <string name="btn_name_retry">Retry</string>
 
     <string name="base_url">https://rickandmortyapi.com/api/</string>
+    <string name="under_development">Under development</string>
 </resources>
