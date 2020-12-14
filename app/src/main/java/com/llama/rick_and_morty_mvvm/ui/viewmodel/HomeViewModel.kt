@@ -17,21 +17,30 @@ class HomeViewModel(private val repository: RepositoryImpl, model: HomeScreenSta
             HomeScreenState<*>,
             Command>(model) {
 
-    private var flag: Int = 0 // -1 -- refresh Error Screen, 1 -- refresh Success screen
+    private var flag: Boolean = false // false -- refresh Error Screen AND default value, true -- refresh Success screen
 
     private val uiModel = UIModel()
 
-    val errorState: LiveData<Boolean> = uiModel.errorLayoutVisibility
-    val loadState: LiveData<Boolean> = uiModel.progressBarVisibility
-    val snackbarMessage: LiveData<Boolean> = uiModel.snackbarAction
-    val dataList: LiveData<List<SimpleCharacter>> = uiModel.liveDataList
+//    val errorState: LiveData<Boolean> = uiModel.errorLayoutVisibility
+//    val loadState: LiveData<Boolean> = uiModel.progressBarVisibility
+//    val snackbarMessage: LiveData<Boolean> = uiModel.snackbarAction
+//    val dataList: LiveData<List<SimpleCharacter>> = uiModel.liveDataList
 
     init {
-        Log.d(TAG, "viewModel: init")
+        Log.d(TAG, "viewModel: init: loadCharacters()")
         loadCharacters()
     }
 
     private val command: MutableLiveData<Command> = SingleEventLiveData() // ?
+
+    fun updateModel() {
+        updateScreenState(
+            model,
+            uiModel.liveDataList.value ?: return,
+            uiModel,
+            flag
+        )
+    }
 
     // кто должен вызывать эту функцию?
     private fun updateScreenState(
@@ -49,9 +58,9 @@ class HomeViewModel(private val repository: RepositoryImpl, model: HomeScreenSta
     override fun refreshView() {
         super.refreshView()
         when (flag) {
-            -1 -> setErrorState()
-            1 -> setSuccessState()
-            else -> setLoadingState()
+            false -> setErrorState()
+            true -> setSuccessState()
+//            else -> setLoadingState()
         }
     }
 //
@@ -61,17 +70,17 @@ class HomeViewModel(private val repository: RepositoryImpl, model: HomeScreenSta
 //    }
 //
     private fun loadCharacters() {
-//        uiModel.progressBarVisibility.value = true
+        uiModel.progressBarVisibility.value = true
         repository.getCharacters(object : Resource {
             override fun onError() {
 //                setErrorState()
-                flag = -1
+                flag = false
             }
 
             override fun onSuccess(data: List<SimpleCharacter>) {
                 uiModel.liveDataList.value = data
 //                setSuccessState()
-                flag = 1
+                flag = true
             }
         })
     }
@@ -91,9 +100,9 @@ class HomeViewModel(private val repository: RepositoryImpl, model: HomeScreenSta
         uiModel.errorLayoutVisibility.value = false
     }
 
-    private fun setLoadingState() {
-        uiModel.progressBarVisibility.value = true
-    }
+//    private fun setLoadingState() {
+//        uiModel.progressBarVisibility.value = true
+//    }
 
     companion object {
         private const val TAG = "TAG"

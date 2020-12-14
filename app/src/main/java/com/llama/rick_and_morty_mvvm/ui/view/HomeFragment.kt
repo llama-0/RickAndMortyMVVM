@@ -10,7 +10,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.llama.rick_and_morty_mvvm.App
-import com.llama.rick_and_morty_mvvm.R
 import com.llama.rick_and_morty_mvvm.databinding.FragmentHomeBinding
 import com.llama.rick_and_morty_mvvm.domain.model.SimpleCharacter
 import com.llama.rick_and_morty_mvvm.ui.base.BaseFragment
@@ -26,7 +25,7 @@ class HomeFragment : BaseFragment<HomeScreenState<*>, Command, HomeViewModel>(
         get() {
             activity?.application.let {
                 if (it is App) {
-                    Log.d(TAG, "initViewModel: initializing viewModel in HomeFragment")
+                    Log.d(TAG, "initViewModel !! : initializing viewModel in HomeFragment")
                     return ViewModelProvider(this, it.factory).get(HomeViewModel::class.java)
                 }
             }
@@ -49,8 +48,7 @@ class HomeFragment : BaseFragment<HomeScreenState<*>, Command, HomeViewModel>(
 
         Log.d(TAG, "onViewCreated: view created")
         initAdapter()
-//        renderView(???)
-        subscribeToViewModelObservables()
+        renderView(viewModel.model)
         initRetryButton()
     }
 
@@ -63,37 +61,39 @@ class HomeFragment : BaseFragment<HomeScreenState<*>, Command, HomeViewModel>(
         binding.includedErrorLayout.btnRetry.setOnClickListener {
             Log.d(TAG, "initRetryButton: on Click")
 //            viewModel.onButtonRetryClicked()
-            subscribeToSnackbarObservable()
+//            subscribeToSnackbarObservable()
         }
     }
 
-    private fun subscribeToSnackbarObservable() {
-        viewModel.snackbarMessage.observe(viewLifecycleOwner) {
-            if (it == true) {
-                showSnackbar(
-                    binding.fragmentHomeLayout,
-                    getString(R.string.check_internet_connection_message)
-                )
-            }
-        }
-    }
+//    private fun subscribeToSnackbarObservable() {
+//        viewModel.snackbarMessage.observe(viewLifecycleOwner) {
+//            if (it == true) {
+//                showSnackbar(
+//                    binding.fragmentHomeLayout,
+//                    getString(R.string.check_internet_connection_message)
+//                )
+//            }
+//        }
+//    }
 
-    private fun subscribeToViewModelObservables() {
-        viewModel.loadState.observe(viewLifecycleOwner) {
-            binding.includedLoadingLayout.progressBarLayout.isVisible = it
-        }
-        viewModel.errorState.observe(viewLifecycleOwner) {
-            binding.includedErrorLayout.internetErrorLayout.isVisible = it
-        }
-        viewModel.dataList.observe(viewLifecycleOwner) { setAdapter(it) }
-    }
+//    private fun subscribeToViewModelObservables() {
+//        viewModel.loadState.observe(viewLifecycleOwner) {
+//            binding.includedLoadingLayout.progressBarLayout.isVisible = it
+//        }
+//        viewModel.errorState.observe(viewLifecycleOwner) {
+//            binding.includedErrorLayout.internetErrorLayout.isVisible = it
+//        }
+//        viewModel.dataList.observe(viewLifecycleOwner) { setAdapter(it) }
+//    }
 
     // через vm вызов снекбара сделать.
     private fun setAdapter(list: List<SimpleCharacter>) {
         val rv: RecyclerView = binding.rvItems
+        Log.e(TAG, "setAdapter: inside adapter")
         rv.adapter = HomeAdapter(list) { character ->
             showSnackbar(rv, character.name) // viewModel.onItemClicked() ?
         }
+        Log.e(TAG, "setAdapter: list = $list inside adapter")
     }
 
     private fun showSnackbar(view: View, message: String) {
@@ -109,6 +109,7 @@ class HomeFragment : BaseFragment<HomeScreenState<*>, Command, HomeViewModel>(
     }
 
     override fun renderView(model: HomeScreenState<*>) {
-        TODO("Not yet implemented")
+        Log.d(TAG, "renderView: BEFORE a call to observer")
+        viewModel.updateModel()
     }
 }

@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.llama.rick_and_morty_mvvm.domain.model.SimpleCharacter
 import com.llama.rick_and_morty_mvvm.domain.utils.SingleEventLiveData
-import com.llama.rick_and_morty_mvvm.ui.base.RefreshableScreenState
 
 
 class UIModel(
