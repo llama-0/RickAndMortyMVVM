@@ -1,5 +1,8 @@
 package com.llama.rick_and_morty_mvvm.ui.base
 
+import com.llama.rick_and_morty_mvvm.domain.model.SimpleCharacter
+import com.llama.rick_and_morty_mvvm.ui.model.UIModel
+
 /**
  * A class for `screen states` (aka `view states`)
  * */
@@ -9,6 +12,12 @@ class Error<out T : Any> : RefreshableScreenState<T>() // can have `val error: T
 
 //class Loading<out T : Any> : RefreshableScreenState<T>() // my loading is just a liveData
 class NoInternetState<T : Any> : RefreshableScreenState<T>()
+
+
+// tmp place for it
+class HomeScreenState<out T : Any>(
+    val dataList: List<SimpleCharacter>,
+    val uiModel: UIModel) : RefreshableScreenState<T>()
 
 
 /*

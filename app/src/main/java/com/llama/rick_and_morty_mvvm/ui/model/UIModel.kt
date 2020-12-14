@@ -14,10 +14,3 @@ class UIModel(
         val snackbarAction: MutableLiveData<Boolean> = SingleEventLiveData(),
         val isRetryButtonClicked: MutableLiveData<Boolean> = MutableLiveData()
 )
-
-
-
-
-class HomeScreenState(
-        val dataList: List<SimpleCharacter>
-) : RefreshableScreenState<>

@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
@@ -14,11 +13,26 @@ import com.llama.rick_and_morty_mvvm.App
 import com.llama.rick_and_morty_mvvm.R
 import com.llama.rick_and_morty_mvvm.databinding.FragmentHomeBinding
 import com.llama.rick_and_morty_mvvm.domain.model.SimpleCharacter
+import com.llama.rick_and_morty_mvvm.ui.base.BaseFragment
+import com.llama.rick_and_morty_mvvm.ui.base.Command
+import com.llama.rick_and_morty_mvvm.ui.base.HomeScreenState
 import com.llama.rick_and_morty_mvvm.ui.viewmodel.HomeViewModel
 
-class HomeFragment : Fragment() {
+class HomeFragment : BaseFragment<HomeScreenState<*>, Command, HomeViewModel>(
+    HomeViewModel::class.java
+) {
 
-    private lateinit var viewModel: HomeViewModel
+    override val viewModel: HomeViewModel
+        get() {
+            activity?.application.let {
+                if (it is App) {
+                    Log.d(TAG, "initViewModel: initializing viewModel in HomeFragment")
+                    return ViewModelProvider(this, it.factory).get(HomeViewModel::class.java)
+                }
+            }
+            return super.viewModel
+        }
+
     private lateinit var binding: FragmentHomeBinding
 
     override fun onCreateView(
@@ -26,7 +40,7 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentHomeBinding.inflate(inflater, container, true)
+        binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -34,18 +48,10 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         Log.d(TAG, "onViewCreated: view created")
-        initViewModel()
         initAdapter()
+//        renderView(???)
         subscribeToViewModelObservables()
         initRetryButton()
-    }
-
-    private fun initViewModel() {
-        activity?.application.let {
-            if (it is App) {
-                viewModel = ViewModelProvider(this, it.factory).get(HomeViewModel::class.java)
-            }
-        }
     }
 
     private fun initAdapter() {
@@ -56,7 +62,7 @@ class HomeFragment : Fragment() {
     private fun initRetryButton() {
         binding.includedErrorLayout.btnRetry.setOnClickListener {
             Log.d(TAG, "initRetryButton: on Click")
-            viewModel.onButtonRetryClicked()
+//            viewModel.onButtonRetryClicked()
             subscribeToSnackbarObservable()
         }
     }
@@ -64,14 +70,21 @@ class HomeFragment : Fragment() {
     private fun subscribeToSnackbarObservable() {
         viewModel.snackbarMessage.observe(viewLifecycleOwner) {
             if (it == true) {
-                showSnackbar(binding.fragmentHomeLayout, getString(R.string.check_internet_connection_message))
+                showSnackbar(
+                    binding.fragmentHomeLayout,
+                    getString(R.string.check_internet_connection_message)
+                )
             }
         }
     }
 
     private fun subscribeToViewModelObservables() {
-        viewModel.loadState.observe(viewLifecycleOwner) { binding.includedLoadingLayout.progressBarLayout.isVisible = it }
-        viewModel.errorState.observe(viewLifecycleOwner) { binding.includedErrorLayout.internetErrorLayout.isVisible = it }
+        viewModel.loadState.observe(viewLifecycleOwner) {
+            binding.includedLoadingLayout.progressBarLayout.isVisible = it
+        }
+        viewModel.errorState.observe(viewLifecycleOwner) {
+            binding.includedErrorLayout.internetErrorLayout.isVisible = it
+        }
         viewModel.dataList.observe(viewLifecycleOwner) { setAdapter(it) }
     }
 
@@ -85,13 +98,17 @@ class HomeFragment : Fragment() {
 
     private fun showSnackbar(view: View, message: String) {
         Snackbar.make(
-                view,
-                message,
-                Snackbar.LENGTH_SHORT
+            view,
+            message,
+            Snackbar.LENGTH_SHORT
         ).show()
     }
 
     companion object {
         private const val TAG = "TAG"
+    }
+
+    override fun renderView(model: HomeScreenState<*>) {
+        TODO("Not yet implemented")
     }
 }

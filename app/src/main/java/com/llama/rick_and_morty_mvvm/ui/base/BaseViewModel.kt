@@ -9,7 +9,7 @@ import com.llama.rick_and_morty_mvvm.domain.utils.SingleEventLiveData
 abstract class BaseViewModel<
         ScreenState : RefreshableScreenState<*>,
         SupportedCommandType : Command>(
-    val model: ScreenState
+    var model: ScreenState
 ) : ViewModel() {
 
     private val modelUpdateEvent = MutableLiveData<ScreenState>()
