@@ -1,19 +1,30 @@
 package com.llama.rick_and_morty_mvvm
 
 import android.app.Application
+import androidx.lifecycle.MutableLiveData
 import com.llama.rick_and_morty_mvvm.data.RepositoryImpl
 import com.llama.rick_and_morty_mvvm.data.network.ApiService
 import com.llama.rick_and_morty_mvvm.data.network.ApiServiceBuilder
 import com.llama.rick_and_morty_mvvm.domain.model.SimpleCharacter
 import com.llama.rick_and_morty_mvvm.ui.base.HomeScreenState
-import com.llama.rick_and_morty_mvvm.ui.model.UIModel
 import com.llama.rick_and_morty_mvvm.ui.viewmodel.HomeViewModelFactory
 
 class App : Application() {
 
     private val apiService: ApiService by lazy { ApiServiceBuilder(url).buildService() }
-    val model: HomeScreenState<*> by lazy { HomeScreenState<List<SimpleCharacter>>(emptyList(), UIModel()) }
-    val factory: HomeViewModelFactory by lazy { HomeViewModelFactory(RepositoryImpl(apiService), model) }
+    val model: HomeScreenState<*> by lazy {
+        HomeScreenState<List<SimpleCharacter>>(
+            MutableLiveData(),
+            MutableLiveData(),
+            MutableLiveData()
+        )
+    }
+    val factory: HomeViewModelFactory by lazy {
+        HomeViewModelFactory(
+            RepositoryImpl(apiService),
+            model
+        )
+    }
 
     override fun onCreate() {
         super.onCreate()

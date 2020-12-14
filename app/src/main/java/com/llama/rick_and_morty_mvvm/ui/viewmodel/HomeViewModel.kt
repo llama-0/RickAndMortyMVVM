@@ -1,7 +1,6 @@
 package com.llama.rick_and_morty_mvvm.ui.viewmodel
 
 import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.llama.rick_and_morty_mvvm.data.RepositoryImpl
 import com.llama.rick_and_morty_mvvm.data.network.Resource
@@ -10,21 +9,11 @@ import com.llama.rick_and_morty_mvvm.domain.utils.SingleEventLiveData
 import com.llama.rick_and_morty_mvvm.ui.base.BaseViewModel
 import com.llama.rick_and_morty_mvvm.ui.base.Command
 import com.llama.rick_and_morty_mvvm.ui.base.HomeScreenState
-import com.llama.rick_and_morty_mvvm.ui.model.UIModel
 
 class HomeViewModel(private val repository: RepositoryImpl, model: HomeScreenState<*>) :
     BaseViewModel<
             HomeScreenState<*>,
             Command>(model) {
-
-    private var flag: Boolean = false // false -- refresh Error Screen AND default value, true -- refresh Success screen
-
-    private val uiModel = UIModel()
-
-//    val errorState: LiveData<Boolean> = uiModel.errorLayoutVisibility
-//    val loadState: LiveData<Boolean> = uiModel.progressBarVisibility
-//    val snackbarMessage: LiveData<Boolean> = uiModel.snackbarAction
-//    val dataList: LiveData<List<SimpleCharacter>> = uiModel.liveDataList
 
     init {
         Log.d(TAG, "viewModel: init: loadCharacters()")
@@ -33,76 +22,82 @@ class HomeViewModel(private val repository: RepositoryImpl, model: HomeScreenSta
 
     private val command: MutableLiveData<Command> = SingleEventLiveData() // ?
 
-    fun updateModel() {
-        updateScreenState(
-            model,
-            uiModel.liveDataList.value ?: return,
-            uiModel,
-            flag
-        )
-    }
-
-    // кто должен вызывать эту функцию?
+    // пока что получается, что shouldRefreshView == true всегда
     private fun updateScreenState(
         screenState: HomeScreenState<*> = this.model,
-        dataListWithState: List<SimpleCharacter> = screenState.dataList,
-        uiModel: UIModel = screenState.uiModel,
+        dataListState: MutableLiveData<List<SimpleCharacter>> = screenState.dataList,
+        errorLayoutVisibilityState: MutableLiveData<Boolean> = screenState.errorLayoutVisibility,
+        progressBarVisibilityState: MutableLiveData<Boolean> = screenState.progressBarVisibility,
         shouldRefreshView: Boolean = true
     ) {
-        this.model = HomeScreenState<List<SimpleCharacter>>(dataListWithState, uiModel)
+        this.model = HomeScreenState<List<SimpleCharacter>>(
+            dataListState,
+            errorLayoutVisibilityState,
+            progressBarVisibilityState
+        )
         if (shouldRefreshView) {
+            Log.e(TAG, "updateScreenState: refreshing view")
             refreshView()
         }
     }
 
-    override fun refreshView() {
-        super.refreshView()
-        when (flag) {
-            false -> setErrorState()
-            true -> setSuccessState()
-//            else -> setLoadingState()
-        }
-    }
-//
+    //
 //    fun onButtonRetryClicked() {
 //        loadCharacters()
 //        uiModel.isRetryButtonClicked.value = true
 //    }
 //
+
+    // страшный копипаст код. Логичнее казалось вызывать updateScreenState() после loadCharacters() один раз
     private fun loadCharacters() {
-        uiModel.progressBarVisibility.value = true
+        setLoadingState()
+
         repository.getCharacters(object : Resource {
             override fun onError() {
-//                setErrorState()
-                flag = false
+                setErrorState()
+                updateScreenState(
+                    model,
+                    model.dataList,
+                    model.errorLayoutVisibility,
+                    model.progressBarVisibility,
+                    true
+                )
             }
 
             override fun onSuccess(data: List<SimpleCharacter>) {
-                uiModel.liveDataList.value = data
-//                setSuccessState()
-                flag = true
+                model.dataList.value = data
+                setSuccessState()
+                updateScreenState(
+                    model,
+                    model.dataList,
+                    model.errorLayoutVisibility,
+                    model.progressBarVisibility,
+                    true
+                )
             }
         })
     }
 
     private fun setErrorState() {
-        if (uiModel.isRetryButtonClicked.value == true) {
-            uiModel.snackbarAction.value = true
-        }
-        uiModel.errorLayoutVisibility.value = true
-        uiModel.progressBarVisibility.value = false
+//        Log.e(TAG, "setErrorState: inside")
+//        if (uiModel.isRetryButtonClicked.value == true) {
+//            uiModel.snackbarAction.value = true
+//        }
+        model.errorLayoutVisibility.value = true
+        model.progressBarVisibility.value = false
     }
 
     private fun setSuccessState() {
-        uiModel.isRetryButtonClicked.value = false
-        uiModel.snackbarAction.value = false
-        uiModel.progressBarVisibility.value = false
-        uiModel.errorLayoutVisibility.value = false
+//        Log.e(TAG, "setSuccessState: inside")
+//        uiModel.isRetryButtonClicked.value = false
+//        uiModel.snackbarAction.value = false
+        model.progressBarVisibility.value = false
+        model.errorLayoutVisibility.value = false
     }
 
-//    private fun setLoadingState() {
-//        uiModel.progressBarVisibility.value = true
-//    }
+    private fun setLoadingState() {
+        model.progressBarVisibility.value = true
+    }
 
     companion object {
         private const val TAG = "TAG"

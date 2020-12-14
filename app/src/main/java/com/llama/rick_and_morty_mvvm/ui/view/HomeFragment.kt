@@ -6,10 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
-import com.llama.rick_and_morty_mvvm.App
 import com.llama.rick_and_morty_mvvm.databinding.FragmentHomeBinding
 import com.llama.rick_and_morty_mvvm.domain.model.SimpleCharacter
 import com.llama.rick_and_morty_mvvm.ui.base.BaseFragment
@@ -36,13 +34,20 @@ class HomeFragment : BaseFragment<HomeScreenState<*>, Command, HomeViewModel>(
 
         Log.d(TAG, "onViewCreated: view created")
         initAdapter()
-//        renderView(viewModel.model)
         initRetryButton()
     }
 
     private fun initAdapter() {
         val list: List<SimpleCharacter>? = emptyList()
         list?.let { setAdapter(it) }
+    }
+
+    override fun renderView(model: HomeScreenState<*>) {
+        binding.includedLoadingLayout.progressBarLayout.isVisible =
+            model.progressBarVisibility.value ?: return
+        binding.includedErrorLayout.internetErrorLayout.isVisible =
+            model.errorLayoutVisibility.value ?: return
+        setAdapter(model.dataList.value ?: return)
     }
 
     private fun initRetryButton() {
@@ -62,16 +67,6 @@ class HomeFragment : BaseFragment<HomeScreenState<*>, Command, HomeViewModel>(
 //                )
 //            }
 //        }
-//    }
-
-//    private fun subscribeToViewModelObservables() {
-//        viewModel.loadState.observe(viewLifecycleOwner) {
-//            binding.includedLoadingLayout.progressBarLayout.isVisible = it
-//        }
-//        viewModel.errorState.observe(viewLifecycleOwner) {
-//            binding.includedErrorLayout.internetErrorLayout.isVisible = it
-//        }
-//        viewModel.dataList.observe(viewLifecycleOwner) { setAdapter(it) }
 //    }
 
     // через vm вызов снекбара сделать.
@@ -94,10 +89,5 @@ class HomeFragment : BaseFragment<HomeScreenState<*>, Command, HomeViewModel>(
 
     companion object {
         private const val TAG = "TAG"
-    }
-
-    override fun renderView(model: HomeScreenState<*>) {
-        Log.e(TAG, "renderView: BEFORE a call to observer")
-//        viewModel.updateModel()
     }
 }

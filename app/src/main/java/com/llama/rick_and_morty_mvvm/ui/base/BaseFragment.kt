@@ -8,8 +8,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
 import com.llama.rick_and_morty_mvvm.App
 import com.llama.rick_and_morty_mvvm.R
-import com.llama.rick_and_morty_mvvm.ui.viewmodel.HomeViewModel
-import com.llama.rick_and_morty_mvvm.ui.viewmodel.HomeViewModelFactory
 
 abstract class BaseFragment<
         ScreenState : RefreshableScreenState<*>,
@@ -25,8 +23,8 @@ abstract class BaseFragment<
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         subscribeToViewModelObservables()
+        renderView(viewModel.model)
     }
 
     private fun subscribeToViewModelObservables() {

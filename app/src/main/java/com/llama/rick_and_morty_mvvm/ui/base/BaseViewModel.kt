@@ -1,6 +1,5 @@
 package com.llama.rick_and_morty_mvvm.ui.base
 
-import androidx.annotation.CallSuper
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -25,7 +24,7 @@ abstract class BaseViewModel<
         commandsMutableLiveData.value = command
     }
 
-    @CallSuper
+    //    @CallSuper // why I need this annotation?
     /* Denotes that any overriding methods should invoke this method as well. */
     protected open fun refreshView() {
         modelUpdateEvent.value = model
