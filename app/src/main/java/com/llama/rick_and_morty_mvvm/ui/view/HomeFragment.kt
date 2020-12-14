@@ -20,18 +20,6 @@ import com.llama.rick_and_morty_mvvm.ui.viewmodel.HomeViewModel
 class HomeFragment : BaseFragment<HomeScreenState<*>, Command, HomeViewModel>(
     HomeViewModel::class.java
 ) {
-
-    override val viewModel: HomeViewModel
-        get() {
-            activity?.application.let {
-                if (it is App) {
-                    Log.d(TAG, "initViewModel !! : initializing viewModel in HomeFragment")
-                    return ViewModelProvider(this, it.factory).get(HomeViewModel::class.java)
-                }
-            }
-            return super.viewModel
-        }
-
     private lateinit var binding: FragmentHomeBinding
 
     override fun onCreateView(
@@ -48,7 +36,7 @@ class HomeFragment : BaseFragment<HomeScreenState<*>, Command, HomeViewModel>(
 
         Log.d(TAG, "onViewCreated: view created")
         initAdapter()
-        renderView(viewModel.model)
+//        renderView(viewModel.model)
         initRetryButton()
     }
 
@@ -109,7 +97,7 @@ class HomeFragment : BaseFragment<HomeScreenState<*>, Command, HomeViewModel>(
     }
 
     override fun renderView(model: HomeScreenState<*>) {
-        Log.d(TAG, "renderView: BEFORE a call to observer")
-        viewModel.updateModel()
+        Log.e(TAG, "renderView: BEFORE a call to observer")
+//        viewModel.updateModel()
     }
 }

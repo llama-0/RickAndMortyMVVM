@@ -11,17 +11,14 @@ import com.llama.rick_and_morty_mvvm.ui.viewmodel.HomeViewModelFactory
 
 class App : Application() {
 
-    lateinit var factory: HomeViewModelFactory
-    lateinit var apiService: ApiService
-    lateinit var model: HomeScreenState<*>
+    private val apiService: ApiService by lazy { ApiServiceBuilder(url).buildService() }
+    val model: HomeScreenState<*> by lazy { HomeScreenState<List<SimpleCharacter>>(emptyList(), UIModel()) }
+    val factory: HomeViewModelFactory by lazy { HomeViewModelFactory(RepositoryImpl(apiService), model) }
 
     override fun onCreate() {
         super.onCreate()
 
         url = getString(R.string.base_url)
-        apiService = ApiServiceBuilder(url).buildService()
-        model = HomeScreenState<List<SimpleCharacter>>(emptyList(), UIModel())
-        factory = HomeViewModelFactory(RepositoryImpl(apiService), model)
     }
 
     companion object {

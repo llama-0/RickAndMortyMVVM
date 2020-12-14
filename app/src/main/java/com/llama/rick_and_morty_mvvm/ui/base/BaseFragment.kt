@@ -6,7 +6,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
+import com.llama.rick_and_morty_mvvm.App
 import com.llama.rick_and_morty_mvvm.R
+import com.llama.rick_and_morty_mvvm.ui.viewmodel.HomeViewModel
+import com.llama.rick_and_morty_mvvm.ui.viewmodel.HomeViewModelFactory
 
 abstract class BaseFragment<
         ScreenState : RefreshableScreenState<*>,
@@ -16,7 +19,7 @@ abstract class BaseFragment<
 ) : Fragment() {
 
     protected open val viewModel: ViewModel by lazy {
-        ViewModelProvider(this).get(viewModelClass)
+        ViewModelProvider(this, App().factory).get(viewModelClass)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
