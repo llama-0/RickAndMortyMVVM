@@ -1,6 +1,5 @@
 package com.llama.rick_and_morty_mvvm.ui.view
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -25,7 +24,6 @@ class HomeAdapter(
         val item: SimpleCharacter = items[position]
         bind(holder, item)
         holder.itemView.setOnClickListener {
-            Log.d("adapter listener()", "onBindViewHolder: ${item.name}")
             listener(item)
         }
     }

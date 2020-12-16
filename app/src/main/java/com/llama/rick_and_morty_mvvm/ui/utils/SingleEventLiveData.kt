@@ -1,14 +1,11 @@
-package com.llama.rick_and_morty_mvvm.domain.utils
+package com.llama.rick_and_morty_mvvm.ui.utils
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import java.util.concurrent.atomic.AtomicBoolean
 
-/*
-* probably domain should not contain this,
-* cause domain should no nothing about framework
-* */
+
 class SingleEventLiveData<T> : MutableLiveData<T>() {
     private val pending = AtomicBoolean(false)
 

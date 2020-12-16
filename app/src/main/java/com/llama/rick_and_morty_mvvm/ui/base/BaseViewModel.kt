@@ -3,7 +3,9 @@ package com.llama.rick_and_morty_mvvm.ui.base
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.llama.rick_and_morty_mvvm.domain.utils.SingleEventLiveData
+import com.llama.rick_and_morty_mvvm.ui.utils.Command
+import com.llama.rick_and_morty_mvvm.ui.utils.RefreshableScreenState
+import com.llama.rick_and_morty_mvvm.ui.utils.SingleEventLiveData
 
 abstract class BaseViewModel<
         ScreenState : RefreshableScreenState<*>,
@@ -22,8 +24,6 @@ abstract class BaseViewModel<
         commandsMutableLiveData.value = command
     }
 
-    //    @CallSuper // why I need this annotation?
-    /* Denotes that any overriding methods should invoke this method as well. */
     protected open fun refreshView() {
         modelUpdateEvent.value = model
     }

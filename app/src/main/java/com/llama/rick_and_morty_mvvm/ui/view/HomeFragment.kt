@@ -1,7 +1,6 @@
 package com.llama.rick_and_morty_mvvm.ui.view
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +10,10 @@ import com.google.android.material.snackbar.Snackbar
 import com.llama.rick_and_morty_mvvm.R
 import com.llama.rick_and_morty_mvvm.databinding.FragmentHomeBinding
 import com.llama.rick_and_morty_mvvm.domain.model.SimpleCharacter
-import com.llama.rick_and_morty_mvvm.ui.base.*
+import com.llama.rick_and_morty_mvvm.ui.base.BaseFragment
+import com.llama.rick_and_morty_mvvm.ui.utils.Command
+import com.llama.rick_and_morty_mvvm.ui.utils.HomeScreenState
+import com.llama.rick_and_morty_mvvm.ui.utils.ShowSnackbar
 import com.llama.rick_and_morty_mvvm.ui.viewmodel.HomeViewModel
 
 class HomeFragment : BaseFragment<HomeScreenState<*>, Command, HomeViewModel>(
@@ -42,30 +44,28 @@ class HomeFragment : BaseFragment<HomeScreenState<*>, Command, HomeViewModel>(
 
     override fun renderView(model: HomeScreenState<*>) {
         binding.includedLoadingLayout.progressBarLayout.isVisible =
-            model.progressBarVisibility.value ?: return
+            model.progressBarVisibility
         binding.includedErrorLayout.internetErrorLayout.isVisible =
-            model.errorLayoutVisibility.value ?: return
-        setAdapter(model.dataList.value ?: return)
+            model.errorLayoutVisibility
+        setAdapter(model.dataList)
     }
 
     override fun executeCommand(command: Command) {
         if (command is ShowSnackbar) {
-            showSnackbar(binding.root, getString(R.string.check_internet_connection_message))
+            showSnackbar(binding.root, command.message)
         }
     }
 
     private fun initRetryButton() {
         binding.includedErrorLayout.btnRetry.setOnClickListener {
-            Log.d(TAG, "initRetryButton: on Click")
-            viewModel.onButtonRetryClicked()
+            viewModel.onButtonRetryClicked(getString(R.string.check_internet_connection_message))
         }
     }
 
-    // через vm вызов снекбара сделать. UPD: how to send character.name to command execution ?
     private fun setAdapter(list: List<SimpleCharacter>) {
         val rv: RecyclerView = binding.rvItems
         rv.adapter = HomeAdapter(list) { character ->
-            showSnackbar(rv, character.name) // viewModel.onItemClicked() ?
+            viewModel.onItemClicked(character.name)
         }
     }
 
@@ -78,6 +78,7 @@ class HomeFragment : BaseFragment<HomeScreenState<*>, Command, HomeViewModel>(
     }
 
     companion object {
+        @Suppress("unused")
         private const val TAG = "TAG"
     }
 }
