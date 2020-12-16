@@ -31,7 +31,6 @@ class HomeFragment : BaseFragment<HomeScreenState<*>, Command, HomeViewModel>(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        Log.d(TAG, "onViewCreated: view created")
         initAdapter()
         initRetryButton()
     }
@@ -50,8 +49,7 @@ class HomeFragment : BaseFragment<HomeScreenState<*>, Command, HomeViewModel>(
     }
 
     override fun executeCommand(command: Command) {
-        if (command is ShowSnackbar) {// && viewModel.model.isSnackbarActionRequired.value == true) { again the problem with double appearance of msg
-            Log.e("TAG", "executeCommand: inside HomeFragment")
+        if (command is ShowSnackbar) {
             showSnackbar(binding.root, getString(R.string.check_internet_connection_message))
         }
     }
@@ -63,25 +61,12 @@ class HomeFragment : BaseFragment<HomeScreenState<*>, Command, HomeViewModel>(
         }
     }
 
-//    private fun subscribeToSnackbarObservable() {
-//        viewModel.snackbarMessage.observe(viewLifecycleOwner) {
-//            if (it == true) {
-//                showSnackbar(
-//                    binding.fragmentHomeLayout,
-//                    getString(R.string.check_internet_connection_message)
-//                )
-//            }
-//        }
-//    }
-
-    // через vm вызов снекбара сделать.
+    // через vm вызов снекбара сделать. UPD: how to send character.name to command execution ?
     private fun setAdapter(list: List<SimpleCharacter>) {
         val rv: RecyclerView = binding.rvItems
-        Log.d(TAG, "setAdapter: inside adapter")
         rv.adapter = HomeAdapter(list) { character ->
             showSnackbar(rv, character.name) // viewModel.onItemClicked() ?
         }
-        Log.d(TAG, "setAdapter: list = $list inside adapter")
     }
 
     private fun showSnackbar(view: View, message: String) {

@@ -6,8 +6,6 @@ import com.llama.rick_and_morty_mvvm.data.RepositoryImpl
 import com.llama.rick_and_morty_mvvm.data.network.ApiService
 import com.llama.rick_and_morty_mvvm.data.network.ApiServiceBuilder
 import com.llama.rick_and_morty_mvvm.domain.model.SimpleCharacter
-import com.llama.rick_and_morty_mvvm.domain.utils.SingleEventLiveData
-import com.llama.rick_and_morty_mvvm.ui.base.ClickButton
 import com.llama.rick_and_morty_mvvm.ui.base.HomeScreenState
 import com.llama.rick_and_morty_mvvm.ui.base.ShowSnackbar
 import com.llama.rick_and_morty_mvvm.ui.viewmodel.HomeViewModelFactory
@@ -19,8 +17,7 @@ class App : Application() {
         HomeScreenState<List<SimpleCharacter>>(
             MutableLiveData(),
             MutableLiveData(),
-            MutableLiveData(),
-            SingleEventLiveData()
+            MutableLiveData()
         )
     }
     private val snackbarCommand: ShowSnackbar by lazy { ShowSnackbar("") }

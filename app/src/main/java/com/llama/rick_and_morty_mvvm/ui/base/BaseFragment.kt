@@ -1,7 +1,6 @@
 package com.llama.rick_and_morty_mvvm.ui.base
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -13,7 +12,7 @@ import com.llama.rick_and_morty_mvvm.R
 abstract class BaseFragment<
         ScreenState : RefreshableScreenState<*>,
         SupportedCommandType : Command,
-        ViewModel : BaseViewModel<ScreenState, SupportedCommandType>>( // why name the `BaseViewModel` as `RefreshableViewModel` ?
+        ViewModel : BaseViewModel<ScreenState, SupportedCommandType>>(
     viewModelClass: Class<ViewModel>
 ) : Fragment() {
 
@@ -25,8 +24,6 @@ abstract class BaseFragment<
         super.onViewCreated(view, savedInstanceState)
 
         subscribeToViewModelObservables()
-        renderView(viewModel.model)
-        executeCommand(viewModel.commandsLiveData.value ?: return)
     }
 
     private fun subscribeToViewModelObservables() {
@@ -40,7 +37,6 @@ abstract class BaseFragment<
     protected abstract fun renderView(model: ScreenState)
 
     protected open fun executeCommand(command: SupportedCommandType) {
-        Log.e("TAG", "executeCommand: inside BaseFragment")
         showUnderDevelopmentMessage()
     }
 

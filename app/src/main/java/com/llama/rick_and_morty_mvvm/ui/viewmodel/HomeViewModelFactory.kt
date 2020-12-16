@@ -3,14 +3,13 @@ package com.llama.rick_and_morty_mvvm.ui.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.llama.rick_and_morty_mvvm.data.RepositoryImpl
-import com.llama.rick_and_morty_mvvm.ui.base.ClickButton
 import com.llama.rick_and_morty_mvvm.ui.base.HomeScreenState
 import com.llama.rick_and_morty_mvvm.ui.base.ShowSnackbar
 
 class HomeViewModelFactory(
-        private val repository: RepositoryImpl,
-        private val model: HomeScreenState<*>,
-        private val snackbarCommand: ShowSnackbar
+    private val repository: RepositoryImpl,
+    private val model: HomeScreenState<*>,
+    private val snackbarCommand: ShowSnackbar
 ) : ViewModelProvider.Factory {
 
     @Suppress("UNCHECKED_CAST")

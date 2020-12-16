@@ -17,7 +17,6 @@ class HomeViewModel(
             Command>(model) {
 
     init {
-        Log.d(TAG, "viewModel: init: loadCharacters()")
         loadCharacters()
     }
 
@@ -27,14 +26,12 @@ class HomeViewModel(
         dataListState: MutableLiveData<List<SimpleCharacter>> = screenState.dataList,
         errorLayoutVisibilityState: MutableLiveData<Boolean> = screenState.errorLayoutVisibility,
         progressBarVisibilityState: MutableLiveData<Boolean> = screenState.progressBarVisibility,
-        isSnackbarActionRequiredState: MutableLiveData<Boolean> = screenState.isSnackbarActionRequired,
         shouldRefreshView: Boolean = true
     ) {
         this.model = HomeScreenState<List<SimpleCharacter>>(
             dataListState,
             errorLayoutVisibilityState,
-            progressBarVisibilityState,
-            isSnackbarActionRequiredState
+            progressBarVisibilityState
         )
         if (shouldRefreshView) {
             Log.d(TAG, "updateScreenState: refreshing view")
@@ -44,25 +41,21 @@ class HomeViewModel(
 
     fun onButtonRetryClicked() {
         loadCharacters()
-        if (model.isSnackbarActionRequired.value == true) {
-            Log.e("TAG", "onButtonRetryClicked: before executeCommand(snackbarCommand) called")
-            executeCommand(snackbarCommand)
-        }
     }
 
-    // страшный копипаст код. Где бы один раз вызывать updateScreenState() ?
+    // страшный копипаст код. Где бы один раз вызвать updateScreenState() ?
     private fun loadCharacters() {
         setLoadingState()
 
         repository.getCharacters(object : Resource {
             override fun onError() {
                 setErrorState()
+                executeCommand(snackbarCommand)
                 updateScreenState(
                     model,
                     model.dataList,
                     model.errorLayoutVisibility,
                     model.progressBarVisibility,
-                    model.isSnackbarActionRequired,
                     true
                 )
             }
@@ -75,7 +68,6 @@ class HomeViewModel(
                     model.dataList,
                     model.errorLayoutVisibility,
                     model.progressBarVisibility,
-                    model.isSnackbarActionRequired,
                     true
                 )
             }
@@ -83,15 +75,11 @@ class HomeViewModel(
     }
 
     private fun setErrorState() {
-        Log.d(TAG, "setErrorState: inside")
-        model.isSnackbarActionRequired.value = true
         model.errorLayoutVisibility.value = true
         model.progressBarVisibility.value = false
     }
 
     private fun setSuccessState() {
-        Log.d(TAG, "setSuccessState: inside")
-        model.isSnackbarActionRequired.value = false
         model.progressBarVisibility.value = false
         model.errorLayoutVisibility.value = false
     }
