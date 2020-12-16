@@ -54,8 +54,8 @@ class HomeViewModel(
     }
 
     /**
-     * [msg] - info message for a user
-     *         fires in case of no internet connection
+     * [msg] - info message for a user.
+     *         Fires in case of no internet connection
      * */
     private fun loadCharacters(msg: String) {
         updateScreenState(
@@ -64,7 +64,7 @@ class HomeViewModel(
             errorLayoutVisibilityState = false,
             progressBarVisibilityState = true,
             shouldRefreshView = true
-        )
+        ) // this is so fast in no internet connection case, that it looks like a glitch
 
         repository.getCharacters(object : Resource {
             override fun onError() {
