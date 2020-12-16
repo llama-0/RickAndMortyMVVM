@@ -5,12 +5,13 @@ import androidx.lifecycle.MutableLiveData
 import com.llama.rick_and_morty_mvvm.data.RepositoryImpl
 import com.llama.rick_and_morty_mvvm.data.network.Resource
 import com.llama.rick_and_morty_mvvm.domain.model.SimpleCharacter
-import com.llama.rick_and_morty_mvvm.domain.utils.SingleEventLiveData
-import com.llama.rick_and_morty_mvvm.ui.base.BaseViewModel
-import com.llama.rick_and_morty_mvvm.ui.base.Command
-import com.llama.rick_and_morty_mvvm.ui.base.HomeScreenState
+import com.llama.rick_and_morty_mvvm.ui.base.*
 
-class HomeViewModel(private val repository: RepositoryImpl, model: HomeScreenState<*>) :
+class HomeViewModel(
+    private val repository: RepositoryImpl,
+    model: HomeScreenState<*>,
+    private var snackbarCommand: ShowSnackbar
+) :
     BaseViewModel<
             HomeScreenState<*>,
             Command>(model) {
@@ -20,35 +21,36 @@ class HomeViewModel(private val repository: RepositoryImpl, model: HomeScreenSta
         loadCharacters()
     }
 
-    private val command: MutableLiveData<Command> = SingleEventLiveData() // ?
-
     // пока что получается, что shouldRefreshView == true всегда
     private fun updateScreenState(
         screenState: HomeScreenState<*> = this.model,
         dataListState: MutableLiveData<List<SimpleCharacter>> = screenState.dataList,
         errorLayoutVisibilityState: MutableLiveData<Boolean> = screenState.errorLayoutVisibility,
         progressBarVisibilityState: MutableLiveData<Boolean> = screenState.progressBarVisibility,
+        isSnackbarActionRequiredState: MutableLiveData<Boolean> = screenState.isSnackbarActionRequired,
         shouldRefreshView: Boolean = true
     ) {
         this.model = HomeScreenState<List<SimpleCharacter>>(
             dataListState,
             errorLayoutVisibilityState,
-            progressBarVisibilityState
+            progressBarVisibilityState,
+            isSnackbarActionRequiredState
         )
         if (shouldRefreshView) {
-            Log.e(TAG, "updateScreenState: refreshing view")
+            Log.d(TAG, "updateScreenState: refreshing view")
             refreshView()
         }
     }
 
-    //
-//    fun onButtonRetryClicked() {
-//        loadCharacters()
-//        uiModel.isRetryButtonClicked.value = true
-//    }
-//
+    fun onButtonRetryClicked() {
+        loadCharacters()
+        if (model.isSnackbarActionRequired.value == true) {
+            Log.e("TAG", "onButtonRetryClicked: before executeCommand(snackbarCommand) called")
+            executeCommand(snackbarCommand)
+        }
+    }
 
-    // страшный копипаст код. Логичнее казалось вызывать updateScreenState() после loadCharacters() один раз
+    // страшный копипаст код. Где бы один раз вызывать updateScreenState() ?
     private fun loadCharacters() {
         setLoadingState()
 
@@ -60,6 +62,7 @@ class HomeViewModel(private val repository: RepositoryImpl, model: HomeScreenSta
                     model.dataList,
                     model.errorLayoutVisibility,
                     model.progressBarVisibility,
+                    model.isSnackbarActionRequired,
                     true
                 )
             }
@@ -72,6 +75,7 @@ class HomeViewModel(private val repository: RepositoryImpl, model: HomeScreenSta
                     model.dataList,
                     model.errorLayoutVisibility,
                     model.progressBarVisibility,
+                    model.isSnackbarActionRequired,
                     true
                 )
             }
@@ -79,18 +83,15 @@ class HomeViewModel(private val repository: RepositoryImpl, model: HomeScreenSta
     }
 
     private fun setErrorState() {
-//        Log.e(TAG, "setErrorState: inside")
-//        if (uiModel.isRetryButtonClicked.value == true) {
-//            uiModel.snackbarAction.value = true
-//        }
+        Log.d(TAG, "setErrorState: inside")
+        model.isSnackbarActionRequired.value = true
         model.errorLayoutVisibility.value = true
         model.progressBarVisibility.value = false
     }
 
     private fun setSuccessState() {
-//        Log.e(TAG, "setSuccessState: inside")
-//        uiModel.isRetryButtonClicked.value = false
-//        uiModel.snackbarAction.value = false
+        Log.d(TAG, "setSuccessState: inside")
+        model.isSnackbarActionRequired.value = false
         model.progressBarVisibility.value = false
         model.errorLayoutVisibility.value = false
     }

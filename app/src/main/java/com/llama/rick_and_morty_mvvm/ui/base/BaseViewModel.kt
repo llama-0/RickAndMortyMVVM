@@ -1,5 +1,6 @@
 package com.llama.rick_and_morty_mvvm.ui.base
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -21,6 +22,7 @@ abstract class BaseViewModel<
     // protected may cause "Kotlin: Cannot access 'executeCommand': it is protected"
     // in child classes
     protected fun executeCommand(command: SupportedCommandType) {
+        Log.e("TAG", "executeCommand: inside BaseViewModel")
         commandsMutableLiveData.value = command
     }
 

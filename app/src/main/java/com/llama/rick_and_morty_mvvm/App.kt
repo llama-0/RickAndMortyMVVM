@@ -6,23 +6,29 @@ import com.llama.rick_and_morty_mvvm.data.RepositoryImpl
 import com.llama.rick_and_morty_mvvm.data.network.ApiService
 import com.llama.rick_and_morty_mvvm.data.network.ApiServiceBuilder
 import com.llama.rick_and_morty_mvvm.domain.model.SimpleCharacter
+import com.llama.rick_and_morty_mvvm.domain.utils.SingleEventLiveData
+import com.llama.rick_and_morty_mvvm.ui.base.ClickButton
 import com.llama.rick_and_morty_mvvm.ui.base.HomeScreenState
+import com.llama.rick_and_morty_mvvm.ui.base.ShowSnackbar
 import com.llama.rick_and_morty_mvvm.ui.viewmodel.HomeViewModelFactory
 
 class App : Application() {
 
     private val apiService: ApiService by lazy { ApiServiceBuilder(url).buildService() }
-    val model: HomeScreenState<*> by lazy {
+    private val model: HomeScreenState<*> by lazy {
         HomeScreenState<List<SimpleCharacter>>(
             MutableLiveData(),
             MutableLiveData(),
-            MutableLiveData()
+            MutableLiveData(),
+            SingleEventLiveData()
         )
     }
+    private val snackbarCommand: ShowSnackbar by lazy { ShowSnackbar("") }
     val factory: HomeViewModelFactory by lazy {
         HomeViewModelFactory(
             RepositoryImpl(apiService),
-            model
+            model,
+            snackbarCommand
         )
     }
 

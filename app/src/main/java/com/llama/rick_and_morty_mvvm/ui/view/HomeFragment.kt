@@ -8,11 +8,10 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
+import com.llama.rick_and_morty_mvvm.R
 import com.llama.rick_and_morty_mvvm.databinding.FragmentHomeBinding
 import com.llama.rick_and_morty_mvvm.domain.model.SimpleCharacter
-import com.llama.rick_and_morty_mvvm.ui.base.BaseFragment
-import com.llama.rick_and_morty_mvvm.ui.base.Command
-import com.llama.rick_and_morty_mvvm.ui.base.HomeScreenState
+import com.llama.rick_and_morty_mvvm.ui.base.*
 import com.llama.rick_and_morty_mvvm.ui.viewmodel.HomeViewModel
 
 class HomeFragment : BaseFragment<HomeScreenState<*>, Command, HomeViewModel>(
@@ -50,11 +49,17 @@ class HomeFragment : BaseFragment<HomeScreenState<*>, Command, HomeViewModel>(
         setAdapter(model.dataList.value ?: return)
     }
 
+    override fun executeCommand(command: Command) {
+        if (command is ShowSnackbar) {// && viewModel.model.isSnackbarActionRequired.value == true) { again the problem with double appearance of msg
+            Log.e("TAG", "executeCommand: inside HomeFragment")
+            showSnackbar(binding.root, getString(R.string.check_internet_connection_message))
+        }
+    }
+
     private fun initRetryButton() {
         binding.includedErrorLayout.btnRetry.setOnClickListener {
             Log.d(TAG, "initRetryButton: on Click")
-//            viewModel.onButtonRetryClicked()
-//            subscribeToSnackbarObservable()
+            viewModel.onButtonRetryClicked()
         }
     }
 
@@ -72,11 +77,11 @@ class HomeFragment : BaseFragment<HomeScreenState<*>, Command, HomeViewModel>(
     // через vm вызов снекбара сделать.
     private fun setAdapter(list: List<SimpleCharacter>) {
         val rv: RecyclerView = binding.rvItems
-        Log.e(TAG, "setAdapter: inside adapter")
+        Log.d(TAG, "setAdapter: inside adapter")
         rv.adapter = HomeAdapter(list) { character ->
             showSnackbar(rv, character.name) // viewModel.onItemClicked() ?
         }
-        Log.e(TAG, "setAdapter: list = $list inside adapter")
+        Log.d(TAG, "setAdapter: list = $list inside adapter")
     }
 
     private fun showSnackbar(view: View, message: String) {
