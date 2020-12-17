@@ -16,7 +16,7 @@ import com.llama.rick_and_morty_mvvm.ui.utils.HomeScreenState
 import com.llama.rick_and_morty_mvvm.ui.utils.ShowSnackbar
 import com.llama.rick_and_morty_mvvm.ui.viewmodel.HomeViewModel
 
-class HomeFragment : BaseFragment<HomeScreenState<*>, Command, HomeViewModel>(
+class HomeFragment : BaseFragment<HomeScreenState, Command, HomeViewModel>(
     HomeViewModel::class.java
 ) {
     private lateinit var binding: FragmentHomeBinding
@@ -42,7 +42,7 @@ class HomeFragment : BaseFragment<HomeScreenState<*>, Command, HomeViewModel>(
         list?.let { setAdapter(it) }
     }
 
-    override fun renderView(model: HomeScreenState<*>) {
+    override fun renderView(model: HomeScreenState) {
         binding.includedLoadingLayout.progressBarLayout.isVisible =
             model.progressBarVisibility
         binding.includedErrorLayout.internetErrorLayout.isVisible =

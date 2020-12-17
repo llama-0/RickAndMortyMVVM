@@ -1,11 +1,6 @@
 package com.llama.rick_and_morty_mvvm.ui.viewmodel
 
-import android.content.res.Resources
-import android.content.res.loader.ResourcesProvider
-import android.provider.Settings.Global.getString
 import android.util.Log
-import androidx.core.content.res.ResourcesCompat
-import com.llama.rick_and_morty_mvvm.R
 import com.llama.rick_and_morty_mvvm.data.RepositoryImpl
 import com.llama.rick_and_morty_mvvm.data.network.Resource
 import com.llama.rick_and_morty_mvvm.domain.model.SimpleCharacter
@@ -16,10 +11,10 @@ import com.llama.rick_and_morty_mvvm.ui.utils.ShowSnackbar
 
 class HomeViewModel(
     private val repository: RepositoryImpl,
-    model: HomeScreenState<*>
+    model: HomeScreenState
 ) :
     BaseViewModel<
-            HomeScreenState<*>,
+            HomeScreenState,
             Command>(model) {
 
     init {
@@ -28,13 +23,13 @@ class HomeViewModel(
 
     // пока что получается, что shouldRefreshView == true всегда
     private fun updateScreenState(
-        screenState: HomeScreenState<*> = this.model,
+        screenState: HomeScreenState = this.model,
         dataListState: List<SimpleCharacter> = screenState.dataList,
         errorLayoutVisibilityState: Boolean = screenState.errorLayoutVisibility,
         progressBarVisibilityState: Boolean = screenState.progressBarVisibility,
         shouldRefreshView: Boolean = true
     ) {
-        this.model = HomeScreenState<List<SimpleCharacter>>(
+        this.model = HomeScreenState(
             dataListState,
             errorLayoutVisibilityState,
             progressBarVisibilityState

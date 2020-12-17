@@ -7,7 +7,7 @@ import com.llama.rick_and_morty_mvvm.ui.utils.HomeScreenState
 
 class HomeViewModelFactory(
     private val repository: RepositoryImpl,
-    private val model: HomeScreenState<*>
+    private val model: HomeScreenState
 ) : ViewModelProvider.Factory {
 
     @Suppress("UNCHECKED_CAST")

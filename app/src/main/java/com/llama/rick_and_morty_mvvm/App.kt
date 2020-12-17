@@ -11,8 +11,8 @@ import com.llama.rick_and_morty_mvvm.ui.viewmodel.HomeViewModelFactory
 class App : Application() {
 
     private val apiService: ApiService by lazy { ApiServiceBuilder(url).buildService() }
-    private val model: HomeScreenState<*> by lazy {
-        HomeScreenState<List<SimpleCharacter>>(
+    private val model: HomeScreenState by lazy {
+        HomeScreenState(
             emptyList(),
             errorLayoutVisibility = false,
             progressBarVisibility = false

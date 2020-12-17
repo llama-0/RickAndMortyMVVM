@@ -3,14 +3,14 @@ package com.llama.rick_and_morty_mvvm.ui.base
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.llama.rick_and_morty_mvvm.ui.utils.BaseScreenState
 import com.llama.rick_and_morty_mvvm.ui.utils.Command
-import com.llama.rick_and_morty_mvvm.ui.utils.RefreshableScreenState
 import com.llama.rick_and_morty_mvvm.ui.utils.SingleEventLiveData
 
 abstract class BaseViewModel<
-        ScreenState : RefreshableScreenState<*>,
+        ScreenState : BaseScreenState,
         SupportedCommandType : Command>(
-    var model: ScreenState
+    protected var model: ScreenState
 ) : ViewModel() {
 
     private val modelUpdateEvent = MutableLiveData<ScreenState>()

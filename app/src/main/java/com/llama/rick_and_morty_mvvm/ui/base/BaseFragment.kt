@@ -8,11 +8,11 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
 import com.llama.rick_and_morty_mvvm.App
 import com.llama.rick_and_morty_mvvm.R
+import com.llama.rick_and_morty_mvvm.ui.utils.BaseScreenState
 import com.llama.rick_and_morty_mvvm.ui.utils.Command
-import com.llama.rick_and_morty_mvvm.ui.utils.RefreshableScreenState
 
 abstract class BaseFragment<
-        ScreenState : RefreshableScreenState<*>,
+        ScreenState : BaseScreenState,
         SupportedCommandType : Command,
         ViewModel : BaseViewModel<ScreenState, SupportedCommandType>>(
     viewModelClass: Class<ViewModel>
