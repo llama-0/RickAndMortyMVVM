@@ -12,7 +12,7 @@ import javax.net.ssl.TrustManager
 import javax.net.ssl.X509TrustManager
 
 /*
-* If there is no problem with certificates use the usual OkHttpClient
+* If there is No problem with certificates use the usual OkHttpClient
 * */
 
 class ApiServiceBuilder(url: String) {

@@ -24,7 +24,6 @@ class CharactersViewModel(
         loadCharacters()
     }
 
-    // пока что получается, что shouldRefreshView == true всегда
     private fun updateScreenState(
         screenState: CharactersScreenState = this.screenState,
         dataListState: List<SimpleCharacter> = screenState.dataList,
@@ -47,15 +46,7 @@ class CharactersViewModel(
 
     fun onButtonRetryClicked() {
         loadCharacters()
-        updateScreenState(
-            screenState,
-            screenState.dataList,
-            screenState.errorLayoutVisibility,
-            screenState.progressBarVisibility,
-            isBtnRetryClicked = true,
-            shouldRefreshView = true
-        )
-        Log.e(TAG, "onButtonRetryClicked: btn clicked")
+        updateScreenState(isBtnRetryClicked = true)
     }
 
     fun onItemClicked(name: String) {
@@ -63,13 +54,7 @@ class CharactersViewModel(
     }
 
     private fun loadCharacters() {
-        updateScreenState(
-            screenState,
-            screenState.dataList,
-            errorLayoutVisibilityState = false,
-            progressBarVisibilityState = true,
-            shouldRefreshView = true
-        ) // this is so fast in no internet connection case, that it looks like a glitch
+        updateScreenState(progressBarVisibilityState = true)
 
         repository.getCharacters(object : FetchRemoteDataCallback {
             override fun onError() {
@@ -77,11 +62,8 @@ class CharactersViewModel(
                     executeCommand(ShowSnackbar(resources.getString(R.string.check_internet_connection_message)))
                 }
                 updateScreenState(
-                    screenState,
-                    screenState.dataList,
                     errorLayoutVisibilityState = true,
-                    progressBarVisibilityState = false,
-                    shouldRefreshView = true
+                    progressBarVisibilityState = false
                 )
             }
 
@@ -90,8 +72,7 @@ class CharactersViewModel(
                     screenState,
                     data,
                     errorLayoutVisibilityState = false,
-                    progressBarVisibilityState = false,
-                    shouldRefreshView = true
+                    progressBarVisibilityState = false
                 )
             }
         })

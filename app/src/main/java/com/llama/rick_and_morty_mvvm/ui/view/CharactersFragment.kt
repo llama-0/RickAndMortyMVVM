@@ -42,7 +42,7 @@ class CharactersFragment : BaseFragment<CharactersScreenState, Command, Characte
 
     override fun renderView(screenState: CharactersScreenState) {
         with(binding) {
-            includedLoadingLayout.progressBarLayout.isVisible =
+            pbLoading.isVisible =
                 screenState.progressBarVisibility
             includedErrorLayout.internetErrorLayout.isVisible =
                 screenState.errorLayoutVisibility
@@ -58,7 +58,7 @@ class CharactersFragment : BaseFragment<CharactersScreenState, Command, Characte
 
     private fun initRetryButton() {
         binding.includedErrorLayout.btnRetry.setOnClickListener {
-            viewModel.onButtonRetryClicked() // (getString(R.string.check_internet_connection_message))
+            viewModel.onButtonRetryClicked()
         }
     }
 

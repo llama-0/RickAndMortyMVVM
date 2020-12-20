@@ -8,5 +8,5 @@ class CharactersScreenState(
     val dataList: List<SimpleCharacter>,
     val errorLayoutVisibility: Boolean,
     val progressBarVisibility: Boolean,
-    val isBtnRetryClicked: Boolean // works OK, but last time resources were not ready ¯\_(ツ)_/¯
+    val isBtnRetryClicked: Boolean
 ) : BaseScreenState
