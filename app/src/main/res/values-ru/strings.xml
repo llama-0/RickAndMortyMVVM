@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Персонажи</string>
+    <string name="no_internet_connection">Интернет соединие отсутсвует</string>
+    <string name="check_internet_connection_message">Пожалуйста, проверьте наличие интернет соединения</string>
+    <string name="btn_name_retry">Повторить загрузку</string>
+    <string name="under_development">В разработке</string>
+</resources>

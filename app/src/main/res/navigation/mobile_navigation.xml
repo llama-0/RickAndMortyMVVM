@@ -7,8 +7,8 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.llama.rick_and_morty_mvvm.ui.view.HomeFragment"
+        android:name="com.llama.rick_and_morty_mvvm.ui.view.CharactersFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_characters" />
 
 </navigation>

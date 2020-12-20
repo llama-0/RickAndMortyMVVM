@@ -1,5 +1,6 @@
 package com.llama.rick_and_morty_mvvm.ui.base
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -8,18 +9,24 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
 import com.llama.rick_and_morty_mvvm.App
 import com.llama.rick_and_morty_mvvm.R
-import com.llama.rick_and_morty_mvvm.ui.utils.BaseScreenState
-import com.llama.rick_and_morty_mvvm.ui.utils.Command
+import com.llama.rick_and_morty_mvvm.ui.command.Command
 
 abstract class BaseFragment<
         ScreenState : BaseScreenState,
-        SupportedCommandType : Command,
-        ViewModel : BaseViewModel<ScreenState, SupportedCommandType>>(
+        CommandType : Command,
+        ViewModel : BaseViewModel<ScreenState, CommandType>>(
     viewModelClass: Class<ViewModel>
 ) : Fragment() {
 
+    private lateinit var app: App
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        app = requireContext().applicationContext as App
+    }
+
     protected open val viewModel: ViewModel by lazy {
-        ViewModelProvider(this, App().factory).get(viewModelClass)
+        ViewModelProvider(this, app.factory).get(viewModelClass)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -30,20 +37,27 @@ abstract class BaseFragment<
 
     private fun subscribeToViewModelObservables() {
         val modelObserver = Observer(this::renderView)
-        viewModel.modelUpdate.observe(viewLifecycleOwner, modelObserver)
+        viewModel.screenStateLiveData.observe(viewLifecycleOwner, modelObserver)
         val commandObserver = Observer(this::executeCommand)
         viewModel.commandsLiveData.observe(viewLifecycleOwner, commandObserver)
 
     }
 
-    protected abstract fun renderView(model: ScreenState)
+    protected abstract fun renderView(screenState: ScreenState)
 
-    protected open fun executeCommand(command: SupportedCommandType) {
+    protected open fun executeCommand(command: CommandType) {
         showUnderDevelopmentMessage()
     }
 
+    protected fun showSnackbar(view: View, message: String) {
+        Snackbar.make(
+            view,
+            message,
+            Snackbar.LENGTH_SHORT
+        ).show()
+    }
+
     private fun showUnderDevelopmentMessage() {
-        Snackbar.make(requireView(), getString(R.string.under_development), Snackbar.LENGTH_SHORT)
-            .show()
+        showSnackbar(requireView(), getString(R.string.under_development))
     }
 }

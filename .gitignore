@@ -3,3 +3,4 @@
 /.idea/
 /app/build/
 /app/build/intermediates/javac/debug/classes/
+local.properties

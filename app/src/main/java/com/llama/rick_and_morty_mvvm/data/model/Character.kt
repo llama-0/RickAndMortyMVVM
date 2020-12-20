@@ -1,5 +1,7 @@
 package com.llama.rick_and_morty_mvvm.data.model
 
+
+// todo: decide what fields I need, remove others
 class Character(
     val created: String,
     val episode: List<String>,

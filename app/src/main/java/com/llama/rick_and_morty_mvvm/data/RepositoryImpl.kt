@@ -1,23 +1,24 @@
 package com.llama.rick_and_morty_mvvm.data
 
+import android.util.Log
 import com.llama.rick_and_morty_mvvm.data.model.Character
 import com.llama.rick_and_morty_mvvm.data.model.CharactersInfo
 import com.llama.rick_and_morty_mvvm.data.network.ApiService
-import com.llama.rick_and_morty_mvvm.data.network.Resource
-import com.llama.rick_and_morty_mvvm.data.utils.ModelMapper
+import com.llama.rick_and_morty_mvvm.data.network.FetchRemoteDataCallback
+import com.llama.rick_and_morty_mvvm.data.utils.CharactersMapper
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class RepositoryImpl(private val apiService: ApiService) : Repository {
 
-    private val modelMapper = ModelMapper()
+    private val charactersMapper = CharactersMapper()
 
-    override fun getCharacters(resource: Resource) {
+    override fun getCharacters(resource: FetchRemoteDataCallback) {
         apiService.getCharactersInfo().enqueue(object : Callback<CharactersInfo> {
             override fun onFailure(call: Call<CharactersInfo>, t: Throwable) {
+                Log.e(REPOSITORY_IMPL_TAG, "onFailure: getCharacters from remote failed", t)
                 resource.onError()
-                // networkException (or unknown)
             }
 
             override fun onResponse(
@@ -26,18 +27,20 @@ class RepositoryImpl(private val apiService: ApiService) : Repository {
             ) {
                 if (response.isSuccessful) {
                     val characterList: List<Character>? = response.body()?.characters
-                    resource.onSuccess(
-                        modelMapper.mapSimpleCharacterList(
-                            characterList ?: emptyList()
-                        ) {
-                            modelMapper.mapSimpleCharacter(it)
-                        })
+                    resource.onSuccess(charactersMapper.map(characterList))
                 } else {
+                    Log.e(
+                        REPOSITORY_IMPL_TAG,
+                        "onResponse: unsuccessful response",
+                        Exception(response.errorBody().toString())
+                    )
                     resource.onError()
-//                    resource.onError(Throwable("response isNotSuccessful, data is null"))
-                    // parse error body to determine apiError or unknownError
                 }
             }
         })
+    }
+
+    companion object {
+        private const val REPOSITORY_IMPL_TAG = "REPOSITORY_IMPL"
     }
 }

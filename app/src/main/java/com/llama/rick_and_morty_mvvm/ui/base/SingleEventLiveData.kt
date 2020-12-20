@@ -1,4 +1,4 @@
-package com.llama.rick_and_morty_mvvm.ui.utils
+package com.llama.rick_and_morty_mvvm.ui.base
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData

@@ -4,24 +4,27 @@ import android.app.Application
 import com.llama.rick_and_morty_mvvm.data.RepositoryImpl
 import com.llama.rick_and_morty_mvvm.data.network.ApiService
 import com.llama.rick_and_morty_mvvm.data.network.ApiServiceBuilder
-import com.llama.rick_and_morty_mvvm.domain.model.SimpleCharacter
-import com.llama.rick_and_morty_mvvm.ui.utils.HomeScreenState
-import com.llama.rick_and_morty_mvvm.ui.viewmodel.HomeViewModelFactory
+import com.llama.rick_and_morty_mvvm.ui.view.CharactersScreenState
+import com.llama.rick_and_morty_mvvm.ui.viewmodel.CharactersViewModelFactory
 
 class App : Application() {
 
+    private lateinit var url: String
+
     private val apiService: ApiService by lazy { ApiServiceBuilder(url).buildService() }
-    private val model: HomeScreenState by lazy {
-        HomeScreenState(
+    private val screenState: CharactersScreenState by lazy {
+        CharactersScreenState(
             emptyList(),
             errorLayoutVisibility = false,
-            progressBarVisibility = false
+            progressBarVisibility = false,
+            isBtnRetryClicked = false
         )
     }
-    val factory: HomeViewModelFactory by lazy {
-        HomeViewModelFactory(
+    val factory: CharactersViewModelFactory by lazy {
+        CharactersViewModelFactory(
             RepositoryImpl(apiService),
-            model
+            screenState,
+            resources
         )
     }
 
@@ -29,11 +32,6 @@ class App : Application() {
         super.onCreate()
 
         url = getString(R.string.base_url)
-    }
-
-    companion object {
-        lateinit var url: String
-            private set
     }
 
 }

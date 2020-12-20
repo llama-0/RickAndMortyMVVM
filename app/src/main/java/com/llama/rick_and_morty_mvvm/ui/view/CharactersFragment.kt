@@ -6,27 +6,25 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.snackbar.Snackbar
 import com.llama.rick_and_morty_mvvm.R
-import com.llama.rick_and_morty_mvvm.databinding.FragmentHomeBinding
+import com.llama.rick_and_morty_mvvm.databinding.FragmentCharactersBinding
 import com.llama.rick_and_morty_mvvm.domain.model.SimpleCharacter
 import com.llama.rick_and_morty_mvvm.ui.base.BaseFragment
-import com.llama.rick_and_morty_mvvm.ui.utils.Command
-import com.llama.rick_and_morty_mvvm.ui.utils.HomeScreenState
-import com.llama.rick_and_morty_mvvm.ui.utils.ShowSnackbar
-import com.llama.rick_and_morty_mvvm.ui.viewmodel.HomeViewModel
+import com.llama.rick_and_morty_mvvm.ui.command.Command
+import com.llama.rick_and_morty_mvvm.ui.command.Command.ShowSnackbar
+import com.llama.rick_and_morty_mvvm.ui.viewmodel.CharactersViewModel
 
-class HomeFragment : BaseFragment<HomeScreenState, Command, HomeViewModel>(
-    HomeViewModel::class.java
+class CharactersFragment : BaseFragment<CharactersScreenState, Command, CharactersViewModel>(
+    CharactersViewModel::class.java
 ) {
-    private lateinit var binding: FragmentHomeBinding
+    private lateinit var binding: FragmentCharactersBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentHomeBinding.inflate(inflater, container, false)
+    ): View {
+        binding = FragmentCharactersBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -38,16 +36,18 @@ class HomeFragment : BaseFragment<HomeScreenState, Command, HomeViewModel>(
     }
 
     private fun initAdapter() {
-        val list: List<SimpleCharacter>? = emptyList()
-        list?.let { setAdapter(it) }
+        val list: List<SimpleCharacter> = emptyList()
+        setAdapter(list)
     }
 
-    override fun renderView(model: HomeScreenState) {
-        binding.includedLoadingLayout.progressBarLayout.isVisible =
-            model.progressBarVisibility
-        binding.includedErrorLayout.internetErrorLayout.isVisible =
-            model.errorLayoutVisibility
-        setAdapter(model.dataList)
+    override fun renderView(screenState: CharactersScreenState) {
+        with(binding) {
+            includedLoadingLayout.progressBarLayout.isVisible =
+                screenState.progressBarVisibility
+            includedErrorLayout.internetErrorLayout.isVisible =
+                screenState.errorLayoutVisibility
+        }
+        setAdapter(screenState.dataList)
     }
 
     override fun executeCommand(command: Command) {
@@ -58,23 +58,15 @@ class HomeFragment : BaseFragment<HomeScreenState, Command, HomeViewModel>(
 
     private fun initRetryButton() {
         binding.includedErrorLayout.btnRetry.setOnClickListener {
-            viewModel.onButtonRetryClicked(getString(R.string.check_internet_connection_message))
+            viewModel.onButtonRetryClicked() // (getString(R.string.check_internet_connection_message))
         }
     }
 
     private fun setAdapter(list: List<SimpleCharacter>) {
         val rv: RecyclerView = binding.rvItems
-        rv.adapter = HomeAdapter(list) { character ->
+        rv.adapter = CharactersAdapter(list) { character ->
             viewModel.onItemClicked(character.name)
         }
-    }
-
-    private fun showSnackbar(view: View, message: String) {
-        Snackbar.make(
-            view,
-            message,
-            Snackbar.LENGTH_SHORT
-        ).show()
     }
 
     companion object {

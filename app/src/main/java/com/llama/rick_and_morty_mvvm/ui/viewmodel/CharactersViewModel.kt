@@ -1,38 +1,43 @@
 package com.llama.rick_and_morty_mvvm.ui.viewmodel
 
+import android.content.res.Resources
 import android.util.Log
+import com.llama.rick_and_morty_mvvm.R
 import com.llama.rick_and_morty_mvvm.data.RepositoryImpl
-import com.llama.rick_and_morty_mvvm.data.network.Resource
+import com.llama.rick_and_morty_mvvm.data.network.FetchRemoteDataCallback
 import com.llama.rick_and_morty_mvvm.domain.model.SimpleCharacter
 import com.llama.rick_and_morty_mvvm.ui.base.BaseViewModel
-import com.llama.rick_and_morty_mvvm.ui.utils.Command
-import com.llama.rick_and_morty_mvvm.ui.utils.HomeScreenState
-import com.llama.rick_and_morty_mvvm.ui.utils.ShowSnackbar
+import com.llama.rick_and_morty_mvvm.ui.command.Command
+import com.llama.rick_and_morty_mvvm.ui.command.Command.ShowSnackbar
+import com.llama.rick_and_morty_mvvm.ui.view.CharactersScreenState
 
-class HomeViewModel(
+class CharactersViewModel(
     private val repository: RepositoryImpl,
-    model: HomeScreenState
+    screenState: CharactersScreenState,
+    private val resources: Resources
 ) :
     BaseViewModel<
-            HomeScreenState,
-            Command>(model) {
+            CharactersScreenState,
+            Command>(screenState) {
 
     init {
-        loadCharacters("")
+        loadCharacters()
     }
 
     // пока что получается, что shouldRefreshView == true всегда
     private fun updateScreenState(
-        screenState: HomeScreenState = this.model,
+        screenState: CharactersScreenState = this.screenState,
         dataListState: List<SimpleCharacter> = screenState.dataList,
         errorLayoutVisibilityState: Boolean = screenState.errorLayoutVisibility,
         progressBarVisibilityState: Boolean = screenState.progressBarVisibility,
+        isBtnRetryClicked: Boolean = screenState.isBtnRetryClicked,
         shouldRefreshView: Boolean = true
     ) {
-        this.model = HomeScreenState(
+        this.screenState = CharactersScreenState(
             dataListState,
             errorLayoutVisibilityState,
-            progressBarVisibilityState
+            progressBarVisibilityState,
+            isBtnRetryClicked
         )
         if (shouldRefreshView) {
             Log.d(TAG, "updateScreenState: refreshing view")
@@ -40,35 +45,40 @@ class HomeViewModel(
         }
     }
 
-    fun onButtonRetryClicked(msg: String) {
-        loadCharacters(msg)
+    fun onButtonRetryClicked() {
+        loadCharacters()
+        updateScreenState(
+            screenState,
+            screenState.dataList,
+            screenState.errorLayoutVisibility,
+            screenState.progressBarVisibility,
+            isBtnRetryClicked = true,
+            shouldRefreshView = true
+        )
+        Log.e(TAG, "onButtonRetryClicked: btn clicked")
     }
 
     fun onItemClicked(name: String) {
         executeCommand(ShowSnackbar(name))
     }
 
-    /**
-     * [msg] - info message for a user.
-     *         Fires in case of no internet connection
-     * */
-    private fun loadCharacters(msg: String) {
+    private fun loadCharacters() {
         updateScreenState(
-            model,
-            model.dataList,
+            screenState,
+            screenState.dataList,
             errorLayoutVisibilityState = false,
             progressBarVisibilityState = true,
             shouldRefreshView = true
         ) // this is so fast in no internet connection case, that it looks like a glitch
 
-        repository.getCharacters(object : Resource {
+        repository.getCharacters(object : FetchRemoteDataCallback {
             override fun onError() {
-                if (msg.isNotEmpty()) {
-                    executeCommand(ShowSnackbar(msg))
+                if (screenState.isBtnRetryClicked) {
+                    executeCommand(ShowSnackbar(resources.getString(R.string.check_internet_connection_message)))
                 }
                 updateScreenState(
-                    model,
-                    model.dataList,
+                    screenState,
+                    screenState.dataList,
                     errorLayoutVisibilityState = true,
                     progressBarVisibilityState = false,
                     shouldRefreshView = true
@@ -77,7 +87,7 @@ class HomeViewModel(
 
             override fun onSuccess(data: List<SimpleCharacter>) {
                 updateScreenState(
-                    model,
+                    screenState,
                     data,
                     errorLayoutVisibilityState = false,
                     progressBarVisibilityState = false,

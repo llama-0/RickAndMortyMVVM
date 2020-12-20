@@ -1,15 +1,14 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
-//    id 'kotlin-android-extensions'
 }
 
 android {
     compileSdkVersion 30
-    buildToolsVersion "30.0.2"
+    buildToolsVersion "30.0.3"
 
     defaultConfig {
-        applicationId "com.example.retrofittest"
+        applicationId "com.llama.rick_and_morty_mvvm"
         minSdkVersion 21
         targetSdkVersion 30
         versionCode 1
@@ -50,20 +49,14 @@ dependencies {
     implementation 'androidx.navigation:navigation-ui-ktx:2.3.2'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.3.2'
-    implementation 'androidx.navigation:navigation-ui-ktx:2.3.2'
-    implementation "androidx.paging:paging-runtime-ktx:2.1.2" //
+//    implementation "androidx.paging:paging-runtime-ktx:2.1.2" // for the future
 
     // Network
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:4.2.1'
 
-    // testing LiveData
     testImplementation 'junit:junit:4.13.1'
-    testImplementation "com.google.truth:truth:0.36" //
-    testImplementation "org.mockito:mockito-core:2.25.0" //
-    testImplementation "android.arch.core:core-testing:1.1.1" //
 
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'

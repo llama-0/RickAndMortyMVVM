@@ -6,13 +6,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.llama.rick_and_morty_mvvm.databinding.ListItemBinding
 import com.llama.rick_and_morty_mvvm.domain.model.SimpleCharacter
 
-class HomeAdapter(
+class CharactersAdapter(
     private val items: List<SimpleCharacter>,
     private val listener: (SimpleCharacter) -> Unit
-) : RecyclerView.Adapter<HomeViewHolder>() {
+) : RecyclerView.Adapter<CharactersViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeViewHolder =
-        HomeViewHolder(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CharactersViewHolder =
+        CharactersViewHolder(
             ListItemBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
@@ -20,7 +20,7 @@ class HomeAdapter(
             )
         )
 
-    override fun onBindViewHolder(holder: HomeViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: CharactersViewHolder, position: Int) {
         val item: SimpleCharacter = items[position]
         bind(holder, item)
         holder.itemView.setOnClickListener {
@@ -28,9 +28,9 @@ class HomeAdapter(
         }
     }
 
-    private fun bind(holder: HomeViewHolder, model: SimpleCharacter) {
-        holder.id.text = model.id.toString()
-        holder.name.text = model.name
+    private fun bind(holder: CharactersViewHolder, model: SimpleCharacter) {
+        holder.tvId.text = model.id.toString()
+        holder.tvName.text = model.name
     }
 
     override fun getItemCount(): Int =

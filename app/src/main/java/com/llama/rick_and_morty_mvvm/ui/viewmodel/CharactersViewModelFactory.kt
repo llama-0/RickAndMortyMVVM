@@ -1,18 +1,20 @@
 package com.llama.rick_and_morty_mvvm.ui.viewmodel
 
+import android.content.res.Resources
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.llama.rick_and_morty_mvvm.data.RepositoryImpl
-import com.llama.rick_and_morty_mvvm.ui.utils.HomeScreenState
+import com.llama.rick_and_morty_mvvm.ui.view.CharactersScreenState
 
-class HomeViewModelFactory(
+class CharactersViewModelFactory(
     private val repository: RepositoryImpl,
-    private val model: HomeScreenState
+    private val screenState: CharactersScreenState,
+    private val resources: Resources
 ) : ViewModelProvider.Factory {
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T = when (modelClass) {
-        HomeViewModel::class.java -> HomeViewModel(repository, model) as T
+        CharactersViewModel::class.java -> CharactersViewModel(repository, screenState, resources) as T
         else -> throw IllegalArgumentException("Unknown ViewModel class inside the factory create method")
     }
 }
