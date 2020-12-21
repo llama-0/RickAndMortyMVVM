@@ -14,6 +14,11 @@ class CharactersMapper {
     private fun mapSimpleCharacter(input: Character): SimpleCharacter =
         SimpleCharacter(
             input.id,
-            input.name
+            input.name,
+            input.gender,
+            input.image,
+            input.status,
+            input.origin.name,
+            input.location.name
         )
 }

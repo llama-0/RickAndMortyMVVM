@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CompoundButton
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.llama.rick_and_morty_mvvm.databinding.FragmentCharactersBinding
@@ -32,6 +33,7 @@ class CharactersFragment : BaseFragment<CharactersScreenState, Command, Characte
 
         initAdapter()
         initRetryButton()
+        selectChips()
     }
 
     private fun initAdapter() {
@@ -44,6 +46,7 @@ class CharactersFragment : BaseFragment<CharactersScreenState, Command, Characte
             pbLoading.isVisible = screenState.progressBarVisibility
             includedErrorLayout.internetErrorLayout.isVisible = screenState.errorLayoutVisibility
             chipGroupGender.isVisible = screenState.chipsGroupVisibility
+            chipFemale.isChecked = screenState.isFemaleChipSelected
         }
         setAdapter(screenState.dataList)
     }
@@ -64,6 +67,13 @@ class CharactersFragment : BaseFragment<CharactersScreenState, Command, Characte
         val rv: RecyclerView = binding.rvItems
         rv.adapter = CharactersAdapter(list) { character ->
             viewModel.onItemClicked(character.name)
+        }
+    }
+
+    private fun selectChips() {
+        val chip = binding.chipFemale
+        chip.setOnClickListener {
+            viewModel.onChipSelected(chip.text.toString())
         }
     }
 

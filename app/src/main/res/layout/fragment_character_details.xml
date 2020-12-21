@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/gridLayoutCharacterDetails"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:columnCount="2"
+    android:rowCount="5"
+    android:orientation="horizontal"
+    android:layout_gravity="center">
+
+    <TextView
+        android:id="@+id/tvNameField"
+        android:layout_gravity="fill"
+        android:layout_columnWeight="1"
+        android:layout_rowWeight="1"
+        android:layout_margin="8dp"
+        android:text="@string/name" />
+
+    <TextView
+        android:id="@+id/tvName"
+        android:layout_gravity="fill"
+        android:layout_columnWeight="1"
+        android:layout_rowWeight="1"
+        android:layout_margin="8dp"
+        tools:textAppearance="@tools:sample/first_names"/>
+
+    <TextView
+        android:id="@+id/tvGenderField"
+        android:layout_gravity="fill"
+        android:layout_columnWeight="1"
+        android:layout_rowWeight="1"
+        android:layout_margin="8dp"
+        android:text="@string/gender" />
+
+    <TextView
+        android:id="@+id/tvGender"
+        android:layout_gravity="fill"
+        android:layout_columnWeight="1"
+        android:layout_rowWeight="1"
+        android:layout_margin="8dp"
+        tools:textAppearance="@tools:sample/lorem"/>
+
+    <TextView
+        android:id="@+id/tvStatusField"
+        android:layout_gravity="fill"
+        android:layout_columnWeight="1"
+        android:layout_rowWeight="1"
+        android:layout_margin="8dp"
+        android:text="@string/status" />
+
+    <TextView
+        android:id="@+id/tvStatus"
+        android:layout_gravity="fill"
+        android:layout_columnWeight="1"
+        android:layout_rowWeight="1"
+        android:layout_margin="8dp"
+        tools:textAppearance="@tools:sample/lorem"/>
+
+    <TextView
+        android:id="@+id/tvImageField"
+        android:layout_gravity="fill"
+        android:layout_columnWeight="1"
+        android:layout_rowWeight="1"
+        android:layout_margin="8dp"
+        android:text="@string/avatar" />
+
+    <TextView
+        android:id="@+id/tvImage"
+        android:layout_gravity="fill"
+        android:layout_columnWeight="1"
+        android:layout_rowWeight="1"
+        android:layout_margin="8dp"
+        android:linksClickable="true"
+        tools:textAppearance="@tools:sample/lorem"/>
+
+    <TextView
+        android:id="@+id/tvFromField"
+        android:layout_gravity="fill"
+        android:layout_columnWeight="1"
+        android:layout_rowWeight="1"
+        android:layout_margin="8dp"
+        android:text="@string/from" />
+
+    <TextView
+        android:id="@+id/tvFrom"
+        android:layout_gravity="fill"
+        android:layout_columnWeight="1"
+        android:layout_rowWeight="1"
+        android:layout_margin="8dp"
+        tools:textAppearance="@tools:sample/lorem"/>
+
+    <TextView
+        android:id="@+id/tvLastSeenInField"
+        android:layout_gravity="fill"
+        android:layout_columnWeight="1"
+        android:layout_rowWeight="1"
+        android:layout_margin="8dp"
+        android:text="@string/last_seen_in" />
+
+    <TextView
+        android:id="@+id/tvLastSeenIn"
+        android:layout_gravity="fill"
+        android:layout_columnWeight="1"
+        android:layout_rowWeight="1"
+        android:layout_margin="8dp"
+        tools:textAppearance="@tools:sample/lorem"/>
+
+
+</GridLayout>

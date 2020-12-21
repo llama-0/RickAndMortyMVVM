@@ -18,7 +18,8 @@ class App : Application() {
             errorLayoutVisibility = false,
             progressBarVisibility = false,
             chipsGroupVisibility = false,
-            isBtnRetryClicked = false
+            isBtnRetryClicked = false,
+            isFemaleChipSelected = false
         )
     }
     val factory: CharactersViewModelFactory by lazy {

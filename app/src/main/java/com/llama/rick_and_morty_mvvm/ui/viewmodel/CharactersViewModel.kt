@@ -5,6 +5,7 @@ import android.util.Log
 import com.llama.rick_and_morty_mvvm.R
 import com.llama.rick_and_morty_mvvm.data.RepositoryImpl
 import com.llama.rick_and_morty_mvvm.data.network.FetchRemoteDataCallback
+import com.llama.rick_and_morty_mvvm.domain.model.FilterByGender
 import com.llama.rick_and_morty_mvvm.domain.model.SimpleCharacter
 import com.llama.rick_and_morty_mvvm.ui.base.BaseViewModel
 import com.llama.rick_and_morty_mvvm.ui.command.Command
@@ -30,7 +31,8 @@ class CharactersViewModel(
         errorLayoutVisibilityState: Boolean = screenState.errorLayoutVisibility,
         progressBarVisibilityState: Boolean = screenState.progressBarVisibility,
         chipsGroupVisibilityState: Boolean = screenState.chipsGroupVisibility,
-        isBtnRetryClickedState: Boolean = screenState.isBtnRetryClicked,
+        isBtnRetryClicked: Boolean = screenState.isBtnRetryClicked,
+        isFemaleChipSelected: Boolean = screenState.isFemaleChipSelected,
         shouldRefreshView: Boolean = true
     ) {
         this.screenState = CharactersScreenState(
@@ -38,7 +40,8 @@ class CharactersViewModel(
             errorLayoutVisibilityState,
             progressBarVisibilityState,
             chipsGroupVisibilityState,
-            isBtnRetryClickedState
+            isBtnRetryClicked,
+            isFemaleChipSelected
         )
         if (shouldRefreshView) {
             Log.d(TAG, "updateScreenState: refreshing view")
@@ -46,9 +49,17 @@ class CharactersViewModel(
         }
     }
 
+    fun onChipSelected(gender: String) {
+        val filteredDataList = FilterByGender(screenState.dataList, gender).filterByGender()
+        updateScreenState(
+            dataListState = filteredDataList,
+            isFemaleChipSelected = true
+        )
+    }
+
     fun onButtonRetryClicked() {
         loadCharacters()
-        updateScreenState(isBtnRetryClickedState = true)
+        updateScreenState(isBtnRetryClicked = true)
     }
 
     fun onItemClicked(name: String) {

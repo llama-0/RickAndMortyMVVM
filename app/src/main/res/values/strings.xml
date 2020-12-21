@@ -13,4 +13,10 @@
     <string name="genderless">Genderless</string>
     <string name="unknown">Unknown</string>
     <string name="choose_gender">Choose gender</string>
+    <string name="name">name</string>
+    <string name="status">status</string>
+    <string name="gender">gender</string>
+    <string name="avatar">avatar</string>
+    <string name="from">from</string>
+    <string name="last_seen_in">last seen in</string>
 </resources>

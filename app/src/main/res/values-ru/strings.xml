@@ -10,4 +10,10 @@
     <string name="unknown">Неизвестен</string>
     <string name="genderless">Бесполый</string>
     <string name="choose_gender">Выберите пол персонажа</string>
+    <string name="name">Имя</string>
+    <string name="status">Статус</string>
+    <string name="gender">Пол</string>
+    <string name="avatar">Аватар</string>
+    <string name="from">Место происхождения</string>
+    <string name="last_seen_in">В последний раз был замечен в</string>
 </resources>
