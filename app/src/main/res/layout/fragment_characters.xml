@@ -7,6 +7,23 @@
     android:layout_height="match_parent"
     tools:context=".ui.view.CharactersFragment">
 
+    <TextView
+        android:id="@+id/tvChooseGender"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:letterSpacing="0.02"
+        android:text="@string/choose_gender"
+        android:textColor="@color/dark_grey"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/chipGroupGender"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ProgressBar
         android:id="@+id/pbLoading"
         android:layout_width="match_parent"
@@ -36,36 +53,52 @@
             style="@style/Widget.MaterialComponents.Chip.Filter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/female" />
+            android:text="@string/female"
+            app:chipBackgroundColor="@color/white"
+            app:chipIcon="@drawable/ic_done_black_18dp"
+            app:chipStrokeColor="@color/dark_grey"
+            app:chipStrokeWidth="0.5dp" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chipMale"
             style="@style/Widget.MaterialComponents.Chip.Filter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/male" />
+            android:text="@string/male"
+            app:chipBackgroundColor="@color/white"
+            app:chipIcon="@drawable/ic_done_black_18dp"
+            app:chipStrokeColor="@color/dark_grey"
+            app:chipStrokeWidth="0.5dp" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chipGenderless"
             style="@style/Widget.MaterialComponents.Chip.Filter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/genderless" />
+            android:text="@string/genderless"
+            app:chipBackgroundColor="@color/white"
+            app:chipIcon="@drawable/ic_done_black_18dp"
+            app:chipStrokeColor="@color/dark_grey"
+            app:chipStrokeWidth="0.5dp" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chipUnknown"
             style="@style/Widget.MaterialComponents.Chip.Filter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/unknown" />
+            android:text="@string/unknown"
+            app:chipBackgroundColor="@color/white"
+            app:chipIcon="@drawable/ic_done_black_18dp"
+            app:chipStrokeColor="@color/dark_grey"
+            app:chipStrokeWidth="0.5dp" />
     </com.google.android.material.chip.ChipGroup>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvItems"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scrollbars="vertical"
         android:paddingBottom="?attr/actionBarSize"
+        android:scrollbars="vertical"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

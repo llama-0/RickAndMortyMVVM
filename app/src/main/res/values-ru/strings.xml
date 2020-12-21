@@ -5,4 +5,9 @@
     <string name="check_internet_connection_message">Пожалуйста, проверьте наличие интернет соединения</string>
     <string name="btn_name_retry">Повторить загрузку</string>
     <string name="under_development">В разработке</string>
+    <string name="male">Мужской</string>
+    <string name="female">Женский</string>
+    <string name="unknown">Неизвестен</string>
+    <string name="genderless">Бесполый</string>
+    <string name="choose_gender">Выберите пол персонажа</string>
 </resources>
