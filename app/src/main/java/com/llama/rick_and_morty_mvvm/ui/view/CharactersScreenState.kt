@@ -8,5 +8,6 @@ class CharactersScreenState(
     val dataList: List<SimpleCharacter>,
     val errorLayoutVisibility: Boolean,
     val progressBarVisibility: Boolean,
+    val chipsGroupVisibility: Boolean,
     val isBtnRetryClicked: Boolean
 ) : BaseScreenState

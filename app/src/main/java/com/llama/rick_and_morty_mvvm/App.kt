@@ -17,6 +17,7 @@ class App : Application() {
             emptyList(),
             errorLayoutVisibility = false,
             progressBarVisibility = false,
+            chipsGroupVisibility = false,
             isBtnRetryClicked = false
         )
     }

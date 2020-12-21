@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
-import com.llama.rick_and_morty_mvvm.R
 import com.llama.rick_and_morty_mvvm.databinding.FragmentCharactersBinding
 import com.llama.rick_and_morty_mvvm.domain.model.SimpleCharacter
 import com.llama.rick_and_morty_mvvm.ui.base.BaseFragment
@@ -42,10 +41,9 @@ class CharactersFragment : BaseFragment<CharactersScreenState, Command, Characte
 
     override fun renderView(screenState: CharactersScreenState) {
         with(binding) {
-            pbLoading.isVisible =
-                screenState.progressBarVisibility
-            includedErrorLayout.internetErrorLayout.isVisible =
-                screenState.errorLayoutVisibility
+            pbLoading.isVisible = screenState.progressBarVisibility
+            includedErrorLayout.internetErrorLayout.isVisible = screenState.errorLayoutVisibility
+            chipGroupGender.isVisible = screenState.chipsGroupVisibility
         }
         setAdapter(screenState.dataList)
     }

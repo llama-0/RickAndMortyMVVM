@@ -29,14 +29,16 @@ class CharactersViewModel(
         dataListState: List<SimpleCharacter> = screenState.dataList,
         errorLayoutVisibilityState: Boolean = screenState.errorLayoutVisibility,
         progressBarVisibilityState: Boolean = screenState.progressBarVisibility,
-        isBtnRetryClicked: Boolean = screenState.isBtnRetryClicked,
+        chipsGroupVisibilityState: Boolean = screenState.chipsGroupVisibility,
+        isBtnRetryClickedState: Boolean = screenState.isBtnRetryClicked,
         shouldRefreshView: Boolean = true
     ) {
         this.screenState = CharactersScreenState(
             dataListState,
             errorLayoutVisibilityState,
             progressBarVisibilityState,
-            isBtnRetryClicked
+            chipsGroupVisibilityState,
+            isBtnRetryClickedState
         )
         if (shouldRefreshView) {
             Log.d(TAG, "updateScreenState: refreshing view")
@@ -46,7 +48,7 @@ class CharactersViewModel(
 
     fun onButtonRetryClicked() {
         loadCharacters()
-        updateScreenState(isBtnRetryClicked = true)
+        updateScreenState(isBtnRetryClickedState = true)
     }
 
     fun onItemClicked(name: String) {
@@ -63,16 +65,17 @@ class CharactersViewModel(
                 }
                 updateScreenState(
                     errorLayoutVisibilityState = true,
-                    progressBarVisibilityState = false
+                    progressBarVisibilityState = false,
+                    chipsGroupVisibilityState = false
                 )
             }
 
             override fun onSuccess(data: List<SimpleCharacter>) {
                 updateScreenState(
-                    screenState,
-                    data,
+                    dataListState = data,
                     errorLayoutVisibilityState = false,
-                    progressBarVisibilityState = false
+                    progressBarVisibilityState = false,
+                    chipsGroupVisibilityState = true
                 )
             }
         })
