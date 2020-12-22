@@ -2,24 +2,24 @@ package com.llama.rick_and_morty_mvvm.ui.viewmodel
 
 import android.content.res.Resources
 import android.util.Log
+import androidx.core.os.bundleOf
 import com.llama.rick_and_morty_mvvm.R
 import com.llama.rick_and_morty_mvvm.data.RepositoryImpl
 import com.llama.rick_and_morty_mvvm.data.network.FetchRemoteDataCallback
-import com.llama.rick_and_morty_mvvm.domain.model.FilterByGender
 import com.llama.rick_and_morty_mvvm.domain.model.SimpleCharacter
 import com.llama.rick_and_morty_mvvm.ui.base.BaseViewModel
+import com.llama.rick_and_morty_mvvm.ui.command.CharactersCommand
+import com.llama.rick_and_morty_mvvm.ui.command.CharactersCommand.ShowSnackbar
 import com.llama.rick_and_morty_mvvm.ui.command.Command
-import com.llama.rick_and_morty_mvvm.ui.command.Command.ShowSnackbar
 import com.llama.rick_and_morty_mvvm.ui.view.CharactersScreenState
 
 class CharactersViewModel(
     private val repository: RepositoryImpl,
     screenState: CharactersScreenState,
     private val resources: Resources
-) :
-    BaseViewModel<
-            CharactersScreenState,
-            Command>(screenState) {
+) : BaseViewModel<
+        CharactersScreenState,
+        Command>(screenState) {
 
     init {
         loadCharacters()
@@ -49,21 +49,33 @@ class CharactersViewModel(
         }
     }
 
-    fun onChipSelected(gender: String) {
-        val filteredDataList = FilterByGender(screenState.dataList, gender).filterByGender()
-        updateScreenState(
-            dataListState = filteredDataList,
-            isFemaleChipSelected = true
-        )
-    }
+//    fun onChipChecked(gender: String) {
+//        val filteredDataList = FilterByGender(screenState.dataList, gender).filterByGender()
+//        updateScreenState(
+//            dataListState = filteredDataList,
+//            isFemaleChipSelected = true
+//        )
+//    }
+//
+//    fun onChipUnchecked(gender: String) {
+//        updateScreenState(
+//            dataListState = screenState.dataList,
+//            isFemaleChipSelected = false
+//        )
+//    }
 
     fun onButtonRetryClicked() {
         loadCharacters()
         updateScreenState(isBtnRetryClicked = true)
     }
 
-    fun onItemClicked(name: String) {
-        executeCommand(ShowSnackbar(name))
+    fun onItemClicked(character: SimpleCharacter) {
+        executeCommand(
+            CharactersCommand.Navigate(
+                R.id.navigationCharacterDetails,
+                bundleOf(OBJ_CHARACTER_KEY to character.name)
+            )
+        )
     }
 
     private fun loadCharacters() {
@@ -94,5 +106,6 @@ class CharactersViewModel(
 
     companion object {
         private const val TAG = "TAG"
+        private const val OBJ_CHARACTER_KEY = "OBJ_CHARACTER_KEY"
     }
 }

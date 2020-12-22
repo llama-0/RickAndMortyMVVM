@@ -4,19 +4,25 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CompoundButton
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import androidx.navigation.Navigation
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.llama.rick_and_morty_mvvm.R
 import com.llama.rick_and_morty_mvvm.databinding.FragmentCharactersBinding
 import com.llama.rick_and_morty_mvvm.domain.model.SimpleCharacter
 import com.llama.rick_and_morty_mvvm.ui.base.BaseFragment
+import com.llama.rick_and_morty_mvvm.ui.command.CharactersCommand.Navigate
+import com.llama.rick_and_morty_mvvm.ui.command.CharactersCommand.ShowSnackbar
 import com.llama.rick_and_morty_mvvm.ui.command.Command
-import com.llama.rick_and_morty_mvvm.ui.command.Command.ShowSnackbar
 import com.llama.rick_and_morty_mvvm.ui.viewmodel.CharactersViewModel
 
-class CharactersFragment : BaseFragment<CharactersScreenState, Command, CharactersViewModel>(
-    CharactersViewModel::class.java
-) {
+class CharactersFragment :
+    BaseFragment<CharactersScreenState, Command, CharactersViewModel>(
+        CharactersViewModel::class.java
+    ) {
+
     private lateinit var binding: FragmentCharactersBinding
 
     override fun onCreateView(
@@ -31,9 +37,12 @@ class CharactersFragment : BaseFragment<CharactersScreenState, Command, Characte
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val actionBar = (activity as AppCompatActivity).supportActionBar
+        actionBar?.setDisplayHomeAsUpEnabled(false)
+        actionBar?.title = getString(R.string.title_characters)
+
         initAdapter()
         initRetryButton()
-        selectChips()
     }
 
     private fun initAdapter() {
@@ -52,8 +61,12 @@ class CharactersFragment : BaseFragment<CharactersScreenState, Command, Characte
     }
 
     override fun executeCommand(command: Command) {
-        if (command is ShowSnackbar) {
-            showSnackbar(binding.root, command.message)
+        when (command) {
+            is ShowSnackbar -> showSnackbar(binding.root, command.message)
+            is Navigate -> requireView().findNavController().navigate(
+                command.destinationId,
+                command.args
+            )
         }
     }
 
@@ -66,16 +79,24 @@ class CharactersFragment : BaseFragment<CharactersScreenState, Command, Characte
     private fun setAdapter(list: List<SimpleCharacter>) {
         val rv: RecyclerView = binding.rvItems
         rv.adapter = CharactersAdapter(list) { character ->
-            viewModel.onItemClicked(character.name)
+            viewModel.onItemClicked(character)
         }
     }
 
-    private fun selectChips() {
-        val chip = binding.chipFemale
-        chip.setOnClickListener {
-            viewModel.onChipSelected(chip.text.toString())
-        }
-    }
+//    private fun selectChips() {
+//        val chipGroup = binding.chipGroupGender
+//        for (idx in 0 until chipGroup.childCount) {
+//            val chip = chipGroup.getChildAt(idx) as Chip
+//
+//            chip.setOnCheckedChangeListener { _, isChecked ->
+//                if (isChecked) {
+//                    viewModel.onChipChecked(chip.text.toString())
+//                } else {
+//                    viewModel.onChipUnchecked(chip.text.toString())
+//                }
+//            }
+//        }
+//    }
 
     companion object {
         @Suppress("unused")

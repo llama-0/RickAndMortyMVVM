@@ -1,15 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Персонажи</string>
+    <string name="app_name">Персонажи из Рика и Морти</string>
+    <string name="title_characters">Персонажи</string>
+    <string name="title_character_details">Профайл персонажа</string>
+
     <string name="no_internet_connection">Интернет соединие отсутсвует</string>
     <string name="check_internet_connection_message">Пожалуйста, проверьте наличие интернет соединения</string>
     <string name="btn_name_retry">Повторить загрузку</string>
     <string name="under_development">В разработке</string>
+
     <string name="male">Мужской</string>
     <string name="female">Женский</string>
     <string name="unknown">Неизвестен</string>
     <string name="genderless">Бесполый</string>
+
     <string name="choose_gender">Выберите пол персонажа</string>
+
     <string name="name">Имя</string>
     <string name="status">Статус</string>
     <string name="gender">Пол</string>
