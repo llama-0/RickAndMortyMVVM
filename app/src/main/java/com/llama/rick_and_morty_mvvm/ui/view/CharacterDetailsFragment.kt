@@ -6,8 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import androidx.appcompat.app.AppCompatActivity
-import com.llama.rick_and_morty_mvvm.R
 import com.llama.rick_and_morty_mvvm.databinding.FragmentCharacterDetailsBinding
 import com.llama.rick_and_morty_mvvm.ui.base.BaseFragment
 import com.llama.rick_and_morty_mvvm.ui.command.Command
@@ -33,12 +31,6 @@ class CharacterDetailsFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val actionBar = (activity as AppCompatActivity).supportActionBar
-        actionBar?.setDisplayHomeAsUpEnabled(true)
-        actionBar?.title = getString(R.string.title_character_details)
-
-        val name = arguments?.getString("OBJ_CHARACTER_KEY") ?: "al"
-        binding.tvName.text = name
         onUrlClicked()
     }
 
@@ -69,4 +61,7 @@ class CharacterDetailsFragment :
         }
     }
 
+    companion object {
+        private const val INT_CHARACTER_ID_KEY = "INT_CHARACTER_ID_KEY"
+    }
 }

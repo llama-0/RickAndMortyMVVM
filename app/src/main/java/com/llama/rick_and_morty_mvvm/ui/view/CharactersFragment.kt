@@ -9,6 +9,7 @@ import androidx.core.view.isVisible
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.llama.rick_and_morty_mvvm.App
 import com.llama.rick_and_morty_mvvm.R
 import com.llama.rick_and_morty_mvvm.databinding.FragmentCharactersBinding
 import com.llama.rick_and_morty_mvvm.domain.model.SimpleCharacter
@@ -37,10 +38,6 @@ class CharactersFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val actionBar = (activity as AppCompatActivity).supportActionBar
-        actionBar?.setDisplayHomeAsUpEnabled(false)
-        actionBar?.title = getString(R.string.title_characters)
-
         initAdapter()
         initRetryButton()
     }
@@ -64,8 +61,7 @@ class CharactersFragment :
         when (command) {
             is ShowSnackbar -> showSnackbar(binding.root, command.message)
             is Navigate -> requireView().findNavController().navigate(
-                command.destinationId,
-                command.args
+                command.destinationId
             )
         }
     }
@@ -79,7 +75,7 @@ class CharactersFragment :
     private fun setAdapter(list: List<SimpleCharacter>) {
         val rv: RecyclerView = binding.rvItems
         rv.adapter = CharactersAdapter(list) { character ->
-            viewModel.onItemClicked(character)
+            viewModel.onItemClicked(character.id)
         }
     }
 

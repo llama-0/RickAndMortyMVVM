@@ -26,7 +26,7 @@ class App : Application() {
     }
     private val defaultCharacter: SimpleCharacter by lazy {
         SimpleCharacter(
-            1,
+            -1,
             "",
             "",
             "",
@@ -42,7 +42,6 @@ class App : Application() {
         CharactersViewModelFactory(
             RepositoryImpl(apiService),
             screenState,
-            defaultCharacter,
             detailsScreenState,
             resources
         )

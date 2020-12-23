@@ -17,7 +17,7 @@
     <fragment
         android:id="@+id/navigationCharacterDetails"
         android:name="com.llama.rick_and_morty_mvvm.ui.view.CharacterDetailsFragment"
-        android:label="CharacterDetailsFragment"
+        android:label="@string/title_character_details"
         tools:layout="@layout/fragment_character_details" />
 
 </navigation>

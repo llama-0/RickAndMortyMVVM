@@ -3,24 +3,23 @@ package com.llama.rick_and_morty_mvvm.ui.viewmodel
 import com.llama.rick_and_morty_mvvm.domain.model.SimpleCharacter
 import com.llama.rick_and_morty_mvvm.ui.base.BaseViewModel
 import com.llama.rick_and_morty_mvvm.ui.command.Command
-import com.llama.rick_and_morty_mvvm.ui.command.DetailsCommand.OpenLink
 import com.llama.rick_and_morty_mvvm.ui.view.CharacterDetailsScreenState
 
 class CharacterDetailsViewModel(
-    private val character: SimpleCharacter,
     screenState: CharacterDetailsScreenState
 ) : BaseViewModel<
         CharacterDetailsScreenState,
         Command>(screenState) {
 
     init {
-        showScreenState(
-            screenState,
-            character
-        )
+//        updateScreenState(characterState = character)
     }
 
-    private fun showScreenState(
+    // 1. get character from `model`
+    // 2. link this character with the character of screenState
+
+    // в этом фрагменте screenState вообще не нужен, он просто показывает статические данные, полученные по id из недр пока не известно чего
+    private fun updateScreenState(
         screenState: CharacterDetailsScreenState = this.screenState,
         characterState: SimpleCharacter = screenState.character
     ) {
@@ -29,7 +28,7 @@ class CharacterDetailsViewModel(
     }
 
     fun onUrlClicked() {
-        executeCommand(OpenLink(character.image))
+//        executeCommand(OpenLink(character.image))
     }
 
 }

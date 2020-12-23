@@ -6,4 +6,5 @@ class FilterByGender(
 ) {
     fun filterByGender(): List<SimpleCharacter> =
         characters.filter { it.gender == gender }
+
 }

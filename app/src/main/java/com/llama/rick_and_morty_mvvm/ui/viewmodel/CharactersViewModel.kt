@@ -2,7 +2,6 @@ package com.llama.rick_and_morty_mvvm.ui.viewmodel
 
 import android.content.res.Resources
 import android.util.Log
-import androidx.core.os.bundleOf
 import com.llama.rick_and_morty_mvvm.R
 import com.llama.rick_and_morty_mvvm.data.RepositoryImpl
 import com.llama.rick_and_morty_mvvm.data.network.FetchRemoteDataCallback
@@ -69,12 +68,10 @@ class CharactersViewModel(
         updateScreenState(isBtnRetryClicked = true)
     }
 
-    fun onItemClicked(character: SimpleCharacter) {
+    fun onItemClicked(id: Int) {
+        // save id to `some model` in order to get character by this id from a list of characters stored in `another model` visible in second fragment
         executeCommand(
-            CharactersCommand.Navigate(
-                R.id.navigationCharacterDetails,
-                bundleOf(OBJ_CHARACTER_KEY to character.name)
-            )
+            CharactersCommand.Navigate(R.id.navigationCharacterDetails)
         )
     }
 
@@ -106,6 +103,6 @@ class CharactersViewModel(
 
     companion object {
         private const val TAG = "TAG"
-        private const val OBJ_CHARACTER_KEY = "OBJ_CHARACTER_KEY"
+        private const val INT_CHARACTER_ID_KEY = "INT_CHARACTER_ID_KEY"
     }
 }
