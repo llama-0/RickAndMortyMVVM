@@ -4,23 +4,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
-import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.llama.rick_and_morty_mvvm.App
-import com.llama.rick_and_morty_mvvm.R
+import com.google.android.material.chip.Chip
 import com.llama.rick_and_morty_mvvm.databinding.FragmentCharactersBinding
 import com.llama.rick_and_morty_mvvm.domain.model.SimpleCharacter
+import com.llama.rick_and_morty_mvvm.ui.base.BaseCommand
 import com.llama.rick_and_morty_mvvm.ui.base.BaseFragment
 import com.llama.rick_and_morty_mvvm.ui.command.CharactersCommand.Navigate
 import com.llama.rick_and_morty_mvvm.ui.command.CharactersCommand.ShowSnackbar
-import com.llama.rick_and_morty_mvvm.ui.command.Command
 import com.llama.rick_and_morty_mvvm.ui.viewmodel.CharactersViewModel
 
 class CharactersFragment :
-    BaseFragment<CharactersScreenState, Command, CharactersViewModel>(
+    BaseFragment<CharactersScreenState, BaseCommand, CharactersViewModel>(
         CharactersViewModel::class.java
     ) {
 
@@ -40,6 +37,7 @@ class CharactersFragment :
 
         initAdapter()
         initRetryButton()
+        selectChips()
     }
 
     private fun initAdapter() {
@@ -57,7 +55,7 @@ class CharactersFragment :
         setAdapter(screenState.dataList)
     }
 
-    override fun executeCommand(command: Command) {
+    override fun executeCommand(command: BaseCommand) {
         when (command) {
             is ShowSnackbar -> showSnackbar(binding.root, command.message)
             is Navigate -> requireView().findNavController().navigate(
@@ -79,20 +77,23 @@ class CharactersFragment :
         }
     }
 
-//    private fun selectChips() {
-//        val chipGroup = binding.chipGroupGender
-//        for (idx in 0 until chipGroup.childCount) {
-//            val chip = chipGroup.getChildAt(idx) as Chip
-//
-//            chip.setOnCheckedChangeListener { _, isChecked ->
-//                if (isChecked) {
-//                    viewModel.onChipChecked(chip.text.toString())
-//                } else {
-//                    viewModel.onChipUnchecked(chip.text.toString())
-//                }
-//            }
-//        }
-//    }
+    private fun selectChips() {
+        val chipGroup = binding.chipGroupGender
+        val list: MutableList<String> = mutableListOf()
+        for (idx in 0 until chipGroup.childCount) {
+            val chip = chipGroup.getChildAt(idx) as Chip
+
+            chip.setOnCheckedChangeListener { _, isChecked ->
+                if (isChecked) {
+                    list.add(chip.text.toString())
+                    viewModel.onChipChecked(list)
+                } else {
+                    list.remove(chip.text.toString())
+                    viewModel.onChipUnchecked(list)
+                }
+            }
+        }
+    }
 
     companion object {
         @Suppress("unused")

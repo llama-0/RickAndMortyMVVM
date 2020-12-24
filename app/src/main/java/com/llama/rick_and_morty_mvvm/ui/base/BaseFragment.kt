@@ -9,11 +9,10 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
 import com.llama.rick_and_morty_mvvm.App
 import com.llama.rick_and_morty_mvvm.R
-import com.llama.rick_and_morty_mvvm.ui.command.Command
 
 abstract class BaseFragment<
         ScreenState : BaseScreenState,
-        CommandType : Command,
+        CommandType : BaseCommand,
         ViewModel : BaseViewModel<ScreenState, CommandType>>(
     viewModelClass: Class<ViewModel>
 ) : Fragment() {

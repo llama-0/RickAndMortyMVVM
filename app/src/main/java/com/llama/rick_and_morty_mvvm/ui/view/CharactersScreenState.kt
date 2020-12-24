@@ -10,5 +10,8 @@ class CharactersScreenState(
     val progressBarVisibility: Boolean,
     val chipsGroupVisibility: Boolean,
     val isBtnRetryClicked: Boolean,
-    val isFemaleChipSelected: Boolean
+    val isFemaleChipSelected: Boolean,
+    val isMaleChipSelected: Boolean,
+    val isGenderlessChipSelected: Boolean,
+    val isUnknownChipSelected: Boolean
 ) : BaseScreenState

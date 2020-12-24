@@ -3,11 +3,10 @@ package com.llama.rick_and_morty_mvvm.ui.base
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.llama.rick_and_morty_mvvm.ui.command.Command
 
 abstract class BaseViewModel<
         ScreenState : BaseScreenState,
-        CommandType : Command>(
+        CommandType : BaseCommand>(
     protected var screenState: ScreenState
 ) : ViewModel() {
 

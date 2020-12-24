@@ -8,12 +8,12 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import com.llama.rick_and_morty_mvvm.databinding.FragmentCharacterDetailsBinding
 import com.llama.rick_and_morty_mvvm.ui.base.BaseFragment
-import com.llama.rick_and_morty_mvvm.ui.command.Command
+import com.llama.rick_and_morty_mvvm.ui.base.BaseCommand
 import com.llama.rick_and_morty_mvvm.ui.command.DetailsCommand.OpenLink
 import com.llama.rick_and_morty_mvvm.ui.viewmodel.CharacterDetailsViewModel
 
 class CharacterDetailsFragment :
-    BaseFragment<CharacterDetailsScreenState, Command, CharacterDetailsViewModel>(
+    BaseFragment<CharacterDetailsScreenState, BaseCommand, CharacterDetailsViewModel>(
         CharacterDetailsViewModel::class.java
     ) {
 
@@ -45,7 +45,7 @@ class CharacterDetailsFragment :
         }
     }
 
-    override fun executeCommand(command: Command) {
+    override fun executeCommand(command: BaseCommand) {
         when (command) {
             is OpenLink -> WebViewClient().onLoadResource(
                 requireView() as WebView?,

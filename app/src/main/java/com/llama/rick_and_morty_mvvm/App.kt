@@ -21,7 +21,10 @@ class App : Application() {
             progressBarVisibility = false,
             chipsGroupVisibility = false,
             isBtnRetryClicked = false,
-            isFemaleChipSelected = false
+            isFemaleChipSelected = false,
+            isMaleChipSelected = false,
+            isGenderlessChipSelected = false,
+            isUnknownChipSelected = false
         )
     }
     private val defaultCharacter: SimpleCharacter by lazy {

@@ -1,15 +1,15 @@
 package com.llama.rick_and_morty_mvvm.ui.viewmodel
 
 import com.llama.rick_and_morty_mvvm.domain.model.SimpleCharacter
+import com.llama.rick_and_morty_mvvm.ui.base.BaseCommand
 import com.llama.rick_and_morty_mvvm.ui.base.BaseViewModel
-import com.llama.rick_and_morty_mvvm.ui.command.Command
 import com.llama.rick_and_morty_mvvm.ui.view.CharacterDetailsScreenState
 
 class CharacterDetailsViewModel(
     screenState: CharacterDetailsScreenState
 ) : BaseViewModel<
         CharacterDetailsScreenState,
-        Command>(screenState) {
+        BaseCommand>(screenState) {
 
     init {
 //        updateScreenState(characterState = character)
