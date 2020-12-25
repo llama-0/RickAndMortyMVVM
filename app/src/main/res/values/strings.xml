@@ -26,6 +26,7 @@
     <string name="status">status</string>
     <string name="gender">gender</string>
     <string name="avatar">avatar</string>
-    <string name="from">from</string>
-    <string name="last_seen_in">last seen in</string>
+    <string name="first_seen_in">First seen in:</string>
+    <string name="last_seen_in">Last known location:</string>
+    <string name="status_badge">status badge</string>
 </resources>

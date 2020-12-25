@@ -1,4 +1,4 @@
-package com.llama.rick_and_morty_mvvm.data.utils
+package com.llama.rick_and_morty_mvvm.data.mapper
 
 import com.llama.rick_and_morty_mvvm.data.model.Character
 import com.llama.rick_and_morty_mvvm.domain.model.SimpleCharacter
@@ -16,8 +16,9 @@ class CharactersMapper {
             input.id,
             input.name,
             input.gender,
-            input.image,
             input.status,
+            input.species,
+            input.image,
             input.origin.name,
             input.location.name
         )

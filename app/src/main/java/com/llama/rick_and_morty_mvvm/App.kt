@@ -27,12 +27,13 @@ class App : Application() {
     private val defaultCharacter: SimpleCharacter by lazy {
         SimpleCharacter(
             -1,
-            "",
-            "",
-            "",
-            "",
-            "",
-            ""
+            "name",
+            "m",
+            "alive",
+            "human",
+            "image is here",
+            "from",
+            "to"
         )
     }
     private val detailsScreenState: CharacterDetailsScreenState by lazy {

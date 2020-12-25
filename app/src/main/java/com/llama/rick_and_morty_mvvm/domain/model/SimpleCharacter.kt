@@ -5,8 +5,9 @@ class SimpleCharacter(
     val id: Int,
     val name: String,
     val gender: String,
-    val image: String,
     val status: String,
-    val from: String,
+    val species: String,
+    val image: String,
+    val firstSeenIn: String,
     val lastSeenIn: String
 )

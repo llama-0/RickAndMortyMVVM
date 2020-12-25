@@ -39,8 +39,9 @@ class CharacterDetailsFragment :
             tvName.text = screenState.character.name
             tvGender.text = screenState.character.gender
             tvStatus.text = screenState.character.status
-            tvFrom.text = screenState.character.from
-            tvLastSeenIn.text = screenState.character.lastSeenIn
+            tvSpecies.text = screenState.character.species
+            tvFirstSeenIn.text = screenState.character.firstSeenIn
+            tvLastKnownLocation.text = screenState.character.lastSeenIn
             tvImage.text = screenState.character.image
         }
     }

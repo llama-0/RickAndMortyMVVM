@@ -5,7 +5,7 @@ import com.llama.rick_and_morty_mvvm.data.model.Character
 import com.llama.rick_and_morty_mvvm.data.model.CharactersInfo
 import com.llama.rick_and_morty_mvvm.data.network.ApiService
 import com.llama.rick_and_morty_mvvm.data.network.FetchRemoteDataCallback
-import com.llama.rick_and_morty_mvvm.data.utils.CharactersMapper
+import com.llama.rick_and_morty_mvvm.data.mapper.CharactersMapper
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

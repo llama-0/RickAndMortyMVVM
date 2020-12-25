@@ -20,6 +20,7 @@
     <string name="status">Статус</string>
     <string name="gender">Пол</string>
     <string name="avatar">Аватар</string>
-    <string name="from">Место происхождения</string>
+    <string name="first_seen_in">Впервые был замечен в</string>
     <string name="last_seen_in">В последний раз был замечен в</string>
+    <string name="status_badge">Иконка статуса</string>
 </resources>
