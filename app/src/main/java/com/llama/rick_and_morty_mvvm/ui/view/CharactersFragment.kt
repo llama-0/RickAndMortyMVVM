@@ -50,7 +50,6 @@ class CharactersFragment :
             pbLoading.isVisible = screenState.progressBarVisibility
             includedErrorLayout.internetErrorLayout.isVisible = screenState.errorLayoutVisibility
             chipGroupGender.isVisible = screenState.chipsGroupVisibility
-            chipFemale.isChecked = screenState.isFemaleChipSelected
         }
         setAdapter(screenState.dataList)
     }

@@ -15,6 +15,11 @@
     <string name="genderless">Genderless</string>
     <string name="unknown">Unknown</string>
 
+    <string name="male_gender_api_field" translatable="false">Male</string>
+    <string name="female_gender_api_field" translatable="false">Female</string>
+    <string name="genderless_gender_api_field" translatable="false">Genderless</string>
+    <string name="unknown_gender_api_field" translatable="false">Unknown</string>
+
     <string name="choose_gender">Choose gender</string>
 
     <string name="name">name</string>

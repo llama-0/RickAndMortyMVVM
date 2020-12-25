@@ -22,6 +22,11 @@ class CharactersViewModel(
 
     private lateinit var list: List<SimpleCharacter>
 
+    private val femaleApiField = resources.getString(R.string.female_gender_api_field)
+    private val maleApiField = resources.getString(R.string.male_gender_api_field)
+    private val genderlessApiField = resources.getString(R.string.genderless_gender_api_field)
+    private val unknownApiField = resources.getString(R.string.unknown_gender_api_field)
+
     init {
         loadCharacters()
     }
@@ -33,10 +38,7 @@ class CharactersViewModel(
         progressBarVisibilityState: Boolean = screenState.progressBarVisibility,
         chipsGroupVisibilityState: Boolean = screenState.chipsGroupVisibility,
         isBtnRetryClicked: Boolean = screenState.isBtnRetryClicked,
-        isFemaleChipSelected: Boolean = screenState.isFemaleChipSelected,
-        isMaleChipSelected: Boolean = screenState.isMaleChipSelected,
-        isGenderlessChipSelected: Boolean = screenState.isGenderlessChipSelected,
-        isUnknownChipSelected: Boolean = screenState.isUnknownChipSelected,
+        isGenderChipSelected: Boolean = screenState.isGenderChipSelected,
         shouldRefreshView: Boolean = true
     ) {
         this.screenState = CharactersScreenState(
@@ -45,10 +47,7 @@ class CharactersViewModel(
             progressBarVisibilityState,
             chipsGroupVisibilityState,
             isBtnRetryClicked,
-            isFemaleChipSelected,
-            isMaleChipSelected,
-            isGenderlessChipSelected,
-            isUnknownChipSelected
+            isGenderChipSelected
         )
         if (shouldRefreshView) {
             Log.d(TAG, "updateScreenState: refreshing view")
@@ -56,21 +55,19 @@ class CharactersViewModel(
         }
     }
 
-    // у меня есть данные в list. я где-то на уровне бизнес-логики разделяю их по спискам по полу.
-    // и когда нажимаю чипсины, просто дергаю нужный список, добавляя или удаляя его из результирующего
+    // move to business logic level
     private fun getFemales(): List<SimpleCharacter> =
-        list.filter { it.gender == "Female" }
+        list.filter { it.gender == femaleApiField }
 
     private fun getMales(): List<SimpleCharacter> =
-        list.filter { it.gender == "Male" }
+        list.filter { it.gender == maleApiField }
 
     private fun getGenderless(): List<SimpleCharacter> =
-        list.filter { it.gender == "Genderless" }
+        list.filter { it.gender == genderlessApiField }
 
     private fun getCharactersWithUnknownGender(): List<SimpleCharacter> =
-        list.filter { it.gender == "Unknown" }
+        list.filter { it.gender.equals(unknownApiField, true) }
 
-    // move to business logic level
     private fun filterListByGender(genders: List<String>): List<SimpleCharacter> {
         var females: List<SimpleCharacter> = emptyList()
         var males: List<SimpleCharacter> = emptyList()
@@ -78,80 +75,30 @@ class CharactersViewModel(
         var unknown: List<SimpleCharacter> = emptyList()
         genders.forEach { gender ->
             when(gender) {
-                "Female" -> females = getFemales()
-                "Male" -> males = getMales()
-                "Genderless" -> genderless = getGenderless()
-                "Unknown" -> unknown = getCharactersWithUnknownGender()
+                femaleApiField -> females = getFemales()
+                maleApiField -> males = getMales()
+                genderlessApiField -> genderless = getGenderless()
+                unknownApiField -> unknown = getCharactersWithUnknownGender()
             }
         }
-        Log.d(TAG, "filterListByGender: females = ${females.size}\n," +
-                "males = ${males.size}\n, genderless = ${genderless.size}\n," +
-                "unknown = ${unknown.size}\n, ")
         val result = listOf(females, males, genderless, unknown).flatten().sortedBy { it.id }
-        return if (genders.isEmpty()) list else result // check if there is a bug,
-        // when 50 items are loaded. Now can't decide if the bug is present
+        return if (genders.isEmpty()) list else result
     }
-
-
 
     fun onChipChecked(genders: List<String>) {
         val filteredDataList = filterListByGender(genders)
-        when {
-            genders.contains("Female") -> {
-                updateScreenState(
-                    dataListState = filteredDataList,
-                    isFemaleChipSelected = true
-                )
-            }
-            genders.contains("Male") -> {
-                updateScreenState(
-                    dataListState = filteredDataList,
-                    isMaleChipSelected = true
-                )
-            }
-            genders.contains("Genderless") -> {
-                updateScreenState(
-                    dataListState = filteredDataList,
-                    isGenderlessChipSelected = true
-                )
-            }
-            genders.contains("Unknown") -> {
-                updateScreenState(
-                    dataListState = filteredDataList,
-                    isUnknownChipSelected = true
-                )
-            }
-        }
+        updateScreenState(
+            dataListState = filteredDataList,
+            isGenderChipSelected = true
+        )
     }
 
     fun onChipUnchecked(genders: List<String>) {
         val filteredDataList = filterListByGender(genders)
-        when {
-            !genders.contains("Female") -> {
-                updateScreenState(
-                    dataListState = filteredDataList,
-                    isFemaleChipSelected = false
-                )
-            }
-            !genders.contains("Male") -> {
-                updateScreenState(
-                    dataListState = filteredDataList,
-                    isMaleChipSelected = false
-                )
-            }
-            !genders.contains("Genderless") -> {
-                updateScreenState(
-                    dataListState = filteredDataList,
-                    isGenderlessChipSelected = false
-                )
-            }
-            !genders.contains("Unknown") -> {
-                updateScreenState(
-                    dataListState = filteredDataList,
-                    isUnknownChipSelected = false
-                )
-            }
-        }
+        updateScreenState(
+            dataListState = filteredDataList,
+            isGenderChipSelected = false
+        )
     }
 
     fun onButtonRetryClicked() {
