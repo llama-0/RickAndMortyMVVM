@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/navigationCharacters"
-        android:name="com.llama.rick_and_morty_mvvm.ui.view.CharactersFragment"
+        android:name="com.llama.rick_and_morty_mvvm.ui.view.fragment.CharactersFragment"
         android:label="@string/title_characters"
         tools:layout="@layout/fragment_characters" >
         <action
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/navigationCharacterDetails"
-        android:name="com.llama.rick_and_morty_mvvm.ui.view.CharacterDetailsFragment"
+        android:name="com.llama.rick_and_morty_mvvm.ui.view.fragment.CharacterDetailsFragment"
         android:label="@string/title_character_details"
         tools:layout="@layout/fragment_character_details" />
 

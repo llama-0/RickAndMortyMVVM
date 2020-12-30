@@ -1,19 +1,24 @@
 package com.llama.rick_and_morty_mvvm.ui.viewmodel
 
+import android.content.SharedPreferences
 import android.content.res.Resources
 import android.util.Log
+import androidx.annotation.UiThread
 import com.llama.rick_and_morty_mvvm.R
 import com.llama.rick_and_morty_mvvm.data.RepositoryImpl
-import com.llama.rick_and_morty_mvvm.data.network.FetchRemoteDataCallback
+import com.llama.rick_and_morty_mvvm.data.interactor.CharactersInteractor
 import com.llama.rick_and_morty_mvvm.domain.model.SimpleCharacter
 import com.llama.rick_and_morty_mvvm.ui.base.BaseCommand
 import com.llama.rick_and_morty_mvvm.ui.base.BaseViewModel
 import com.llama.rick_and_morty_mvvm.ui.command.CharactersCommand.Navigate
 import com.llama.rick_and_morty_mvvm.ui.command.CharactersCommand.ShowSnackbar
-import com.llama.rick_and_morty_mvvm.ui.view.CharactersScreenState
+import com.llama.rick_and_morty_mvvm.ui.model.Gender
+import com.llama.rick_and_morty_mvvm.ui.view.screenstate.CharactersScreenState
 
 class CharactersViewModel(
-    private val repository: RepositoryImpl,
+    private val repository: RepositoryImpl, // выпилить потом, если сработает идея
+    private val sharedPrefs: SharedPreferences,
+    private val interactor: CharactersInteractor,
     screenState: CharactersScreenState,
     private val resources: Resources
 ) : BaseViewModel<
@@ -21,11 +26,9 @@ class CharactersViewModel(
         BaseCommand>(screenState) {
 
     private lateinit var list: List<SimpleCharacter>
-
-    private val femaleApiField = resources.getString(R.string.female_gender_api_field)
-    private val maleApiField = resources.getString(R.string.male_gender_api_field)
-    private val genderlessApiField = resources.getString(R.string.genderless_gender_api_field)
-    private val unknownApiField = resources.getString(R.string.unknown_gender_api_field)
+    private val gender by lazy {
+        Gender(resources, list)
+    }
 
     init {
         loadCharacters()
@@ -55,50 +58,38 @@ class CharactersViewModel(
         }
     }
 
-    // move to business logic level
-    private fun getFemales(): List<SimpleCharacter> =
-        list.filter { it.gender == femaleApiField }
+    private fun loadCharacters() {
+        interactor.fetchData()
+        Thread.sleep(1000L) // todo; rewrite
+        // сейчас я таким образом жду, пока результат загрузится из сети
+        // иначе UI не успеет отреагировать. Раньше LiveData отвечала за "ожидание"
+        // теперь есть интерактор между загрузкой данных и LiveData и надо как-то иначе ждать
 
-    private fun getMales(): List<SimpleCharacter> =
-        list.filter { it.gender == maleApiField }
+        updateScreenState(progressBarVisibilityState = true) // вот это теперь не работает
 
-    private fun getGenderless(): List<SimpleCharacter> =
-        list.filter { it.gender == genderlessApiField }
+        Log.d(TAG, "loadCharacters: after interactor.fetch() called")
 
-    private fun getCharactersWithUnknownGender(): List<SimpleCharacter> =
-        list.filter { it.gender.equals(unknownApiField, true) }
-
-    private fun filterListByGender(genders: List<String>): List<SimpleCharacter> {
-        var females: List<SimpleCharacter> = emptyList()
-        var males: List<SimpleCharacter> = emptyList()
-        var genderless: List<SimpleCharacter> = emptyList()
-        var unknown: List<SimpleCharacter> = emptyList()
-        genders.forEach { gender ->
-            when(gender) {
-                femaleApiField -> females = getFemales()
-                maleApiField -> males = getMales()
-                genderlessApiField -> genderless = getGenderless()
-                unknownApiField -> unknown = getCharactersWithUnknownGender()
+        if (interactor.isError) { // экран ошибки теперь работает иногда... но когда отработал, то обновить экран до состояния списка уже не может
+            Log.d(TAG, "loadCharacters: error == ${interactor.isError}")
+            if (screenState.isBtnRetryClicked) {
+                executeCommand(ShowSnackbar(resources.getString(R.string.check_internet_connection_message)))
             }
+            updateScreenState(
+                errorLayoutVisibilityState = true,
+                progressBarVisibilityState = false,
+                chipsGroupVisibilityState = false
+            )
+        } else {
+            list = interactor.getFetchedData()
+            Log.d(TAG, "loadCharacters: list_size == ${list.size}")
+            list.forEach { Log.d(TAG, "loadCharacters: $it") }
+            updateScreenState(
+                dataListState = list,
+                errorLayoutVisibilityState = false,
+                progressBarVisibilityState = false,
+                chipsGroupVisibilityState = true
+            )
         }
-        val result = listOf(females, males, genderless, unknown).flatten().sortedBy { it.id }
-        return if (genders.isEmpty()) list else result
-    }
-
-    fun onChipChecked(genders: List<String>) {
-        val filteredDataList = filterListByGender(genders)
-        updateScreenState(
-            dataListState = filteredDataList,
-            isGenderChipSelected = true
-        )
-    }
-
-    fun onChipUnchecked(genders: List<String>) {
-        val filteredDataList = filterListByGender(genders)
-        updateScreenState(
-            dataListState = filteredDataList,
-            isGenderChipSelected = false
-        )
     }
 
     fun onButtonRetryClicked() {
@@ -106,43 +97,43 @@ class CharactersViewModel(
         updateScreenState(isBtnRetryClicked = true)
     }
 
+    fun onChipChecked(genders: List<String>) {
+        val filteredDataList: List<SimpleCharacter> = gender.filterListByGender(genders)
+        updateScreenState(
+            dataListState = filteredDataList,
+            isGenderChipSelected = true
+        )
+    }
+
+    fun onChipUnchecked(genders: List<String>) {
+        val filteredDataList: List<SimpleCharacter> = gender.filterListByGender(genders)
+        updateScreenState(
+            dataListState = filteredDataList,
+            isGenderChipSelected = false
+        )
+    }
+
     fun onItemClicked(id: Int) {
-        // save id to `some model` in order to get character by this id from a list of characters stored in `another model` visible in second fragment
+        sharedPrefs.edit().putInt(INT_CHARACTER_ID_KEY, id).apply()
         executeCommand(
             Navigate(R.id.navigationCharacterDetails)
         )
     }
 
-    private fun loadCharacters() {
-        updateScreenState(progressBarVisibilityState = true)
+    // send data to details fragment: bundleOf + character_obj
+//    fun onItemClicked(character: SimpleCharacter) {
+//        val gson = Gson()
+//        val jsonString = gson.toJson(character)
+//        val bundle = bundleOf(OBJ_CHARACTER_KEY to jsonString)
+//        executeCommand(
+//            Navigate(R.id.navigationCharacterDetails, bundle)
+//        )
+//    }
 
-        repository.getCharacters(object : FetchRemoteDataCallback {
-            override fun onError() {
-                if (screenState.isBtnRetryClicked) {
-                    executeCommand(ShowSnackbar(resources.getString(R.string.check_internet_connection_message)))
-                }
-                updateScreenState(
-                    errorLayoutVisibilityState = true,
-                    progressBarVisibilityState = false,
-                    chipsGroupVisibilityState = false
-                )
-            }
-
-            override fun onSuccess(data: List<SimpleCharacter>) {
-                list = data
-
-                updateScreenState(
-                    dataListState = data,
-                    errorLayoutVisibilityState = false,
-                    progressBarVisibilityState = false,
-                    chipsGroupVisibilityState = true
-                )
-            }
-        })
-    }
-
+    @Suppress("unused")
     companion object {
         private const val TAG = "TAG"
         private const val INT_CHARACTER_ID_KEY = "INT_CHARACTER_ID_KEY"
+        private const val OBJ_CHARACTER_KEY = "OBJ_CHARACTER_KEY"
     }
 }

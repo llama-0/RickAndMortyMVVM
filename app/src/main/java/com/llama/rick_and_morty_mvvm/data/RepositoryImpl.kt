@@ -1,11 +1,11 @@
 package com.llama.rick_and_morty_mvvm.data
 
 import android.util.Log
+import com.llama.rick_and_morty_mvvm.data.mapper.CharactersMapper
 import com.llama.rick_and_morty_mvvm.data.model.Character
 import com.llama.rick_and_morty_mvvm.data.model.CharactersInfo
 import com.llama.rick_and_morty_mvvm.data.network.ApiService
 import com.llama.rick_and_morty_mvvm.data.network.FetchRemoteDataCallback
-import com.llama.rick_and_morty_mvvm.data.mapper.CharactersMapper
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -44,3 +44,4 @@ class RepositoryImpl(private val apiService: ApiService) : Repository {
         private const val REPOSITORY_IMPL_TAG = "REPOSITORY_IMPL"
     }
 }
+

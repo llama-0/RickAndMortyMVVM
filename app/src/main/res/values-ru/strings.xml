@@ -23,4 +23,8 @@
     <string name="first_seen_in">Впервые был замечен в</string>
     <string name="last_seen_in">В последний раз был замечен в</string>
     <string name="status_badge">Иконка статуса</string>
+
+    <string name="show_character_image">Покажи аватарку персонажа</string>
+    <string name="species_title">Вид:</string>
+    <string name="gender_title">Пол:</string>
 </resources>

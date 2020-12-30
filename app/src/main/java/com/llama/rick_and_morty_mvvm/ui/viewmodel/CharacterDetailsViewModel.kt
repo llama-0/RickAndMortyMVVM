@@ -1,34 +1,52 @@
 package com.llama.rick_and_morty_mvvm.ui.viewmodel
 
+import android.content.SharedPreferences
+import android.util.Log
+import com.llama.rick_and_morty_mvvm.data.interactor.CharactersInteractor
 import com.llama.rick_and_morty_mvvm.domain.model.SimpleCharacter
 import com.llama.rick_and_morty_mvvm.ui.base.BaseCommand
 import com.llama.rick_and_morty_mvvm.ui.base.BaseViewModel
-import com.llama.rick_and_morty_mvvm.ui.view.CharacterDetailsScreenState
+import com.llama.rick_and_morty_mvvm.ui.command.DetailsCommand.OpenLink
+import com.llama.rick_and_morty_mvvm.ui.view.screenstate.CharacterDetailsScreenState
 
 class CharacterDetailsViewModel(
-    screenState: CharacterDetailsScreenState
+    screenState: CharacterDetailsScreenState,
+    sharedPrefs: SharedPreferences,
+    interactor: CharactersInteractor
 ) : BaseViewModel<
         CharacterDetailsScreenState,
         BaseCommand>(screenState) {
 
+    private val characterId: Int = sharedPrefs.getInt(INT_CHARACTER_ID_KEY, -1)
+    private val character: SimpleCharacter? =
+        interactor.getFetchedData().firstOrNull { it.id == characterId }
+//        list.firstOrNull { it.id == characterId }
+
     init {
-//        updateScreenState(characterState = character)
+        Log.d(TAG, "details init block: id = $characterId, character = $character")
+        Log.d(TAG, "init block: list_size = ${interactor.getFetchedData().size}") // ${list.size}")
+        character?.let { updateScreenState(characterState = it) }
     }
 
-    // 1. get character from `model`
-    // 2. link this character with the character of screenState
-
-    // в этом фрагменте screenState вообще не нужен, он просто показывает статические данные, полученные по id из недр пока не известно чего
     private fun updateScreenState(
         screenState: CharacterDetailsScreenState = this.screenState,
         characterState: SimpleCharacter = screenState.character
     ) {
-        this.screenState = CharacterDetailsScreenState(characterState)
+        this.screenState = CharacterDetailsScreenState(
+            characterState
+        )
         refreshView()
     }
 
+    @Suppress("unused")
     fun onUrlClicked() {
-//        executeCommand(OpenLink(character.image))
+        character?.let { executeCommand(OpenLink(it.image)) }
+    }
+
+    @Suppress("unused")
+    companion object {
+        private const val TAG = "TAG"
+        private const val INT_CHARACTER_ID_KEY = "INT_CHARACTER_ID_KEY"
     }
 
 }

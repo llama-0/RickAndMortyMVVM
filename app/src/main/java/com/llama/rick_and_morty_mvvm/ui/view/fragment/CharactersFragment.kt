@@ -1,4 +1,4 @@
-package com.llama.rick_and_morty_mvvm.ui.view
+package com.llama.rick_and_morty_mvvm.ui.view.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,12 +8,15 @@ import androidx.core.view.isVisible
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
 import com.llama.rick_and_morty_mvvm.databinding.FragmentCharactersBinding
 import com.llama.rick_and_morty_mvvm.domain.model.SimpleCharacter
 import com.llama.rick_and_morty_mvvm.ui.base.BaseCommand
 import com.llama.rick_and_morty_mvvm.ui.base.BaseFragment
 import com.llama.rick_and_morty_mvvm.ui.command.CharactersCommand.Navigate
 import com.llama.rick_and_morty_mvvm.ui.command.CharactersCommand.ShowSnackbar
+import com.llama.rick_and_morty_mvvm.ui.view.CharactersAdapter
+import com.llama.rick_and_morty_mvvm.ui.view.screenstate.CharactersScreenState
 import com.llama.rick_and_morty_mvvm.ui.viewmodel.CharactersViewModel
 
 class CharactersFragment :
@@ -50,6 +53,7 @@ class CharactersFragment :
             pbLoading.isVisible = screenState.progressBarVisibility
             includedErrorLayout.internetErrorLayout.isVisible = screenState.errorLayoutVisibility
             chipGroupGender.isVisible = screenState.chipsGroupVisibility
+            tvChooseGender.isVisible = screenState.chipsGroupVisibility
         }
         setAdapter(screenState.dataList)
     }
@@ -77,10 +81,10 @@ class CharactersFragment :
     }
 
     private fun selectChips() {
-        val chipGroup = binding.chipGroupGender
+        val chipGroup: ChipGroup = binding.chipGroupGender
         val list: MutableList<String> = mutableListOf()
         for (idx in 0 until chipGroup.childCount) {
-            val chip = chipGroup.getChildAt(idx) as Chip
+            val chip: Chip = chipGroup.getChildAt(idx) as Chip
 
             chip.setOnCheckedChangeListener { _, isChecked ->
                 if (isChecked) {

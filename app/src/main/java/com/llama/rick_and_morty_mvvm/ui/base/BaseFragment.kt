@@ -8,6 +8,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
 import com.llama.rick_and_morty_mvvm.App
+import com.llama.rick_and_morty_mvvm.MainActivity
 import com.llama.rick_and_morty_mvvm.R
 
 abstract class BaseFragment<

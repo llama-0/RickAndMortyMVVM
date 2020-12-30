@@ -5,7 +5,7 @@
     android:id="@+id/fragment_characters_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.view.CharactersFragment">
+    tools:context=".ui.view.fragment.CharactersFragment">
 
     <TextView
         android:id="@+id/tvChooseGender"
@@ -18,6 +18,8 @@
         android:textColor="@color/dark_grey"
         android:textSize="16sp"
         android:textStyle="bold"
+        android:visibility="invisible"
+        tools:alpha="0.6"
         app:layout_constraintBottom_toTopOf="@+id/chipGroupGender"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -43,7 +45,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvChooseGender"
-        tools:visibility="visible">
+        tools:visibility="visible"
+        tools:alpha="0.6">
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chipFemale"

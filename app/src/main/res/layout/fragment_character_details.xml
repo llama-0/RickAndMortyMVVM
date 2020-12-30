@@ -1,20 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/character_details_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_gravity="center"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/tvName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
+        android:layout_marginEnd="8dp"
+        android:textAlignment="center"
         android:textColor="@color/dark_grey"
         android:textSize="20sp"
         android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:textAppearance="@tools:sample/first_names" />
 
     <TextView
@@ -22,94 +26,136 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        android:linksClickable="true"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="@+id/tvName"
+        app:layout_constraintStart_toStartOf="@+id/tvName"
+        app:layout_constraintTop_toBottomOf="@+id/tvName"
         tools:textAppearance="@tools:sample/lorem" />
 
-    <LinearLayout
-        android:id="@+id/basicDetailsLinearLayout"
+    <!--    add this to tvImage to simply open in a browser without adding click listener in Fragment -->
+    <!--    opens `pure` links like `https://www.example.com` -->
+    <!--        android:autoLink="web" -->
+    <!--    android:linksClickable="true" this might be excessive -->
+
+    <WebView
+        android:id="@+id/wvImage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        app:layout_constraintEnd_toEndOf="@+id/tvImage"
+        app:layout_constraintStart_toStartOf="@+id/tvImage"
+        app:layout_constraintTop_toBottomOf="@+id/tvImage" />
+
+
+    <ImageView
+        android:id="@+id/ivStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:orientation="horizontal">
+        android:layout_marginTop="11dp"
+        android:contentDescription="@string/status_badge"
+        android:src="@drawable/oval_status_unknown"
+        app:layout_constraintStart_toStartOf="@+id/wvImage"
+        app:layout_constraintTop_toBottomOf="@+id/wvImage" />
 
-        <ImageView
-            android:id="@+id/ivStatus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:src="@drawable/oval"
-            android:contentDescription="@string/status_badge" />
-
-        <TextView
-            android:id="@+id/tvStatus"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            tools:textAppearance="@tools:sample/lorem" />
-
-        <TextView
-            android:id="@+id/tvSpecies"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            tools:textAppearance="@tools:sample/lorem" />
-
-        <TextView
-            android:id="@+id/tvGender"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            tools:textAppearance="@tools:sample/lorem" />
-
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:id="@+id/originLinerLayout"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/tvStatus"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:textAlignment="center"
+        app:layout_constraintStart_toEndOf="@+id/ivStatus"
+        app:layout_constraintTop_toBottomOf="@+id/wvImage"
+        tools:textAppearance="@tools:sample/lorem" />
 
-        <TextView
-            android:id="@+id/tvFirstSeenInTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:text="@string/first_seen_in"
-            android:textColor="@color/dark_grey"
-            tools:textAppearance="@tools:sample/lorem" />
-
-        <TextView
-            android:id="@+id/tvFirstSeenIn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            tools:textAppearance="@tools:sample/lorem" />
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:id="@+id/locationLinerLayout"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/tvSpeciesTitle"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_marginTop="8dp"
+        android:text="@string/species_title"
+        android:textColor="@color/dark_grey"
+        app:layout_constraintStart_toStartOf="@+id/wvImage"
+        app:layout_constraintTop_toBottomOf="@+id/tvStatus"
+        tools:textAppearance="@tools:sample/lorem" />
 
-        <TextView
-            android:id="@+id/tvLastKnownLocationTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:text="@string/last_seen_in"
-            android:textColor="@color/dark_grey"
-            tools:textAppearance="@tools:sample/lorem" />
-
-        <TextView
-            android:id="@+id/tvLastKnownLocation"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            tools:textAppearance="@tools:sample/lorem" />
-    </LinearLayout>
+    <TextView
+        android:id="@+id/tvSpecies"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:textAlignment="center"
+        app:layout_constraintStart_toEndOf="@+id/tvSpeciesTitle"
+        app:layout_constraintTop_toBottomOf="@+id/tvStatus"
+        tools:textAppearance="@tools:sample/lorem" />
 
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/tvGenderTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/gender_title"
+        android:textColor="@color/dark_grey"
+        app:layout_constraintStart_toStartOf="@+id/wvImage"
+        app:layout_constraintTop_toBottomOf="@+id/tvSpeciesTitle"
+        tools:textAppearance="@tools:sample/lorem" />
+
+    <TextView
+        android:id="@+id/tvGender"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:textAlignment="center"
+        app:layout_constraintStart_toEndOf="@+id/tvGenderTitle"
+        app:layout_constraintTop_toBottomOf="@+id/tvSpecies"
+        tools:textAppearance="@tools:sample/lorem" />
+
+    <TextView
+        android:id="@+id/tvFirstSeenInTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/first_seen_in"
+        android:textColor="@color/dark_grey"
+        app:layout_constraintEnd_toEndOf="@+id/wvImage"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/wvImage"
+        app:layout_constraintTop_toBottomOf="@+id/tvGenderTitle"
+        tools:textAppearance="@tools:sample/lorem" />
+
+    <TextView
+        android:id="@+id/tvFirstSeenIn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toEndOf="@+id/tvFirstSeenInTitle"
+        app:layout_constraintTop_toBottomOf="@+id/tvGender"
+        tools:textAppearance="@tools:sample/lorem" />
+
+    <TextView
+        android:id="@+id/tvLastKnownLocationTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/last_seen_in"
+        android:textColor="@color/dark_grey"
+        app:layout_constraintStart_toStartOf="@+id/wvImage"
+        app:layout_constraintTop_toBottomOf="@+id/tvFirstSeenInTitle"
+        tools:textAppearance="@tools:sample/lorem" />
+
+    <TextView
+        android:id="@+id/tvLastKnownLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toEndOf="@+id/tvLastKnownLocationTitle"
+        app:layout_constraintTop_toBottomOf="@+id/tvFirstSeenIn"
+        tools:textAppearance="@tools:sample/lorem" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

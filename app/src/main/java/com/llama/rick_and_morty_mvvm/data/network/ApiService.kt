@@ -6,6 +6,6 @@ import retrofit2.http.GET
 
 interface ApiService {
 
-    @GET("character?page=27")
+    @GET("character?page=27") // it has all 4 genders. todo: remove `page` arg when migration to Paging Library will be implemented
     fun getCharactersInfo(): Call<CharactersInfo>
 }
