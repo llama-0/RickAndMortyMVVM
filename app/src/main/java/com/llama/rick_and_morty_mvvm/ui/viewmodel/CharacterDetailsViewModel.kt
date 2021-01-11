@@ -1,8 +1,7 @@
 package com.llama.rick_and_morty_mvvm.ui.viewmodel
 
 import android.content.SharedPreferences
-import android.util.Log
-import com.llama.rick_and_morty_mvvm.data.interactor.CharactersInteractor
+import com.llama.rick_and_morty_mvvm.domain.interactor.CharactersInteractor
 import com.llama.rick_and_morty_mvvm.domain.model.SimpleCharacter
 import com.llama.rick_and_morty_mvvm.ui.base.BaseCommand
 import com.llama.rick_and_morty_mvvm.ui.base.BaseViewModel
@@ -20,11 +19,8 @@ class CharacterDetailsViewModel(
     private val characterId: Int = sharedPrefs.getInt(INT_CHARACTER_ID_KEY, -1)
     private val character: SimpleCharacter? =
         interactor.getFetchedData().firstOrNull { it.id == characterId }
-//        list.firstOrNull { it.id == characterId } // see comment in CharactersViewModelFactory
 
     init {
-        Log.d(TAG, "details init block: id = $characterId, character = $character")
-        Log.d(TAG, "init block: list_size = ${interactor.getFetchedData().size}") // ${list.size}") // see comment in CharactersViewModelFactory
         character?.let { updateScreenState(characterState = it) }
     }
 
@@ -45,8 +41,8 @@ class CharacterDetailsViewModel(
         }
     }
 
-    @Suppress("unused")
     companion object {
+        @Suppress("unused")
         private const val TAG = "TAG"
         private const val INT_CHARACTER_ID_KEY = "INT_CHARACTER_ID_KEY"
     }

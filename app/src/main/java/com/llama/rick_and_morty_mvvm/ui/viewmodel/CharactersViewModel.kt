@@ -3,10 +3,9 @@ package com.llama.rick_and_morty_mvvm.ui.viewmodel
 import android.content.SharedPreferences
 import android.content.res.Resources
 import android.util.Log
-import androidx.annotation.UiThread
 import com.llama.rick_and_morty_mvvm.R
-import com.llama.rick_and_morty_mvvm.data.RepositoryImpl
-import com.llama.rick_and_morty_mvvm.data.interactor.CharactersInteractor
+import com.llama.rick_and_morty_mvvm.domain.FetchDataInnerCallback
+import com.llama.rick_and_morty_mvvm.domain.interactor.CharactersInteractor
 import com.llama.rick_and_morty_mvvm.domain.model.SimpleCharacter
 import com.llama.rick_and_morty_mvvm.ui.base.BaseCommand
 import com.llama.rick_and_morty_mvvm.ui.base.BaseViewModel
@@ -25,6 +24,7 @@ class CharactersViewModel(
         BaseCommand>(screenState) {
 
     private lateinit var list: List<SimpleCharacter>
+
     private val gender: Gender by lazy {
         Gender(resources, list)
     }
@@ -57,33 +57,32 @@ class CharactersViewModel(
         }
     }
 
-    // todo: fix UI inhibition -- can't update UI on time since implemented interactor
     private fun loadCharacters() {
         updateScreenState(progressBarVisibilityState = true)
 
-        interactor.fetchData()
-
-        if (interactor.getErrorState()) { // экран ошибки теперь работает иногда... но когда отработал, то обновить экран до состояния списка уже не может
-            Log.d(TAG, "loadCharacters: error == true should it be")
-            if (screenState.isBtnRetryClicked) {
-                executeCommand(ShowSnackbar(resources.getString(R.string.check_internet_connection_message)))
+        interactor.fetchData(object : FetchDataInnerCallback {
+            override fun onSuccess(data: List<SimpleCharacter>) {
+                list = data
+                updateScreenState(
+                    dataListState = list,
+                    errorLayoutVisibilityState = false,
+                    progressBarVisibilityState = false,
+                    chipsGroupVisibilityState = true
+                )
             }
-            updateScreenState(
-                errorLayoutVisibilityState = true,
-                progressBarVisibilityState = false,
-                chipsGroupVisibilityState = false
-            )
-        } else {
-            list = interactor.getFetchedData()
-            Log.d(TAG, "loadCharacters: list_size == ${list.size}")
-            list.forEach { Log.d(TAG, "loadCharacters: $it") }
-            updateScreenState(
-                dataListState = list,
-                errorLayoutVisibilityState = false,
-                progressBarVisibilityState = false,
-                chipsGroupVisibilityState = true
-            )
-        }
+
+            override fun onError() {
+                if (screenState.isBtnRetryClicked) {
+                    executeCommand(ShowSnackbar(resources.getString(R.string.check_internet_connection_message)))
+                }
+                updateScreenState(
+                    errorLayoutVisibilityState = true,
+                    progressBarVisibilityState = false,
+                    chipsGroupVisibilityState = false
+                )
+            }
+
+        })
     }
 
     fun onButtonRetryClicked() {
@@ -114,10 +113,8 @@ class CharactersViewModel(
         )
     }
 
-    @Suppress("unused")
     companion object {
         private const val TAG = "TAG"
         private const val INT_CHARACTER_ID_KEY = "INT_CHARACTER_ID_KEY"
-        private const val OBJ_CHARACTER_KEY = "OBJ_CHARACTER_KEY"
     }
 }

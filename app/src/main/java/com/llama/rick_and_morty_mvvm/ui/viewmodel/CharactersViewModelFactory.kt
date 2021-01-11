@@ -4,15 +4,13 @@ import android.content.SharedPreferences
 import android.content.res.Resources
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.llama.rick_and_morty_mvvm.data.RepositoryImpl
-import com.llama.rick_and_morty_mvvm.data.interactor.CharactersInteractor
+import com.llama.rick_and_morty_mvvm.domain.interactor.CharactersInteractor
 import com.llama.rick_and_morty_mvvm.ui.view.screenstate.CharacterDetailsScreenState
 import com.llama.rick_and_morty_mvvm.ui.view.screenstate.CharactersScreenState
 
 class CharactersViewModelFactory(
     private val sharedPrefs: SharedPreferences,
     private val interactor: CharactersInteractor,
-//    private val list: List<SimpleCharacter>, // I can use list of data in details fragment, not interactor (one step closer to actual data)
     private val screenState: CharactersScreenState,
     private val detailsScreenState: CharacterDetailsScreenState,
     private val resources: Resources

@@ -35,7 +35,6 @@ class CharacterDetailsFragment :
         return binding.root
     }
 
-    @Suppress("unused")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -101,10 +100,5 @@ class CharacterDetailsFragment :
         url.setOnClickListener {
             viewModel.onUrlClicked()
         }
-    }
-
-    @Suppress("unused")
-    companion object {
-        private const val INT_CHARACTER_ID_KEY = "INT_CHARACTER_ID_KEY"
     }
 }

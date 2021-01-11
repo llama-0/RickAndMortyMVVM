@@ -1,6 +1,6 @@
-package com.llama.rick_and_morty_mvvm.data.interactor
+package com.llama.rick_and_morty_mvvm.domain.interactor
 
-import android.util.Log
+import com.llama.rick_and_morty_mvvm.domain.FetchDataInnerCallback
 import com.llama.rick_and_morty_mvvm.data.RepositoryImpl
 import com.llama.rick_and_morty_mvvm.data.network.FetchRemoteDataCallback
 import com.llama.rick_and_morty_mvvm.domain.model.SimpleCharacter
@@ -8,19 +8,17 @@ import com.llama.rick_and_morty_mvvm.domain.model.SimpleCharacter
 class CharactersInteractor(private val repository: RepositoryImpl) : InteractorInterface {
 
     private val fetchedData: ArrayList<SimpleCharacter> = arrayListOf()
-    private var isError: Boolean = false
 
-    override fun fetchData() {
+    override fun fetchData(callback: FetchDataInnerCallback) {
         repository.getCharacters(object : FetchRemoteDataCallback {
             override fun onSuccess(data: List<SimpleCharacter>) {
+                callback.onSuccess(data)
                 fetchedData.clear()
                 fetchedData.addAll(data)
-                Log.d(TAG, "onSuccess: size = ${fetchedData.size}")
             }
 
             override fun onError() {
-                isError = true
-                Log.d(TAG, "onError: isError = $isError")
+                callback.onError()
             }
 
         })
@@ -29,10 +27,8 @@ class CharactersInteractor(private val repository: RepositoryImpl) : InteractorI
     override fun getFetchedData(): List<SimpleCharacter> =
         fetchedData
 
-    override fun getErrorState(): Boolean =
-        isError
-
     companion object {
+        @Suppress("unused")
         private const val TAG = "TAG"
     }
 }

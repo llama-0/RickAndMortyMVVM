@@ -10,15 +10,16 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class RepositoryImpl(private val apiService: ApiService) : Repository {
+class RepositoryImpl(
+    private val apiService: ApiService,
+    private val charactersMapper: CharactersMapper
+) : Repository {
 
-    private val charactersMapper = CharactersMapper()
-
-    override fun getCharacters(resource: FetchRemoteDataCallback) {
+    override fun getCharacters(callback: FetchRemoteDataCallback) {
         apiService.getCharactersInfo().enqueue(object : Callback<CharactersInfo> {
             override fun onFailure(call: Call<CharactersInfo>, t: Throwable) {
                 Log.e(REPOSITORY_IMPL_TAG, "onFailure: getCharacters from remote failed", t)
-                resource.onError()
+                callback.onError()
             }
 
             override fun onResponse(
@@ -27,14 +28,14 @@ class RepositoryImpl(private val apiService: ApiService) : Repository {
             ) {
                 if (response.isSuccessful) {
                     val characterList: List<Character>? = response.body()?.characters
-                    resource.onSuccess(charactersMapper.map(characterList))
+                    callback.onSuccess(charactersMapper.map(characterList))
                 } else {
                     Log.e(
                         REPOSITORY_IMPL_TAG,
                         "onResponse: unsuccessful response",
                         Exception(response.errorBody().toString())
                     )
-                    resource.onError()
+                    callback.onError()
                 }
             }
         })
