@@ -10,10 +10,9 @@ import com.llama.rick_and_morty_mvvm.ui.view.screenstate.CharacterDetailsScreenS
 import com.llama.rick_and_morty_mvvm.ui.view.screenstate.CharactersScreenState
 
 class CharactersViewModelFactory(
-    private val repository: RepositoryImpl,
     private val sharedPrefs: SharedPreferences,
     private val interactor: CharactersInteractor,
-//    private val list: List<SimpleCharacter>, // I can use list of data in details fragment, not interactor
+//    private val list: List<SimpleCharacter>, // I can use list of data in details fragment, not interactor (one step closer to actual data)
     private val screenState: CharactersScreenState,
     private val detailsScreenState: CharacterDetailsScreenState,
     private val resources: Resources
@@ -22,7 +21,6 @@ class CharactersViewModelFactory(
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T = when (modelClass) {
         CharactersViewModel::class.java -> CharactersViewModel(
-            repository,
             sharedPrefs,
             interactor,
             screenState,

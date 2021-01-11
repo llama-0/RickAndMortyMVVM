@@ -80,6 +80,13 @@ class CharactersFragment :
         }
     }
 
+    /**
+     * function logic:
+     *  1. Run through Chips in a ChipGroup;
+     *  2. set checkedChangeListener on each Chip, in which
+     *  3. call viewModel methods onChipChecked / onChipUnchecked
+     * depending on isChecked Chip state
+     * */
     private fun selectChips() {
         val chipGroup: ChipGroup = binding.chipGroupGender
         val list: MutableList<String> = mutableListOf()

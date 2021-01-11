@@ -4,6 +4,10 @@ import android.content.res.Resources
 import com.llama.rick_and_morty_mvvm.R
 import com.llama.rick_and_morty_mvvm.domain.model.SimpleCharacter
 
+/**
+ * [Gender] class holds filtering logic of
+ * [list] of SimpleCharacters by mutually exclusive gender type
+ * */
 class Gender(
     resources: Resources,
     private val list: List<SimpleCharacter>
@@ -27,8 +31,12 @@ class Gender(
     private fun getCharactersWithUnknownGender(): List<SimpleCharacter> =
         list.filter { it.gender.equals(unknownApiField, true) }
 
+    /**
+     * Given list of [genders] filters [list] of SimpleCharacters by each present gender.
+     * Returns original list if no gender present or filtered list, sorted by id in ascending order otherwise.
+     * */
     fun filterListByGender(genders: List<String>): List<SimpleCharacter> {
-        var females: List<SimpleCharacter> = emptyList()
+        var females: List<SimpleCharacter> = emptyList() // weak code or OK?
         var males: List<SimpleCharacter> = emptyList()
         var genderless: List<SimpleCharacter> = emptyList()
         var unknown: List<SimpleCharacter> = emptyList()

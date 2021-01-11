@@ -20,11 +20,11 @@ class CharacterDetailsViewModel(
     private val characterId: Int = sharedPrefs.getInt(INT_CHARACTER_ID_KEY, -1)
     private val character: SimpleCharacter? =
         interactor.getFetchedData().firstOrNull { it.id == characterId }
-//        list.firstOrNull { it.id == characterId }
+//        list.firstOrNull { it.id == characterId } // see comment in CharactersViewModelFactory
 
     init {
         Log.d(TAG, "details init block: id = $characterId, character = $character")
-        Log.d(TAG, "init block: list_size = ${interactor.getFetchedData().size}") // ${list.size}")
+        Log.d(TAG, "init block: list_size = ${interactor.getFetchedData().size}") // ${list.size}") // see comment in CharactersViewModelFactory
         character?.let { updateScreenState(characterState = it) }
     }
 
@@ -40,7 +40,9 @@ class CharacterDetailsViewModel(
 
     @Suppress("unused")
     fun onUrlClicked() {
-        character?.let { executeCommand(OpenLink(it.image)) }
+        character?.let {
+            executeCommand(OpenLink(it.image))
+        }
     }
 
     @Suppress("unused")

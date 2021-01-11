@@ -7,8 +7,8 @@ import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.content.ContextCompat.getColor
 import androidx.core.content.ContextCompat.getDrawable
 import com.llama.rick_and_morty_mvvm.R
 import com.llama.rick_and_morty_mvvm.databinding.FragmentCharacterDetailsBinding
@@ -17,7 +17,6 @@ import com.llama.rick_and_morty_mvvm.ui.base.BaseFragment
 import com.llama.rick_and_morty_mvvm.ui.command.DetailsCommand.OpenLink
 import com.llama.rick_and_morty_mvvm.ui.view.screenstate.CharacterDetailsScreenState
 import com.llama.rick_and_morty_mvvm.ui.viewmodel.CharacterDetailsViewModel
-import kotlin.math.absoluteValue
 
 
 class CharacterDetailsFragment :
@@ -52,40 +51,35 @@ class CharacterDetailsFragment :
             tvFirstSeenIn.text = screenState.character.firstSeenIn
             tvLastKnownLocation.text = screenState.character.lastSeenIn
             tvImage.movementMethod = LinkMovementMethod.getInstance()
-            val text =
-                "<a href='${screenState.character.image}'> ${getString(R.string.show_character_image)} </a>" // todo: whole string should be in resources
-            // (but is I do so href functionality disappears)
+            val imageUrlText: String = getString(
+                R.string.character_image_link,
+                screenState.character.image,
+                getString(R.string.show_character_image)
+            )
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-                tvImage.text = fromHtml(text, Html.FROM_HTML_MODE_COMPACT)
+                tvImage.text = fromHtml(imageUrlText, Html.FROM_HTML_MODE_COMPACT)
             } else {
-                tvImage.text = fromHtml(text)
+                tvImage.text = fromHtml(imageUrlText)
             }
             setImageViewStatus(tvStatus.text as String)
         }
     }
 
-    // todo: remove code duplication; logic in fragment
-    private fun setImageViewStatus(status: String) = with(binding) {
+    private fun setImageViewStatus(status: String): Unit = with(binding) {
         when (status) {
-            "Alive" -> ivStatus.setImageDrawable(
-                getDrawable(
-                    requireContext(),
-                    R.drawable.oval_status_alive
-                )
-            )
-            "Dead" -> ivStatus.setImageDrawable(
-                getDrawable(
-                    requireContext(),
-                    R.drawable.oval_status_dead
-                )
-            )
-            else -> ivStatus.setImageDrawable(
-                getDrawable(
-                    requireContext(),
-                    R.drawable.oval_status_unknown
-                )
-            )
+            "Alive" -> ivStatus.setDrawable(R.drawable.oval_status_alive)
+            "Dead" -> ivStatus.setDrawable(R.drawable.oval_status_dead)
+            else -> ivStatus.setDrawable(R.drawable.oval_status_unknown)
         }
+    }
+
+    private fun ImageView.setDrawable(id: Int) {
+        setImageDrawable(
+            getDrawable(
+                requireContext(),
+                id
+            )
+        )
     }
 
     @Suppress("unused")

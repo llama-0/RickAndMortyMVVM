@@ -34,5 +34,5 @@
 
     <string name="species_title">Species:</string>
     <string name="gender_title">Gender:</string>
-    <!--    <string name="character_image_link" translatable="false"><a href="%1$s"> %2$s </a></string>-->
+    <string name="character_image_link" translatable="false"><![CDATA[<a href=\'%1$s\'> %2$s </a>]]></string>
 </resources>

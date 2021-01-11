@@ -30,13 +30,13 @@ class App : Application() {
         )
     }
     private val defaultCharacter: SimpleCharacter by lazy {
-        SimpleCharacter(
+        SimpleCharacter( // Info: could use string resources with companion object for code clarity
             -1,
             "name",
             "Male",
             "Alive",
             "Human",
-            "image is here",
+            "https://google.com",
             "from",
             "to"
         )
@@ -52,7 +52,6 @@ class App : Application() {
     }
     val factory: CharactersViewModelFactory by lazy {
         CharactersViewModelFactory(
-            repository,
             sharedPrefs,
             interactor,
             screenState,

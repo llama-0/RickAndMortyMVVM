@@ -8,7 +8,7 @@ import com.llama.rick_and_morty_mvvm.domain.model.SimpleCharacter
 class CharactersInteractor(private val repository: RepositoryImpl) : InteractorInterface {
 
     private val fetchedData: ArrayList<SimpleCharacter> = arrayListOf()
-    var isError: Boolean = false // торчащая наружу изменяемая переменная - надо что-то другое придумать
+    private var isError: Boolean = false
 
     override fun fetchData() {
         repository.getCharacters(object : FetchRemoteDataCallback {
@@ -28,6 +28,9 @@ class CharactersInteractor(private val repository: RepositoryImpl) : InteractorI
 
     override fun getFetchedData(): List<SimpleCharacter> =
         fetchedData
+
+    override fun getErrorState(): Boolean =
+        isError
 
     companion object {
         private const val TAG = "TAG"

@@ -16,7 +16,6 @@ import com.llama.rick_and_morty_mvvm.ui.model.Gender
 import com.llama.rick_and_morty_mvvm.ui.view.screenstate.CharactersScreenState
 
 class CharactersViewModel(
-    private val repository: RepositoryImpl, // выпилить потом, если сработает идея
     private val sharedPrefs: SharedPreferences,
     private val interactor: CharactersInteractor,
     screenState: CharactersScreenState,
@@ -26,7 +25,7 @@ class CharactersViewModel(
         BaseCommand>(screenState) {
 
     private lateinit var list: List<SimpleCharacter>
-    private val gender by lazy {
+    private val gender: Gender by lazy {
         Gender(resources, list)
     }
 
@@ -58,19 +57,14 @@ class CharactersViewModel(
         }
     }
 
+    // todo: fix UI inhibition -- can't update UI on time since implemented interactor
     private fun loadCharacters() {
+        updateScreenState(progressBarVisibilityState = true)
+
         interactor.fetchData()
-        Thread.sleep(1000L) // todo; rewrite
-        // сейчас я таким образом жду, пока результат загрузится из сети
-        // иначе UI не успеет отреагировать. Раньше LiveData отвечала за "ожидание"
-        // теперь есть интерактор между загрузкой данных и LiveData и надо как-то иначе ждать
 
-        updateScreenState(progressBarVisibilityState = true) // вот это теперь не работает
-
-        Log.d(TAG, "loadCharacters: after interactor.fetch() called")
-
-        if (interactor.isError) { // экран ошибки теперь работает иногда... но когда отработал, то обновить экран до состояния списка уже не может
-            Log.d(TAG, "loadCharacters: error == ${interactor.isError}")
+        if (interactor.getErrorState()) { // экран ошибки теперь работает иногда... но когда отработал, то обновить экран до состояния списка уже не может
+            Log.d(TAG, "loadCharacters: error == true should it be")
             if (screenState.isBtnRetryClicked) {
                 executeCommand(ShowSnackbar(resources.getString(R.string.check_internet_connection_message)))
             }
@@ -119,16 +113,6 @@ class CharactersViewModel(
             Navigate(R.id.navigationCharacterDetails)
         )
     }
-
-    // send data to details fragment: bundleOf + character_obj
-//    fun onItemClicked(character: SimpleCharacter) {
-//        val gson = Gson()
-//        val jsonString = gson.toJson(character)
-//        val bundle = bundleOf(OBJ_CHARACTER_KEY to jsonString)
-//        executeCommand(
-//            Navigate(R.id.navigationCharacterDetails, bundle)
-//        )
-//    }
 
     @Suppress("unused")
     companion object {
