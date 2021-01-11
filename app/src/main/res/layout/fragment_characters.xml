@@ -12,10 +12,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginBottom="16dp"
+        android:gravity="center"
         android:letterSpacing="0.02"
         android:text="@string/choose_gender"
-        android:textColor="@color/dark_grey"
         android:textSize="16sp"
         android:textStyle="bold"
         android:visibility="invisible"
@@ -38,7 +37,7 @@
 
     <com.google.android.material.chip.ChipGroup
         android:id="@+id/chipGroupGender"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
@@ -55,10 +54,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/female"
-            app:chipBackgroundColor="@color/white"
-            app:chipIcon="@drawable/ic_done_black_18dp"
-            app:chipStrokeColor="@color/dark_grey"
-            app:chipStrokeWidth="0.5dp" />
+            app:checkedIcon="@drawable/ic_done_black_24dp"
+            app:chipBackgroundColor="?attr/colorSurface"
+            app:chipStrokeWidth="0.55dp" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chipMale"
@@ -66,10 +64,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/male"
-            app:chipBackgroundColor="@color/white"
-            app:chipIcon="@drawable/ic_done_black_18dp"
-            app:chipStrokeColor="@color/dark_grey"
-            app:chipStrokeWidth="0.5dp" />
+            app:checkedIcon="@drawable/ic_done_black_24dp"
+            app:chipBackgroundColor="?attr/colorSurface"
+            app:chipStrokeWidth="0.55dp" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chipGenderless"
@@ -77,10 +74,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/genderless"
-            app:chipBackgroundColor="@color/white"
-            app:chipIcon="@drawable/ic_done_black_18dp"
-            app:chipStrokeColor="@color/dark_grey"
-            app:chipStrokeWidth="0.5dp" />
+            app:checkedIcon="@drawable/ic_done_black_24dp"
+            app:chipBackgroundColor="?attr/colorSurface"
+            app:chipStrokeWidth="0.55dp" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chipUnknown"
@@ -88,10 +84,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/unknown"
-            app:chipBackgroundColor="@color/white"
-            app:chipIcon="@drawable/ic_done_black_18dp"
-            app:chipStrokeColor="@color/dark_grey"
-            app:chipStrokeWidth="0.5dp" />
+            app:checkedIcon="@drawable/ic_done_black_24dp"
+            app:chipBackgroundColor="?attr/colorSurface"
+            app:chipStrokeWidth="0.55dp" />
     </com.google.android.material.chip.ChipGroup>
 
     <androidx.recyclerview.widget.RecyclerView
@@ -107,5 +102,9 @@
 
     <include
         android:id="@+id/includedErrorLayout"
-        layout="@layout/internet_error_layout" />
+        layout="@layout/internet_error_layout"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
