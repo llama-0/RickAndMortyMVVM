@@ -19,6 +19,13 @@ class Gender(
         resources.getString(R.string.genderless_gender_api_field)
     private val unknownApiField: String = resources.getString(R.string.unknown_gender_api_field)
 
+//    private val test: String = resources.getString(R.string.choose_gender)
+
+    private val femaleChipText: String = resources.getString(R.string.female)
+    private val maleChipText: String = resources.getString(R.string.male)
+    private val genderlessChipText: String = resources.getString(R.string.genderless)
+    private val unknownChipText: String = resources.getString(R.string.unknown)
+
     private fun getFemales(): List<SimpleCharacter> =
         list.filter { it.gender == femaleApiField }
 
@@ -42,10 +49,10 @@ class Gender(
         var unknown: List<SimpleCharacter> = emptyList()
         genders.forEach { gender ->
             when (gender) {
-                femaleApiField -> females = getFemales()
-                maleApiField -> males = getMales()
-                genderlessApiField -> genderless = getGenderless()
-                unknownApiField -> unknown = getCharactersWithUnknownGender()
+                femaleChipText -> females = getFemales()
+                maleChipText -> males = getMales()
+                genderlessChipText -> genderless = getGenderless()
+                unknownChipText -> unknown = getCharactersWithUnknownGender()
             }
         }
         val result: List<SimpleCharacter> =
