@@ -51,7 +51,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="11dp"
-        android:contentDescription="@string/status_badge"
+        android:contentDescription="@string/status_badge_content_description"
         android:src="@drawable/oval_status_unknown"
         app:layout_constraintStart_toStartOf="@+id/wvImage"
         app:layout_constraintTop_toBottomOf="@+id/wvImage" />
@@ -113,7 +113,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="@string/first_seen_in"
+        android:text="@string/first_seen_in_title"
         app:layout_constraintEnd_toEndOf="@+id/wvImage"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/wvImage"
@@ -134,7 +134,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="@string/last_seen_in"
+        android:text="@string/last_seen_in_title"
         app:layout_constraintStart_toStartOf="@+id/wvImage"
         app:layout_constraintTop_toBottomOf="@+id/tvFirstSeenInTitle" />
 

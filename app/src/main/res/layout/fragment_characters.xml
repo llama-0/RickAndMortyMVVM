@@ -14,7 +14,7 @@
         android:layout_marginStart="8dp"
         android:gravity="center"
         android:letterSpacing="0.02"
-        android:text="@string/choose_gender"
+        android:text="@string/choose_gender_label"
         android:textSize="16sp"
         android:textStyle="bold"
         android:visibility="invisible"
@@ -54,7 +54,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:elevation="8dp"
-            android:text="@string/female"
+            android:text="@string/female_chip_name"
             app:checkedIcon="@drawable/ic_done_black_24dp"
             app:chipBackgroundColor="?attr/colorSurface"
             app:chipStrokeWidth="0.55dp" />
@@ -65,7 +65,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:elevation="8dp"
-            android:text="@string/male"
+            android:text="@string/male_chip_name"
             app:checkedIcon="@drawable/ic_done_black_24dp"
             app:chipBackgroundColor="?attr/colorSurface"
             app:chipStrokeWidth="0.55dp" />
@@ -76,7 +76,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:elevation="8dp"
-            android:text="@string/genderless"
+            android:text="@string/genderless_chip_name"
             app:checkedIcon="@drawable/ic_done_black_24dp"
             app:chipBackgroundColor="?attr/colorSurface"
             app:chipStrokeWidth="0.55dp" />
@@ -87,7 +87,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:elevation="8dp"
-            android:text="@string/unknown"
+            android:text="@string/unknown_gender_chip_name"
             app:checkedIcon="@drawable/ic_done_black_24dp"
             app:chipBackgroundColor="?attr/colorSurface"
             app:chipStrokeWidth="0.55dp" />

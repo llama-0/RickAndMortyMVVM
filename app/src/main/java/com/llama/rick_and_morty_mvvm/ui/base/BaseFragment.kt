@@ -58,6 +58,6 @@ abstract class BaseFragment<
     }
 
     private fun showUnderDevelopmentMessage() {
-        showSnackbar(requireView(), getString(R.string.under_development))
+        showSnackbar(requireView(), getString(R.string.under_development_message))
     }
 }

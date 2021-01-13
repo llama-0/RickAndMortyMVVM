@@ -53,7 +53,7 @@ class CharacterDetailsFragment :
             val imageUrlText: String = getString(
                 R.string.character_image_link,
                 screenState.character.image,
-                getString(R.string.show_character_image)
+                getString(R.string.show_character_image_clickable_link_name)
             )
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
                 tvImage.text = fromHtml(imageUrlText, Html.FROM_HTML_MODE_COMPACT)

@@ -4,27 +4,24 @@
     <string name="title_characters">Персонажи</string>
     <string name="title_character_details">Профайл персонажа</string>
 
-    <string name="no_internet_connection">Интернет соединие отсутсвует</string>
+    <string name="no_internet_connection_state">Интернет соединие отсутсвует</string>
     <string name="check_internet_connection_message">Пожалуйста, проверьте наличие интернет соединения</string>
     <string name="btn_name_retry">Повторить загрузку</string>
-    <string name="under_development">В разработке</string>
+    <string name="under_development_message">В разработке</string>
 
-    <string name="male">Мужской</string>
-    <string name="female">Женский</string>
-    <string name="unknown">Неизвестен</string>
-    <string name="genderless">Бесполый</string>
+    <string name="male_chip_name">Мужской</string>
+    <string name="female_chip_name">Женский</string>
+    <string name="genderless_chip_name">Бесполый</string>
+    <string name="unknown_gender_chip_name">Неизвестен</string>
 
-    <string name="choose_gender">Выберите пол персонажа</string>
+    <string name="choose_gender_label">Выберите пол персонажа</string>
 
-    <string name="name">Имя</string>
-    <string name="status">Статус</string>
-    <string name="gender">Пол</string>
-    <string name="avatar">Аватар</string>
-    <string name="first_seen_in">Впервые был замечен в:</string>
-    <string name="last_seen_in">В последний раз был замечен в:</string>
-    <string name="status_badge">Иконка статуса</string>
+    <string name="first_seen_in_title">Впервые замечен:</string>
+    <string name="last_seen_in_title">Последний раз видели:</string>
+    <string name="status_badge_content_description">Иконка статуса</string>
 
-    <string name="show_character_image">Покажи аватарку персонажа</string>
+    <string name="show_character_image_clickable_link_name">Покажи аватарку персонажа</string>
     <string name="species_title">Вид:</string>
     <string name="gender_title">Пол:</string>
+
 </resources>
