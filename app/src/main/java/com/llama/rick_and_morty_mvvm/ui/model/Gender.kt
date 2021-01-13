@@ -10,6 +10,7 @@ import com.llama.rick_and_morty_mvvm.domain.model.SimpleCharacter
  * */
 class Gender(
     resources: Resources,
+    private val genderTypes: GenderTypes,
     private val list: List<SimpleCharacter>
 ) {
 
@@ -36,20 +37,32 @@ class Gender(
      * Returns original list if no gender present or filtered list, sorted by id in ascending order otherwise.
      * */
     fun filterListByGender(genders: List<String>): List<SimpleCharacter> {
-        var females: List<SimpleCharacter> = emptyList() // weak code or OK?
-        var males: List<SimpleCharacter> = emptyList()
-        var genderless: List<SimpleCharacter> = emptyList()
-        var unknown: List<SimpleCharacter> = emptyList()
+        val mutableList: MutableList<SimpleCharacter> = mutableListOf()
         genders.forEach { gender ->
-            when (gender) {
-                "Female", "Женский" -> females = getFemales()
-                "Male", "Мужской" -> males = getMales()
-                "Genderless", "Бесполый" -> genderless = getGenderless()
-                "Unknown", "Неизвестен" -> unknown = getCharactersWithUnknownGender()
-            }
+            mutableList.addAll(
+                applyFilter(gender)
+            )
         }
-        val result: List<SimpleCharacter> =
-            listOf(females, males, genderless, unknown).flatten().sortedBy { it.id }
-        return if (genders.isEmpty()) list else result
+        return if (genders.isEmpty()) list else mutableList.sortedBy { it.id }
+    }
+
+    private fun applyFilter(gender: String): List<SimpleCharacter> = when (gender) {
+        genderTypes.types[0][0], genderTypes.types[0][1] -> {
+            getFemales()
+        }
+
+        genderTypes.types[1][0], genderTypes.types[1][1] -> {
+            getMales()
+        }
+
+        genderTypes.types[2][0], genderTypes.types[2][1] -> {
+            getGenderless()
+        }
+
+        genderTypes.types[3][0], genderTypes.types[3][1] -> {
+            getCharactersWithUnknownGender()
+        }
+
+        else -> emptyList()
     }
 }

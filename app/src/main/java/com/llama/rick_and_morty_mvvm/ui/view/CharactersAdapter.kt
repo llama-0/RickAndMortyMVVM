@@ -3,7 +3,7 @@ package com.llama.rick_and_morty_mvvm.ui.view
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.llama.rick_and_morty_mvvm.databinding.ListItemBinding
+import com.llama.rick_and_morty_mvvm.databinding.ItemCharacterBinding
 import com.llama.rick_and_morty_mvvm.domain.model.SimpleCharacter
 
 class CharactersAdapter(
@@ -13,7 +13,7 @@ class CharactersAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CharactersViewHolder =
         CharactersViewHolder(
-            ListItemBinding.inflate(
+            ItemCharacterBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false

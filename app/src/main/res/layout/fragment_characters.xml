@@ -106,7 +106,7 @@
 
     <include
         android:id="@+id/includedErrorLayout"
-        layout="@layout/internet_error_layout"
+        layout="@layout/partial_characters_internet_error"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

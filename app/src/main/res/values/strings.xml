@@ -3,25 +3,23 @@
     <string name="title_characters">Characters</string>
     <string name="title_character_details">Character Details</string>
 
+    <string name="under_development_message">Under development</string>
+
+    <!--region internet error view-->
     <string name="no_internet_connection_state">No Internet Connection</string>
     <string name="check_internet_connection_message">Please, check your internet connection</string>
     <string name="btn_name_retry">Retry</string>
+    <!--endregion-->
 
-    <string name="base_url" translatable="false">https://rickandmortyapi.com/api/</string>
-    <string name="under_development_message">Under development</string>
-
+    <!--region characters view-->
+    <string name="choose_gender_label">Choose gender</string>
     <string name="male_chip_name">Male</string>
     <string name="female_chip_name">Female</string>
     <string name="genderless_chip_name">Genderless</string>
     <string name="unknown_gender_chip_name">Unknown</string>
+    <!--endregion-->
 
-    <string name="male_gender_api_field" translatable="false">Male</string>
-    <string name="female_gender_api_field" translatable="false">Female</string>
-    <string name="genderless_gender_api_field" translatable="false">Genderless</string>
-    <string name="unknown_gender_api_field" translatable="false">Unknown</string>
-
-    <string name="choose_gender_label">Choose gender</string>
-
+    <!--region character details view-->
     <string name="first_seen_in_title">First seen in:</string>
     <string name="last_seen_in_title">Last known location:</string>
     <string name="status_badge_content_description">status badge</string>
@@ -31,4 +29,35 @@
     <string name="species_title">Species:</string>
     <string name="gender_title">Gender:</string>
     <string name="character_image_link" translatable="false"><![CDATA[<a href=\'%1$s\'> %2$s </a>]]></string>
+    <!--endregion-->
+
+    <!--region non-translatable api fields-->
+    <string name="male_gender_api_field" translatable="false">Male</string>
+    <string name="female_gender_api_field" translatable="false">Female</string>
+    <string name="genderless_gender_api_field" translatable="false">Genderless</string>
+    <string name="unknown_gender_api_field" translatable="false">Unknown</string>
+    <!--endregion-->
+
+    <!--region gender types-->
+    <string-array name="gender_female">
+        <item>Female</item>
+        <item>Женский</item>
+    </string-array>
+
+    <string-array name="gender_male">
+        <item>Male</item>
+        <item>Мужской</item>
+    </string-array>
+
+    <string-array name="gender_genderless">
+        <item>Genderless</item>
+        <item>Бесполый</item>
+    </string-array>
+
+    <string-array name="gender_unknown">
+        <item>Unknown</item>
+        <item>Неизвестен</item>
+    </string-array>
+    <!--endregion-->
+
 </resources>

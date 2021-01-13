@@ -12,13 +12,15 @@ import com.llama.rick_and_morty_mvvm.ui.base.BaseViewModel
 import com.llama.rick_and_morty_mvvm.ui.command.CharactersCommand.Navigate
 import com.llama.rick_and_morty_mvvm.ui.command.CharactersCommand.ShowSnackbar
 import com.llama.rick_and_morty_mvvm.ui.model.Gender
+import com.llama.rick_and_morty_mvvm.ui.model.GenderTypes
 import com.llama.rick_and_morty_mvvm.ui.view.screenstate.CharactersScreenState
 
 class CharactersViewModel(
     private val sharedPrefs: SharedPreferences,
     private val interactor: CharactersInteractor,
     screenState: CharactersScreenState,
-    private val resources: Resources
+    private val resources: Resources,
+    private val genderTypes: GenderTypes
 ) : BaseViewModel<
         CharactersScreenState,
         BaseCommand>(screenState) {
@@ -26,7 +28,7 @@ class CharactersViewModel(
     private lateinit var list: List<SimpleCharacter>
 
     private val gender: Gender by lazy {
-        Gender(resources, list)
+        Gender(resources, genderTypes, list)
     }
 
     init {
