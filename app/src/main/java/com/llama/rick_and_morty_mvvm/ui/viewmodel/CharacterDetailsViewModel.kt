@@ -36,7 +36,6 @@ class CharacterDetailsViewModel(
         refreshView()
     }
 
-    @Suppress("unused")
     fun onUrlClicked() {
         character?.let {
             executeCommand(OpenLink(it.image))

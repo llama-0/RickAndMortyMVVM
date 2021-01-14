@@ -76,3 +76,11 @@ class Gender(
         private const val STR_UNKNOWN_GENDER_RU = "Неизвестен"
     }
 }
+
+// TODO: use this or sealed class to remove unnecessary else branch from applyFilter()
+//enum class GenderTypes(val localeEn: String, val localeRu: String) {
+//    FEMALE("Female", "Женский"),
+//    MALE("Male", "Мужской"),
+//    GENDERLESS("Genderless", "Бесполый"),
+//    UNKNOWN("Unknown", "Неизвестен")
+//}

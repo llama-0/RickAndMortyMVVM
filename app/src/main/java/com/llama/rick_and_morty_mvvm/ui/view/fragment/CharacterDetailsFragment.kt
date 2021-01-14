@@ -9,6 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat.getDrawable
 import androidx.core.text.HtmlCompat
+import com.llama.rick_and_morty_mvvm.BuildConfig
 import com.llama.rick_and_morty_mvvm.R
 import com.llama.rick_and_morty_mvvm.databinding.FragmentCharacterDetailsBinding
 import com.llama.rick_and_morty_mvvm.ui.base.BaseCommand
@@ -34,28 +35,26 @@ class CharacterDetailsFragment :
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        onUrlClicked()
-    }
-    
     override fun renderView(screenState: CharacterDetailsScreenState) {
         with(binding) {
             tvName.text = screenState.character.name
             tvGender.text = screenState.character.gender
             tvStatus.text = screenState.character.status
+            setImageViewStatus(tvStatus.text as String)
             tvSpecies.text = screenState.character.species
             tvFirstSeenIn.text = screenState.character.firstSeenIn
             tvLastKnownLocation.text = screenState.character.lastSeenIn
-            tvImage.movementMethod = LinkMovementMethod.getInstance()
             val imageUrlText: String = getString(
                 R.string.character_image_link,
                 screenState.character.image,
                 getString(R.string.show_character_image_clickable_link_name)
             )
             tvImage.text = HtmlCompat.fromHtml(imageUrlText, HtmlCompat.FROM_HTML_MODE_LEGACY)
-            setImageViewStatus(tvStatus.text as String)
+            if (BuildConfig.IS_WEB_VIEW_FEATURE_ON) {
+                onUrlClicked() // shows image only on second click
+            } else {
+                tvImage.movementMethod = LinkMovementMethod.getInstance()
+            }
         }
     }
 
@@ -76,20 +75,18 @@ class CharacterDetailsFragment :
         )
     }
 
-    @Suppress("unused")
     override fun executeCommand(command: BaseCommand) {
         when (command) {
             is OpenLink -> {
                 with(binding) {
                     tvImage.setOnClickListener {
-                        wvImage.loadUrl(command.url)
+                        wvImage.loadUrl(command.url) // may be loadUrl so slow the image can't be ready when I try to render this, so move to VM, use live data...or Glide + WebView
                     }
                 }
             }
         }
     }
 
-    @Suppress("unused")
     private fun onUrlClicked() {
         val url: TextView = binding.tvImage
         url.setOnClickListener {
