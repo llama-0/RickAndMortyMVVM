@@ -7,8 +7,8 @@ import com.llama.rick_and_morty_mvvm.R
 import com.llama.rick_and_morty_mvvm.domain.FetchDataInnerCallback
 import com.llama.rick_and_morty_mvvm.domain.interactor.CharactersInteractor
 import com.llama.rick_and_morty_mvvm.domain.model.SimpleCharacter
-import com.llama.rick_and_morty_mvvm.ui.base.BaseCommand
 import com.llama.rick_and_morty_mvvm.ui.base.BaseViewModel
+import com.llama.rick_and_morty_mvvm.ui.command.CharactersCommand
 import com.llama.rick_and_morty_mvvm.ui.command.CharactersCommand.Navigate
 import com.llama.rick_and_morty_mvvm.ui.command.CharactersCommand.ShowSnackbar
 import com.llama.rick_and_morty_mvvm.ui.model.Gender
@@ -21,7 +21,7 @@ class CharactersViewModel(
     private val resources: Resources
 ) : BaseViewModel<
         CharactersScreenState,
-        BaseCommand>(screenState) {
+        CharactersCommand>(screenState) {
 
     private lateinit var characters: List<SimpleCharacter>
 

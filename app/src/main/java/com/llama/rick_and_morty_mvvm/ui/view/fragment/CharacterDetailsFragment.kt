@@ -12,15 +12,15 @@ import androidx.core.text.HtmlCompat
 import com.llama.rick_and_morty_mvvm.BuildConfig
 import com.llama.rick_and_morty_mvvm.R
 import com.llama.rick_and_morty_mvvm.databinding.FragmentCharacterDetailsBinding
-import com.llama.rick_and_morty_mvvm.ui.base.BaseCommand
 import com.llama.rick_and_morty_mvvm.ui.base.BaseFragment
+import com.llama.rick_and_morty_mvvm.ui.command.DetailsCommand
 import com.llama.rick_and_morty_mvvm.ui.command.DetailsCommand.OpenLink
 import com.llama.rick_and_morty_mvvm.ui.view.screenstate.CharacterDetailsScreenState
 import com.llama.rick_and_morty_mvvm.ui.viewmodel.CharacterDetailsViewModel
 
 
 class CharacterDetailsFragment :
-    BaseFragment<CharacterDetailsScreenState, BaseCommand, CharacterDetailsViewModel>(
+    BaseFragment<CharacterDetailsScreenState, DetailsCommand, CharacterDetailsViewModel>(
         CharacterDetailsViewModel::class.java
     ) {
 
@@ -75,7 +75,7 @@ class CharacterDetailsFragment :
         )
     }
 
-    override fun executeCommand(command: BaseCommand) {
+    override fun executeCommand(command: DetailsCommand) {
         when (command) {
             is OpenLink -> {
                 with(binding) {

@@ -11,8 +11,8 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.llama.rick_and_morty_mvvm.databinding.FragmentCharactersBinding
 import com.llama.rick_and_morty_mvvm.domain.model.SimpleCharacter
-import com.llama.rick_and_morty_mvvm.ui.base.BaseCommand
 import com.llama.rick_and_morty_mvvm.ui.base.BaseFragment
+import com.llama.rick_and_morty_mvvm.ui.command.CharactersCommand
 import com.llama.rick_and_morty_mvvm.ui.command.CharactersCommand.Navigate
 import com.llama.rick_and_morty_mvvm.ui.command.CharactersCommand.ShowSnackbar
 import com.llama.rick_and_morty_mvvm.ui.view.CharactersAdapter
@@ -20,7 +20,7 @@ import com.llama.rick_and_morty_mvvm.ui.view.screenstate.CharactersScreenState
 import com.llama.rick_and_morty_mvvm.ui.viewmodel.CharactersViewModel
 
 class CharactersFragment :
-    BaseFragment<CharactersScreenState, BaseCommand, CharactersViewModel>(
+    BaseFragment<CharactersScreenState, CharactersCommand, CharactersViewModel>(
         CharactersViewModel::class.java
     ) {
 
@@ -58,7 +58,7 @@ class CharactersFragment :
         setAdapter(screenState.dataList)
     }
 
-    override fun executeCommand(command: BaseCommand) {
+    override fun executeCommand(command: CharactersCommand) {
         when (command) {
             is ShowSnackbar -> showSnackbar(binding.root, command.message)
             is Navigate -> requireView().findNavController().navigate(
