@@ -2,7 +2,6 @@ package com.llama.rick_and_morty_mvvm.data.model
 
 
 class Character(
-    val episode: List<String>, // leave it for the future
     val id: Int,
     val name: String,
     val gender: String,

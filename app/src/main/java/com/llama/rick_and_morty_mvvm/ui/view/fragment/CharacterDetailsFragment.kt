@@ -51,7 +51,7 @@ class CharacterDetailsFragment :
             )
             tvImage.text = HtmlCompat.fromHtml(imageUrlText, HtmlCompat.FROM_HTML_MODE_LEGACY)
             if (BuildConfig.IS_WEB_VIEW_FEATURE_ON) {
-                onUrlClicked() // shows image only on second click
+                viewModel.onUrlClicked()
             } else {
                 tvImage.movementMethod = LinkMovementMethod.getInstance()
             }
@@ -80,17 +80,10 @@ class CharacterDetailsFragment :
             is OpenLink -> {
                 with(binding) {
                     tvImage.setOnClickListener {
-                        wvImage.loadUrl(command.url) // may be loadUrl so slow the image can't be ready when I try to render this, so move to VM, use live data...or Glide + WebView
+                        wvImage.loadUrl(command.url)
                     }
                 }
             }
-        }
-    }
-
-    private fun onUrlClicked() {
-        val url: TextView = binding.tvImage
-        url.setOnClickListener {
-            viewModel.onUrlClicked()
         }
     }
 
