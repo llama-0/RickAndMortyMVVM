@@ -87,7 +87,7 @@ class CharacterDetailsFragment :
             is OpenLink -> {
                 with(binding) {
                     tvImage.setOnClickListener {
-                        wvImage.loadUrl(command.url) // такой вариант мне больше нравится
+                        wvImage.loadUrl(command.url)
                     }
                 }
             }

@@ -31,11 +31,6 @@
         app:layout_constraintTop_toBottomOf="@+id/tvName"
         tools:text="https://www.example.com/Rick.png" />
 
-    <!--    add this to tvImage to simply open in a browser without adding click listener in Fragment -->
-    <!--    opens `pure` links like `https://www.example.com` -->
-    <!--        android:autoLink="web" -->
-    <!--    android:linksClickable="true" this might be excessive -->
-
     <WebView
         android:id="@+id/wvImage"
         android:layout_width="match_parent"
