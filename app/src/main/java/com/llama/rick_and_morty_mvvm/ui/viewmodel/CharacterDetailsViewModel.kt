@@ -18,10 +18,12 @@ class CharacterDetailsViewModel(
 
     private val characterId: Int = sharedPrefs.getInt(INT_CHARACTER_ID_KEY, -1)
     private val character: SimpleCharacter? =
-        interactor.getFetchedData().firstOrNull { it.id == characterId }
+        interactor.getCachedData().firstOrNull { it.id == characterId }
 
     init {
-        character?.let { updateScreenState(characterState = it) }
+        character?.let {
+            updateScreenState(characterState = it)
+        }
     }
 
     private fun updateScreenState(

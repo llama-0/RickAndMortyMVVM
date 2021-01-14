@@ -5,5 +5,5 @@ import com.llama.rick_and_morty_mvvm.domain.model.SimpleCharacter
 
 interface InteractorInterface {
     fun fetchData(callback: FetchDataInnerCallback)
-    fun getFetchedData() : List<SimpleCharacter>
+    fun getCachedData() : List<SimpleCharacter>
 }

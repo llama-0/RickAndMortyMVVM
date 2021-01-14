@@ -12,23 +12,21 @@ import com.llama.rick_and_morty_mvvm.ui.base.BaseViewModel
 import com.llama.rick_and_morty_mvvm.ui.command.CharactersCommand.Navigate
 import com.llama.rick_and_morty_mvvm.ui.command.CharactersCommand.ShowSnackbar
 import com.llama.rick_and_morty_mvvm.ui.model.Gender
-import com.llama.rick_and_morty_mvvm.ui.model.GenderTypes
 import com.llama.rick_and_morty_mvvm.ui.view.screenstate.CharactersScreenState
 
 class CharactersViewModel(
     private val sharedPrefs: SharedPreferences,
     private val interactor: CharactersInteractor,
     screenState: CharactersScreenState,
-    private val resources: Resources,
-    private val genderTypes: GenderTypes
+    private val resources: Resources
 ) : BaseViewModel<
         CharactersScreenState,
         BaseCommand>(screenState) {
 
-    private lateinit var list: List<SimpleCharacter>
+    private lateinit var characters: List<SimpleCharacter>
 
     private val gender: Gender by lazy {
-        Gender(resources, genderTypes, list)
+        Gender(resources, characters)
     }
 
     init {
@@ -64,9 +62,9 @@ class CharactersViewModel(
 
         interactor.fetchData(object : FetchDataInnerCallback {
             override fun onSuccess(data: List<SimpleCharacter>) {
-                list = data
+                characters = data
                 updateScreenState(
-                    dataListState = list,
+                    dataListState = characters,
                     errorLayoutVisibilityState = false,
                     progressBarVisibilityState = false,
                     chipsGroupVisibilityState = true
@@ -93,7 +91,7 @@ class CharactersViewModel(
     }
 
     fun onChipChecked(genders: List<String>) {
-        val filteredDataList: List<SimpleCharacter> = gender.filterListByGender(genders)
+        val filteredDataList: List<SimpleCharacter> = gender.filterByGender(genders)
         updateScreenState(
             dataListState = filteredDataList,
             isGenderChipSelected = true
@@ -101,7 +99,7 @@ class CharactersViewModel(
     }
 
     fun onChipUnchecked(genders: List<String>) {
-        val filteredDataList: List<SimpleCharacter> = gender.filterListByGender(genders)
+        val filteredDataList: List<SimpleCharacter> = gender.filterByGender(genders)
         updateScreenState(
             dataListState = filteredDataList,
             isGenderChipSelected = false

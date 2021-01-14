@@ -7,14 +7,14 @@ import com.llama.rick_and_morty_mvvm.domain.model.SimpleCharacter
 
 class CharactersInteractor(private val repository: RepositoryImpl) : InteractorInterface {
 
-    private val fetchedData: ArrayList<SimpleCharacter> = arrayListOf()
+    private val cachedData: ArrayList<SimpleCharacter> = arrayListOf()
 
     override fun fetchData(callback: FetchDataInnerCallback) {
         repository.getCharacters(object : FetchRemoteDataCallback {
             override fun onSuccess(data: List<SimpleCharacter>) {
                 callback.onSuccess(data)
-                fetchedData.clear()
-                fetchedData.addAll(data)
+                cachedData.clear()
+                cachedData.addAll(data)
             }
 
             override fun onError() {
@@ -24,8 +24,8 @@ class CharactersInteractor(private val repository: RepositoryImpl) : InteractorI
         })
     }
 
-    override fun getFetchedData(): List<SimpleCharacter> =
-        fetchedData
+    override fun getCachedData(): List<SimpleCharacter> =
+        cachedData
 
     companion object {
         @Suppress("unused")

@@ -38,26 +38,4 @@
     <string name="unknown_gender_api_field" translatable="false">Unknown</string>
     <!--endregion-->
 
-    <!--region gender types-->
-    <string-array name="gender_female">
-        <item>Female</item>
-        <item>Женский</item>
-    </string-array>
-
-    <string-array name="gender_male">
-        <item>Male</item>
-        <item>Мужской</item>
-    </string-array>
-
-    <string-array name="gender_genderless">
-        <item>Genderless</item>
-        <item>Бесполый</item>
-    </string-array>
-
-    <string-array name="gender_unknown">
-        <item>Unknown</item>
-        <item>Неизвестен</item>
-    </string-array>
-    <!--endregion-->
-
 </resources>

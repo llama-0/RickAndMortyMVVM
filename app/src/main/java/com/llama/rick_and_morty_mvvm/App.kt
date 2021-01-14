@@ -8,7 +8,6 @@ import com.llama.rick_and_morty_mvvm.data.mapper.CharactersMapper
 import com.llama.rick_and_morty_mvvm.data.network.ApiService
 import com.llama.rick_and_morty_mvvm.data.network.ApiServiceBuilder
 import com.llama.rick_and_morty_mvvm.domain.model.SimpleCharacter
-import com.llama.rick_and_morty_mvvm.ui.model.GenderTypes
 import com.llama.rick_and_morty_mvvm.ui.view.screenstate.CharacterDetailsScreenState
 import com.llama.rick_and_morty_mvvm.ui.view.screenstate.CharactersScreenState
 import com.llama.rick_and_morty_mvvm.ui.viewmodel.CharactersViewModelFactory
@@ -63,41 +62,13 @@ class App : Application() {
         CharacterDetailsScreenState(defaultCharacter)
     }
 
-    private val genderTypes: GenderTypes by lazy {
-        val females: Array<String> = resources.getStringArray(R.array.gender_female)
-        val males: Array<String> = resources.getStringArray(R.array.gender_male)
-        val genderless: Array<String> = resources.getStringArray(R.array.gender_genderless)
-        val unknown: Array<String> = resources.getStringArray(R.array.gender_unknown)
-        GenderTypes(
-            listOf(
-                listOf(
-                    females[0],
-                    females[1]
-                ),
-                listOf(
-                    males[0],
-                    males[1]
-                ),
-                listOf(
-                    genderless[0],
-                    genderless[1]
-                ),
-                listOf(
-                    unknown[0],
-                    unknown[1]
-                )
-            )
-        )
-    }
-
     val factory: CharactersViewModelFactory by lazy {
         CharactersViewModelFactory(
             sharedPrefs,
             interactor,
             screenState,
             detailsScreenState,
-            resources,
-            genderTypes
+            resources
         )
     }
 

@@ -66,8 +66,8 @@ class CharacterDetailsFragment :
 
     private fun setImageViewStatus(status: String): Unit = with(binding) {
         when (status) {
-            "Alive" -> ivStatus.setDrawable(R.drawable.oval_status_alive)
-            "Dead" -> ivStatus.setDrawable(R.drawable.oval_status_dead)
+            STR_STATUS_ALIVE -> ivStatus.setDrawable(R.drawable.oval_status_alive)
+            STR_STATUS_DEAD -> ivStatus.setDrawable(R.drawable.oval_status_dead)
             else -> ivStatus.setDrawable(R.drawable.oval_status_unknown)
         }
     }
@@ -100,5 +100,10 @@ class CharacterDetailsFragment :
         url.setOnClickListener {
             viewModel.onUrlClicked()
         }
+    }
+
+    companion object {
+        private const val STR_STATUS_ALIVE = "Alive"
+        private const val STR_STATUS_DEAD = "Dead"
     }
 }

@@ -5,7 +5,6 @@ import android.content.res.Resources
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.llama.rick_and_morty_mvvm.domain.interactor.CharactersInteractor
-import com.llama.rick_and_morty_mvvm.ui.model.GenderTypes
 import com.llama.rick_and_morty_mvvm.ui.view.screenstate.CharacterDetailsScreenState
 import com.llama.rick_and_morty_mvvm.ui.view.screenstate.CharactersScreenState
 
@@ -14,8 +13,7 @@ class CharactersViewModelFactory(
     private val interactor: CharactersInteractor,
     private val screenState: CharactersScreenState,
     private val detailsScreenState: CharacterDetailsScreenState,
-    private val resources: Resources,
-    private val genderTypes: GenderTypes
+    private val resources: Resources
 ) : ViewModelProvider.Factory {
 
     @Suppress("UNCHECKED_CAST")
@@ -24,8 +22,7 @@ class CharactersViewModelFactory(
             sharedPrefs,
             interactor,
             screenState,
-            resources,
-            genderTypes
+            resources
         ) as T
 
         CharacterDetailsViewModel::class.java -> CharacterDetailsViewModel(
