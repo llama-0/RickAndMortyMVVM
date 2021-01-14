@@ -1,8 +1,6 @@
 package com.llama.rick_and_morty_mvvm.ui.view.fragment
 
 import android.os.Bundle
-import android.text.Html
-import android.text.Html.fromHtml
 import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat.getDrawable
+import androidx.core.text.HtmlCompat
 import com.llama.rick_and_morty_mvvm.R
 import com.llama.rick_and_morty_mvvm.databinding.FragmentCharacterDetailsBinding
 import com.llama.rick_and_morty_mvvm.ui.base.BaseCommand
@@ -40,7 +39,7 @@ class CharacterDetailsFragment :
 
         onUrlClicked()
     }
-
+    
     override fun renderView(screenState: CharacterDetailsScreenState) {
         with(binding) {
             tvName.text = screenState.character.name
@@ -55,11 +54,7 @@ class CharacterDetailsFragment :
                 screenState.character.image,
                 getString(R.string.show_character_image_clickable_link_name)
             )
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-                tvImage.text = fromHtml(imageUrlText, Html.FROM_HTML_MODE_COMPACT)
-            } else {
-                tvImage.text = fromHtml(imageUrlText)
-            }
+            tvImage.text = HtmlCompat.fromHtml(imageUrlText, HtmlCompat.FROM_HTML_MODE_LEGACY)
             setImageViewStatus(tvStatus.text as String)
         }
     }
