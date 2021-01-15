@@ -1,10 +1,10 @@
 package com.llama.rick_and_morty_mvvm.ui.viewmodel
 
-import android.content.SharedPreferences
 import android.content.res.Resources
+import android.os.Bundle
 import android.util.Log
 import com.llama.rick_and_morty_mvvm.R
-import com.llama.rick_and_morty_mvvm.domain.FetchDataInnerCallback
+import com.llama.rick_and_morty_mvvm.domain.FetchDataCallback
 import com.llama.rick_and_morty_mvvm.domain.interactor.CharactersInteractor
 import com.llama.rick_and_morty_mvvm.domain.model.SimpleCharacter
 import com.llama.rick_and_morty_mvvm.ui.base.BaseViewModel
@@ -15,10 +15,10 @@ import com.llama.rick_and_morty_mvvm.ui.model.Gender
 import com.llama.rick_and_morty_mvvm.ui.view.screenstate.CharactersScreenState
 
 class CharactersViewModel(
-    private val sharedPrefs: SharedPreferences,
     private val interactor: CharactersInteractor,
     screenState: CharactersScreenState,
-    private val resources: Resources
+    private val resources: Resources,
+    private val bundle: Bundle
 ) : BaseViewModel<
         CharactersScreenState,
         CharactersCommand>(screenState) {
@@ -60,7 +60,7 @@ class CharactersViewModel(
     private fun loadCharacters() {
         updateScreenState(progressBarVisibilityState = true)
 
-        interactor.fetchData(object : FetchDataInnerCallback {
+        interactor.fetchData(object : FetchDataCallback {
             override fun onSuccess(data: List<SimpleCharacter>) {
                 characters = data
                 updateScreenState(
@@ -107,9 +107,9 @@ class CharactersViewModel(
     }
 
     fun onItemClicked(id: Int) {
-        sharedPrefs.edit().putInt(INT_CHARACTER_ID_KEY, id).apply()
+        bundle.putInt(INT_CHARACTER_ID_KEY, id)
         executeCommand(
-            Navigate(R.id.navigationCharacterDetails)
+            Navigate(R.id.navigationCharacterDetails, bundle)
         )
     }
 

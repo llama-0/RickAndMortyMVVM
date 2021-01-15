@@ -62,7 +62,7 @@ class CharactersFragment :
         when (command) {
             is ShowSnackbar -> showSnackbar(binding.root, command.message)
             is Navigate -> requireView().findNavController().navigate(
-                command.destinationId
+                command.destinationId, command.args
             )
         }
     }

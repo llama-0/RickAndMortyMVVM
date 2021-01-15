@@ -1,6 +1,6 @@
 package com.llama.rick_and_morty_mvvm.ui.viewmodel
 
-import android.content.SharedPreferences
+import android.os.Bundle
 import com.llama.rick_and_morty_mvvm.domain.interactor.CharactersInteractor
 import com.llama.rick_and_morty_mvvm.domain.model.SimpleCharacter
 import com.llama.rick_and_morty_mvvm.ui.base.BaseViewModel
@@ -10,13 +10,13 @@ import com.llama.rick_and_morty_mvvm.ui.view.screenstate.CharacterDetailsScreenS
 
 class CharacterDetailsViewModel(
     screenState: CharacterDetailsScreenState,
-    sharedPrefs: SharedPreferences,
-    interactor: CharactersInteractor
+    interactor: CharactersInteractor,
+    bundle: Bundle
 ) : BaseViewModel<
         CharacterDetailsScreenState,
         DetailsCommand>(screenState) {
 
-    private val characterId: Int = sharedPrefs.getInt(INT_CHARACTER_ID_KEY, -1)
+    private val characterId: Int = bundle.getInt(INT_CHARACTER_ID_KEY)
     private val character: SimpleCharacter? =
         interactor.getCachedData().firstOrNull { it.id == characterId }
 
