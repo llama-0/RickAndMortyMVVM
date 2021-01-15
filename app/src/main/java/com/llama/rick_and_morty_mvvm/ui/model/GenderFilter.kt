@@ -5,10 +5,10 @@ import com.llama.rick_and_morty_mvvm.R
 import com.llama.rick_and_morty_mvvm.domain.model.SimpleCharacter
 
 /**
- * [Gender] class holds filtering logic of
+ * [GenderFilter] class holds filtering logic of
  * [list] of SimpleCharacters by mutually exclusive gender type
  * */
-class Gender(
+class GenderFilter(
     resources: Resources,
     private val list: List<SimpleCharacter>
 ) {

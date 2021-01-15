@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Rick and Morty Characters</string>
-    <string name="title_characters">Characters</string>
+    <string name="title_characters">Rick and Morty Characters</string>
     <string name="title_character_details">Character Details</string>
 
     <string name="under_development_message">Under development</string>
@@ -28,14 +28,6 @@
 
     <string name="species_title">Species:</string>
     <string name="gender_title">Gender:</string>
-    <string name="character_image_link" translatable="false"><![CDATA[<a href=\'%1$s\'> %2$s </a>]]></string>
-    <!--endregion-->
-
-    <!--region non-translatable api fields-->
-    <string name="male_gender_api_field" translatable="false">Male</string>
-    <string name="female_gender_api_field" translatable="false">Female</string>
-    <string name="genderless_gender_api_field" translatable="false">Genderless</string>
-    <string name="unknown_gender_api_field" translatable="false">Unknown</string>
     <!--endregion-->
 
 </resources>

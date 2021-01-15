@@ -14,72 +14,12 @@ import com.llama.rick_and_morty_mvvm.ui.viewmodel.CharactersViewModelFactory
 
 class ViewModelFactoryCreator {
 
-    private val apiService: ApiService by lazy {
-        ApiServiceBuilder(STR_BASE_URL).buildService()
-    }
-
-    private val charactersMapper: CharactersMapper by lazy {
-        CharactersMapper()
-    }
-
-    private val repository: Repository by lazy {
-        Repository(apiService, charactersMapper)
-    }
-
-    private val interactor: CharactersInteractor by lazy {
-        CharactersInteractor(repository)
-    }
-
-    private val screenState: CharactersScreenState by lazy {
-        CharactersScreenState(
-            emptyList(),
-            errorLayoutVisibility = false,
-            progressBarVisibility = false,
-            chipsGroupVisibility = false,
-            isBtnRetryClicked = false,
-            isGenderChipSelected = false
-        )
-    }
-
-    private val defaultCharacter: SimpleCharacter by lazy {
-        SimpleCharacter(
-            INT_ID,
-            STR_NAME,
-            STR_GENDER,
-            STR_STATUS,
-            STR_SPECIES,
-            STR_IMG_URL,
-            STR_FROM,
-            STR_TO
-        )
-    }
-
-    private val detailsScreenState: CharacterDetailsScreenState by lazy {
-        CharacterDetailsScreenState(defaultCharacter)
-    }
-
-    private val bundle: Bundle by lazy {
-        Bundle()
-    }
-
     fun create(resources: Resources): CharactersViewModelFactory =
         CharactersViewModelFactory(
-            interactor,
-            screenState,
-            detailsScreenState,
+            CharactersInteractorBuilder().build(),
+            CharactersScreenState(),
+            CharacterDetailsScreenState(null),
             resources,
-            bundle
+            Bundle()
         )
-
-    companion object {
-        private const val STR_BASE_URL = "https://rickandmortyapi.com/api/"
-        private const val INT_ID = -1
-        private const val STR_NAME = "Ally"
-        private const val STR_GENDER = "Female"
-        private const val STR_STATUS = "Alive"
-        private const val STR_SPECIES = "Human"
-        private const val STR_IMG_URL = "https://google.com"
-        private const val STR_FROM = "Earth"
-        private const val STR_TO = "Mars"
-    }
 }

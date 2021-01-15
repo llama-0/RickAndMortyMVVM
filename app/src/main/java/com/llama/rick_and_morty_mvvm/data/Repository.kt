@@ -34,7 +34,6 @@ class Repository(
                             "onResponse: response is successful",
                             Exception(response.code().toString())
                         )
-                        callback.onSuccess(emptyList())
                     } else {
                         callback.onSuccess(charactersMapper.map(body.characters))
                     }
@@ -51,7 +50,7 @@ class Repository(
     }
 
     companion object {
-        private const val REPOSITORY_TAG = "REPOSITORY"
+        private const val REPOSITORY_TAG = "Repository"
     }
 }
 

@@ -24,15 +24,15 @@ class CharactersFragment :
         CharactersViewModel::class.java
     ) {
 
-    private lateinit var binding: FragmentCharactersBinding
+    private var binding: FragmentCharactersBinding? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
+    ): View? {
         binding = FragmentCharactersBinding.inflate(inflater, container, false)
-        return binding.root
+        return binding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -48,35 +48,9 @@ class CharactersFragment :
         setAdapter(list)
     }
 
-    override fun renderView(screenState: CharactersScreenState) {
-        with(binding) {
-            pbLoading.isVisible = screenState.progressBarVisibility
-            includedErrorLayout.internetErrorLayout.isVisible = screenState.errorLayoutVisibility
-            chipGroupGender.isVisible = screenState.chipsGroupVisibility
-            tvChooseGender.isVisible = screenState.chipsGroupVisibility
-        }
-        setAdapter(screenState.dataList)
-    }
-
-    override fun executeCommand(command: CharactersCommand) {
-        when (command) {
-            is ShowSnackbar -> showSnackbar(binding.root, command.message)
-            is Navigate -> requireView().findNavController().navigate(
-                command.destinationId, command.args
-            )
-        }
-    }
-
     private fun initRetryButton() {
-        binding.includedErrorLayout.btnRetry.setOnClickListener {
+        binding?.includedErrorLayout?.btnRetry?.setOnClickListener {
             viewModel.onButtonRetryClicked()
-        }
-    }
-
-    private fun setAdapter(list: List<SimpleCharacter>) {
-        val rv: RecyclerView = binding.rvItems
-        rv.adapter = CharactersAdapter(list) { character ->
-            viewModel.onItemClicked(character.id)
         }
     }
 
@@ -88,7 +62,7 @@ class CharactersFragment :
      * depending on isChecked Chip state
      * */
     private fun selectChips() {
-        val chipGroup: ChipGroup = binding.chipGroupGender
+        val chipGroup: ChipGroup = binding?.chipGroupGender ?: return
         val list: MutableList<String> = mutableListOf()
         for (idx in 0 until chipGroup.childCount) {
             val chip: Chip = chipGroup.getChildAt(idx) as Chip
@@ -105,8 +79,42 @@ class CharactersFragment :
         }
     }
 
+    private fun setAdapter(list: List<SimpleCharacter>) {
+        val rv: RecyclerView = binding?.rvItems ?: return
+        rv.adapter = CharactersAdapter(list) { character ->
+            viewModel.onItemClicked(character.id)
+        }
+    }
+
+    override fun renderView(screenState: CharactersScreenState) {
+        binding?.let {
+            with(it) {
+                pbLoading.isVisible = screenState.progressBarVisibility
+                includedErrorLayout.internetErrorLayout.isVisible =
+                    screenState.errorLayoutVisibility
+                chipGroupGender.isVisible = screenState.chipsGroupVisibility
+                tvChooseGender.isVisible = screenState.chipsGroupVisibility
+            }
+        }
+        setAdapter(screenState.dataList)
+    }
+
+    override fun executeCommand(command: CharactersCommand) {
+        when (command) {
+            is ShowSnackbar -> showSnackbar(binding?.root ?: return, command.message)
+            is Navigate -> requireView().findNavController().navigate(
+                command.destinationId, command.args
+            )
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
+    }
+
     companion object {
         @Suppress("unused")
-        private const val TAG = "TAG"
+        private const val TAG = "CharactersFragment"
     }
 }

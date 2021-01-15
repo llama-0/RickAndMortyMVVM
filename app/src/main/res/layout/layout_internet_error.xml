@@ -40,5 +40,4 @@
         app:layout_constraintEnd_toEndOf="@+id/tvNoInternetConnection"
         app:layout_constraintStart_toStartOf="@+id/tvNoInternetConnection"
         app:layout_constraintTop_toBottomOf="@+id/tvNoInternetConnection" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

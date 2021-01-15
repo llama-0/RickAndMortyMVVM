@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--region api fields-->
+    <string name="male_gender_api_field" translatable="false">Male</string>
+    <string name="female_gender_api_field" translatable="false">Female</string>
+    <string name="genderless_gender_api_field" translatable="false">Genderless</string>
+    <string name="unknown_gender_api_field" translatable="false">Unknown</string>
+    <!--endregion-->
+
+    <!--region character details view-->
+    <string name="character_image_link" translatable="false"><![CDATA[<a href=\'%1$s\'> %2$s </a>]]></string>
+    <!--endregion-->
+</resources>

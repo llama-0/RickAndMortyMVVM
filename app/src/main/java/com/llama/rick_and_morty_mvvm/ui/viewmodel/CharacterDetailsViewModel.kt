@@ -28,7 +28,7 @@ class CharacterDetailsViewModel(
 
     private fun updateScreenState(
         screenState: CharacterDetailsScreenState = this.screenState,
-        characterState: SimpleCharacter = screenState.character
+        characterState: SimpleCharacter? = screenState.character
     ) {
         this.screenState = CharacterDetailsScreenState(
             characterState
@@ -44,7 +44,7 @@ class CharacterDetailsViewModel(
 
     companion object {
         @Suppress("unused")
-        private const val TAG = "TAG"
+        private const val TAG = "CharacterDetailsFragment"
         private const val INT_CHARACTER_ID_KEY = "INT_CHARACTER_ID_KEY"
     }
 

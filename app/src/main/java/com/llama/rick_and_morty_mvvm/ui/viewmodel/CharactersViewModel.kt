@@ -11,7 +11,7 @@ import com.llama.rick_and_morty_mvvm.ui.base.BaseViewModel
 import com.llama.rick_and_morty_mvvm.ui.command.CharactersCommand
 import com.llama.rick_and_morty_mvvm.ui.command.CharactersCommand.Navigate
 import com.llama.rick_and_morty_mvvm.ui.command.CharactersCommand.ShowSnackbar
-import com.llama.rick_and_morty_mvvm.ui.model.Gender
+import com.llama.rick_and_morty_mvvm.ui.model.GenderFilter
 import com.llama.rick_and_morty_mvvm.ui.view.screenstate.CharactersScreenState
 
 class CharactersViewModel(
@@ -25,8 +25,8 @@ class CharactersViewModel(
 
     private lateinit var characters: List<SimpleCharacter>
 
-    private val gender: Gender by lazy {
-        Gender(resources, characters)
+    private val gender: GenderFilter by lazy {
+        GenderFilter(resources, characters)
     }
 
     init {
@@ -64,10 +64,11 @@ class CharactersViewModel(
             override fun onSuccess(data: List<SimpleCharacter>) {
                 characters = data
                 updateScreenState(
-                    dataListState = characters,
+                    dataListState = data,
                     errorLayoutVisibilityState = false,
                     progressBarVisibilityState = false,
-                    chipsGroupVisibilityState = true
+                    chipsGroupVisibilityState = true,
+                    isBtnRetryClicked = false
                 )
             }
 
@@ -114,7 +115,7 @@ class CharactersViewModel(
     }
 
     companion object {
-        private const val TAG = "TAG"
+        private const val TAG = "CharactersViewModel"
         private const val INT_CHARACTER_ID_KEY = "INT_CHARACTER_ID_KEY"
     }
 }

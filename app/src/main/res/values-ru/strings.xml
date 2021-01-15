@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Персонажи из Рика и Морти</string>
-    <string name="title_characters">Персонажи</string>
+    <string name="title_characters">Персонажи из Рика и Морти</string>
     <string name="title_character_details">Профайл персонажа</string>
 
     <string name="no_internet_connection_state">Интернет соединие отсутсвует</string>
@@ -16,8 +16,8 @@
 
     <string name="choose_gender_label">Выберите пол персонажа</string>
 
-    <string name="first_seen_in_title">Впервые замечен:</string>
-    <string name="last_seen_in_title">Последний раз видели:</string>
+    <string name="first_seen_in_title">Исходная локация:</string>
+    <string name="last_seen_in_title">Последняя известная локация:</string>
     <string name="status_badge_content_description">Иконка статуса</string>
 
     <string name="show_character_image_clickable_link_name">Покажи аватарку персонажа</string>
