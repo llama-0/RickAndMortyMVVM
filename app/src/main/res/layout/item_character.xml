@@ -17,18 +17,18 @@
         android:padding="8dp">
 
         <TextView
-            android:id="@+id/tvId"
+            android:id="@+id/tvName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16sp"
             android:textStyle="bold"
-            tools:text="17" />
+            tools:text="@tools:sample/first_names" />
 
         <TextView
-            android:id="@+id/tvName"
+            android:id="@+id/tvStatus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            tools:text="@tools:sample/first_names" />
+            tools:text="Alive" />
     </FrameLayout>
 </androidx.cardview.widget.CardView>

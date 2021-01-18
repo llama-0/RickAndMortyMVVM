@@ -33,9 +33,10 @@
 
     <WebView
         android:id="@+id/wvImage"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
+        android:foregroundGravity="center_vertical|center|center_horizontal"
         app:layout_constraintEnd_toEndOf="@+id/tvImage"
         app:layout_constraintStart_toStartOf="@+id/tvImage"
         app:layout_constraintTop_toBottomOf="@+id/tvImage" />
@@ -48,7 +49,7 @@
         android:layout_marginTop="11dp"
         android:contentDescription="@string/status_badge_content_description"
         android:src="@drawable/oval_status_unknown"
-        app:layout_constraintStart_toStartOf="@+id/wvImage"
+        app:layout_constraintStart_toStartOf="@+id/tvName"
         app:layout_constraintTop_toBottomOf="@+id/wvImage" />
 
     <TextView
@@ -58,6 +59,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:textAlignment="center"
+        android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/ivStatus"
         app:layout_constraintTop_toBottomOf="@+id/wvImage"
         tools:text="unknown status" />
@@ -68,8 +70,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="@string/species_title"
-        app:layout_constraintStart_toStartOf="@+id/wvImage"
+        app:layout_constraintStart_toStartOf="@+id/tvName"
         app:layout_constraintTop_toBottomOf="@+id/tvStatus" />
+
 
     <TextView
         android:id="@+id/tvSpecies"
@@ -78,19 +81,10 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:textAlignment="center"
+        android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/tvSpeciesTitle"
         app:layout_constraintTop_toBottomOf="@+id/tvStatus"
         tools:text="Human" />
-
-
-    <TextView
-        android:id="@+id/tvGenderTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/gender_title"
-        app:layout_constraintStart_toStartOf="@+id/wvImage"
-        app:layout_constraintTop_toBottomOf="@+id/tvSpeciesTitle" />
 
     <TextView
         android:id="@+id/tvGender"
@@ -99,9 +93,19 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:textAlignment="center"
+        android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/tvGenderTitle"
         app:layout_constraintTop_toBottomOf="@+id/tvSpecies"
         tools:text="Male" />
+
+    <TextView
+        android:id="@+id/tvGenderTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/gender_title"
+        app:layout_constraintStart_toStartOf="@+id/tvName"
+        app:layout_constraintTop_toBottomOf="@+id/tvSpecies" />
 
     <TextView
         android:id="@+id/tvFirstSeenInTitle"
@@ -109,20 +113,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="@string/first_seen_in_title"
-        app:layout_constraintEnd_toEndOf="@+id/wvImage"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/wvImage"
-        app:layout_constraintTop_toBottomOf="@+id/tvGenderTitle" />
-
-    <TextView
-        android:id="@+id/tvFirstSeenIn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintStart_toEndOf="@+id/tvFirstSeenInTitle"
-        app:layout_constraintTop_toBottomOf="@+id/tvGender"
-        tools:text="@tools:sample/lorem" />
+        app:layout_constraintStart_toStartOf="@+id/tvName"
+        app:layout_constraintTop_toBottomOf="@+id/tvGender" />
 
     <TextView
         android:id="@+id/tvLastKnownLocationTitle"
@@ -130,16 +122,27 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="@string/last_seen_in_title"
-        app:layout_constraintStart_toStartOf="@+id/wvImage"
-        app:layout_constraintTop_toBottomOf="@+id/tvFirstSeenInTitle" />
+        app:layout_constraintStart_toStartOf="@+id/tvName"
+        app:layout_constraintTop_toBottomOf="@+id/tvFirstSeenIn" />
 
     <TextView
         android:id="@+id/tvLastKnownLocation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintStart_toEndOf="@+id/tvLastKnownLocationTitle"
-        app:layout_constraintTop_toBottomOf="@+id/tvFirstSeenIn"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/tvName"
+        app:layout_constraintTop_toBottomOf="@+id/tvLastKnownLocationTitle"
         tools:text="@tools:sample/lorem" />
+
+    <TextView
+        android:id="@+id/tvFirstSeenIn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/tvName"
+        app:layout_constraintTop_toBottomOf="@+id/tvFirstSeenInTitle"
+        tools:text="@tools:sample/lorem" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -29,8 +29,8 @@ class CharactersAdapter(
     }
 
     private fun bind(holder: CharactersViewHolder, model: SimpleCharacter) {
-        holder.tvId.text = model.id.toString()
         holder.tvName.text = model.name
+        holder.tvStatus.text = model.status
     }
 
     override fun getItemCount(): Int =
