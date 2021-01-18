@@ -6,6 +6,7 @@ import com.llama.rick_and_morty_mvvm.domain.model.SimpleCharacter
 import com.llama.rick_and_morty_mvvm.ui.base.BaseViewModel
 import com.llama.rick_and_morty_mvvm.ui.command.DetailsCommand
 import com.llama.rick_and_morty_mvvm.ui.command.DetailsCommand.OpenLink
+import com.llama.rick_and_morty_mvvm.ui.view.fragment.CharacterDetailsFragmentArgs
 import com.llama.rick_and_morty_mvvm.ui.view.screenstate.CharacterDetailsScreenState
 
 class CharacterDetailsViewModel(
@@ -16,7 +17,9 @@ class CharacterDetailsViewModel(
         CharacterDetailsScreenState,
         DetailsCommand>(screenState) {
 
-    private val characterId: Int = bundle.getInt(INT_CHARACTER_ID_KEY)
+    private val characterId: Int = CharacterDetailsFragmentArgs.fromBundle(bundle).characterId // -1 which is default, and I still need bundle so it's not right
+
+//    private val characterId: Int = bundle.getInt(INT_CHARACTER_ID_KEY)
     private val character: SimpleCharacter? =
         interactor.getCachedData().firstOrNull { it.id == characterId }
 

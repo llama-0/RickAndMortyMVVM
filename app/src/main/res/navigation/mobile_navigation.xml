@@ -9,7 +9,7 @@
         android:id="@+id/navigationCharacters"
         android:name="com.llama.rick_and_morty_mvvm.ui.view.fragment.CharactersFragment"
         android:label="@string/title_characters"
-        tools:layout="@layout/fragment_characters" >
+        tools:layout="@layout/fragment_characters">
         <action
             android:id="@+id/action_navigationCharacters_to_navigationCharacterDetails"
             app:destination="@id/navigationCharacterDetails" />
@@ -18,6 +18,11 @@
         android:id="@+id/navigationCharacterDetails"
         android:name="com.llama.rick_and_morty_mvvm.ui.view.fragment.CharacterDetailsFragment"
         android:label="@string/title_character_details"
-        tools:layout="@layout/fragment_character_details" />
+        tools:layout="@layout/fragment_character_details">
+        <argument
+            android:name="characterId"
+            android:defaultValue="-1"
+            app:argType="integer" />
+    </fragment>
 
 </navigation>

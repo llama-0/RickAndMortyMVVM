@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
@@ -13,23 +14,22 @@ import com.llama.rick_and_morty_mvvm.databinding.FragmentCharactersBinding
 import com.llama.rick_and_morty_mvvm.domain.model.SimpleCharacter
 import com.llama.rick_and_morty_mvvm.ui.base.BaseFragment
 import com.llama.rick_and_morty_mvvm.ui.command.CharactersCommand
-import com.llama.rick_and_morty_mvvm.ui.command.CharactersCommand.Navigate
-import com.llama.rick_and_morty_mvvm.ui.command.CharactersCommand.ShowSnackbar
+import com.llama.rick_and_morty_mvvm.ui.command.CharactersCommand.*
 import com.llama.rick_and_morty_mvvm.ui.view.CharactersAdapter
 import com.llama.rick_and_morty_mvvm.ui.view.screenstate.CharactersScreenState
 import com.llama.rick_and_morty_mvvm.ui.viewmodel.CharactersViewModel
 
 class CharactersFragment :
-    BaseFragment<CharactersScreenState, CharactersCommand, CharactersViewModel>(
-        CharactersViewModel::class.java
-    ) {
+        BaseFragment<CharactersScreenState, CharactersCommand, CharactersViewModel>(
+                CharactersViewModel::class.java
+        ) {
 
     private var binding: FragmentCharactersBinding? = null
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         binding = FragmentCharactersBinding.inflate(inflater, container, false)
         return binding?.root
@@ -91,7 +91,7 @@ class CharactersFragment :
             with(it) {
                 pbLoading.isVisible = screenState.progressBarVisibility
                 includedErrorLayout.internetErrorLayout.isVisible =
-                    screenState.errorLayoutVisibility
+                        screenState.errorLayoutVisibility
                 chipGroupGender.isVisible = screenState.chipsGroupVisibility
                 tvChooseGender.isVisible = screenState.chipsGroupVisibility
             }
@@ -101,10 +101,14 @@ class CharactersFragment :
 
     override fun executeCommand(command: CharactersCommand) {
         when (command) {
-            is ShowSnackbar -> showSnackbar(binding?.root ?: return, command.message)
-            is Navigate -> requireView().findNavController().navigate(
-                command.destinationId, command.args
-            )
+            is ShowSnackbar -> {
+                showSnackbar(binding?.root ?: return, command.message)
+            }
+
+            is OpenDetailsScreen -> {
+                val action: NavDirections = CharactersFragmentDirections.actionNavigationCharactersToNavigationCharacterDetails(command.characterId)
+                requireView().findNavController().navigate(action)
+            }
         }
     }
 

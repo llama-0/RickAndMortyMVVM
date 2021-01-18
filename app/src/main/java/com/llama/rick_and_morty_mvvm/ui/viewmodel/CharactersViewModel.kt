@@ -9,8 +9,7 @@ import com.llama.rick_and_morty_mvvm.domain.interactor.CharactersInteractor
 import com.llama.rick_and_morty_mvvm.domain.model.SimpleCharacter
 import com.llama.rick_and_morty_mvvm.ui.base.BaseViewModel
 import com.llama.rick_and_morty_mvvm.ui.command.CharactersCommand
-import com.llama.rick_and_morty_mvvm.ui.command.CharactersCommand.Navigate
-import com.llama.rick_and_morty_mvvm.ui.command.CharactersCommand.ShowSnackbar
+import com.llama.rick_and_morty_mvvm.ui.command.CharactersCommand.*
 import com.llama.rick_and_morty_mvvm.ui.model.GenderFilter
 import com.llama.rick_and_morty_mvvm.ui.view.screenstate.CharactersScreenState
 
@@ -108,9 +107,10 @@ class CharactersViewModel(
     }
 
     fun onItemClicked(id: Int) {
-        bundle.putInt(INT_CHARACTER_ID_KEY, id)
+//        bundle.putInt(INT_CHARACTER_ID_KEY, id)
         executeCommand(
-            Navigate(R.id.navigationCharacterDetails, bundle)
+//            Navigate(R.id.navigationCharacterDetails, bundle)
+            OpenDetailsScreen(id)
         )
     }
 
