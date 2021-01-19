@@ -1,5 +1,6 @@
 package com.llama.rick_and_morty_mvvm.ui.viewmodel
 
+import com.llama.rick_and_morty_mvvm.BuildConfig
 import com.llama.rick_and_morty_mvvm.domain.interactor.CharactersInteractor
 import com.llama.rick_and_morty_mvvm.domain.model.SimpleCharacter
 import com.llama.rick_and_morty_mvvm.ui.base.BaseViewModel
@@ -26,7 +27,7 @@ class CharacterDetailsViewModel(
         refreshView()
     }
 
-    fun onUrlClicked() {
+    private fun onUrlClicked() {
         character?.let {
             executeCommand(OpenLink(it.image))
         }
@@ -35,6 +36,12 @@ class CharacterDetailsViewModel(
     fun getCharacter(id: Int) {
         character = interactor.getCachedData().firstOrNull { it.id == id }
         updateScreenState(characterState = character)
+    }
+
+    fun toggleWebViewFeature() {
+        if (BuildConfig.IS_WEB_VIEW_FEATURE_ON) {
+            onUrlClicked()
+        } // can't do else branch here, because I'll drag `android.*` to VM which is as bad as drag it to Presenter
     }
 
     companion object {

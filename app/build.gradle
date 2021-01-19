@@ -28,7 +28,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         debug {
-            buildConfigField "boolean", "IS_WEB_VIEW_FEATURE_ON", "false"
+            buildConfigField "boolean", "IS_WEB_VIEW_FEATURE_ON", "true"
         }
     }
 
