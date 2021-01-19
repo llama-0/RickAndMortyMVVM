@@ -1,7 +1,6 @@
 package com.llama.rick_and_morty_mvvm.ui.view
 
 import android.content.res.Resources
-import android.text.method.LinkMovementMethod
 import androidx.core.text.HtmlCompat
 import com.llama.rick_and_morty_mvvm.R
 import com.llama.rick_and_morty_mvvm.databinding.FragmentCharacterDetailsBinding
@@ -47,8 +46,7 @@ class CharacterDetailsRenderer(
                 imageUrlText,
                 HtmlCompat.FROM_HTML_MODE_LEGACY
             )
-            viewModel.toggleWebViewFeature()
-//                tvImage.movementMethod = LinkMovementMethod.getInstance() // commented because toggle won't work other way. What should I do?..
+            viewModel.onUrlClicked()
         }
     }
 

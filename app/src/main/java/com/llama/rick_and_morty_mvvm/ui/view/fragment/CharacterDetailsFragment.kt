@@ -2,16 +2,14 @@ package com.llama.rick_and_morty_mvvm.ui.view.fragment
 
 import android.os.Bundle
 import android.text.method.LinkMovementMethod
-import android.text.method.MovementMethod
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.navArgs
 import com.llama.rick_and_morty_mvvm.databinding.FragmentCharacterDetailsBinding
 import com.llama.rick_and_morty_mvvm.ui.base.BaseFragment
 import com.llama.rick_and_morty_mvvm.ui.command.DetailsCommand
-import com.llama.rick_and_morty_mvvm.ui.command.DetailsCommand.OpenLink
+import com.llama.rick_and_morty_mvvm.ui.command.DetailsCommand.OpenLinkInWebView
 import com.llama.rick_and_morty_mvvm.ui.command.DetailsCommand.OpenLinkInBrowser
 import com.llama.rick_and_morty_mvvm.ui.view.CharacterDetailsRenderer
 import com.llama.rick_and_morty_mvvm.ui.view.screenstate.CharacterDetailsScreenState
@@ -53,22 +51,11 @@ class CharacterDetailsFragment :
     }
 
     override fun executeCommand(command: DetailsCommand) {
-        when (command) {
-            is OpenLink -> {
-                binding?.let {
-                    with(it) {
-                        tvImage.setOnClickListener {
-                            wvImage.loadUrl(command.url)
-                        }
-                    }
-                }
-            }
-            is OpenLinkInBrowser -> {
-                binding?.let {
-                    with(it) {
-                        tvImage.movementMethod = LinkMovementMethod.getInstance()
-                    }
-                }
+        with(binding ?: return) {
+            when (command) {
+                is OpenLinkInWebView -> tvImage.setOnClickListener { wvImage.loadUrl(command.url) }
+                is OpenLinkInBrowser -> tvImage.movementMethod =
+                    LinkMovementMethod.getInstance()
             }
         }
     }
