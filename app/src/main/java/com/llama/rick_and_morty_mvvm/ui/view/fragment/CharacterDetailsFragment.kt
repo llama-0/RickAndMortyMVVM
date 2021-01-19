@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.text.HtmlCompat
+import androidx.navigation.fragment.navArgs
 import com.llama.rick_and_morty_mvvm.BuildConfig
 import com.llama.rick_and_morty_mvvm.R
 import com.llama.rick_and_morty_mvvm.databinding.FragmentCharacterDetailsBinding
@@ -24,6 +25,8 @@ class CharacterDetailsFragment :
 
     private var binding: FragmentCharacterDetailsBinding? = null
 
+    private val args: CharacterDetailsFragmentArgs by navArgs()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -37,6 +40,7 @@ class CharacterDetailsFragment :
         super.onViewCreated(view, savedInstanceState)
 
         binding = FragmentCharacterDetailsBinding.bind(view)
+        viewModel.getCharacter(args.characterId)
     }
 
     override fun renderView(screenState: CharacterDetailsScreenState) {

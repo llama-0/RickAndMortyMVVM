@@ -16,8 +16,7 @@ import com.llama.rick_and_morty_mvvm.ui.view.screenstate.CharactersScreenState
 class CharactersViewModel(
     private val interactor: CharactersInteractor,
     screenState: CharactersScreenState,
-    private val resources: Resources,
-    private val bundle: Bundle
+    private val resources: Resources
 ) : BaseViewModel<
         CharactersScreenState,
         CharactersCommand>(screenState) {
@@ -107,15 +106,12 @@ class CharactersViewModel(
     }
 
     fun onItemClicked(id: Int) {
-//        bundle.putInt(INT_CHARACTER_ID_KEY, id)
         executeCommand(
-//            Navigate(R.id.navigationCharacterDetails, bundle)
             OpenDetailsScreen(id)
         )
     }
 
     companion object {
         private const val TAG = "CharactersViewModel"
-        private const val INT_CHARACTER_ID_KEY = "INT_CHARACTER_ID_KEY"
     }
 }

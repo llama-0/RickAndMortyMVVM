@@ -12,8 +12,7 @@ class CharactersViewModelFactory(
     private val interactor: CharactersInteractor,
     private val screenState: CharactersScreenState,
     private val detailsScreenState: CharacterDetailsScreenState,
-    private val resources: Resources,
-    private val bundle: Bundle
+    private val resources: Resources
 ) : ViewModelProvider.Factory {
 
     @Suppress("UNCHECKED_CAST")
@@ -21,14 +20,12 @@ class CharactersViewModelFactory(
         CharactersViewModel::class.java -> CharactersViewModel(
             interactor,
             screenState,
-            resources,
-            bundle
+            resources
         ) as T
 
         CharacterDetailsViewModel::class.java -> CharacterDetailsViewModel(
             detailsScreenState,
-            interactor,
-            bundle
+            interactor
         ) as T
 
         else -> throw IllegalArgumentException("Unknown ViewModel class inside the factory create method")

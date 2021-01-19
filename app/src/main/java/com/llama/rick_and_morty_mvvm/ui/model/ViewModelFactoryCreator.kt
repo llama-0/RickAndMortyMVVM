@@ -8,14 +8,11 @@ import com.llama.rick_and_morty_mvvm.ui.viewmodel.CharactersViewModelFactory
 
 class ViewModelFactoryCreator {
 
-    fun create(resources: Resources): CharactersViewModelFactory {
-        val bundle = Bundle()
-        return CharactersViewModelFactory(
+    fun create(resources: Resources): CharactersViewModelFactory =
+        CharactersViewModelFactory(
             CharactersInteractorBuilder().build(),
             CharactersScreenState(),
             CharacterDetailsScreenState(null),
-            resources,
-            bundle
+            resources
         )
-    }
 }

@@ -106,7 +106,8 @@ class CharactersFragment :
             }
 
             is OpenDetailsScreen -> {
-                val action: NavDirections = CharactersFragmentDirections.actionNavigationCharactersToNavigationCharacterDetails(command.characterId)
+                val action: NavDirections = CharactersFragmentDirections
+                    .actionNavigationCharactersToNavigationCharacterDetails(command.characterId)
                 requireView().findNavController().navigate(action)
             }
         }
