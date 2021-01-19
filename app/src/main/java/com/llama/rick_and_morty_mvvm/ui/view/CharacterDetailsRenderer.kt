@@ -2,6 +2,7 @@ package com.llama.rick_and_morty_mvvm.ui.view
 
 import android.content.res.Resources
 import android.text.method.LinkMovementMethod
+import androidx.core.text.HtmlCompat
 import com.llama.rick_and_morty_mvvm.R
 import com.llama.rick_and_morty_mvvm.databinding.FragmentCharacterDetailsBinding
 import com.llama.rick_and_morty_mvvm.ui.view.screenstate.CharacterDetailsScreenState
@@ -42,9 +43,9 @@ class CharacterDetailsRenderer(
                 screenState.image,
                 resources.getString(R.string.show_character_image_clickable_link_name)
             )
-            tvImage.text = androidx.core.text.HtmlCompat.fromHtml(
+            tvImage.text = HtmlCompat.fromHtml(
                 imageUrlText,
-                androidx.core.text.HtmlCompat.FROM_HTML_MODE_LEGACY
+                HtmlCompat.FROM_HTML_MODE_LEGACY
             )
             viewModel.toggleWebViewFeature()
 //                tvImage.movementMethod = LinkMovementMethod.getInstance() // commented because toggle won't work other way. What should I do?..
@@ -61,6 +62,13 @@ class CharacterDetailsRenderer(
             }
         }
     }
+
+    // call it in when(status) { Status.ALIVE.value -> ...}
+//    inner enum class Status(val value: String) {
+//        ALIVE(resources.getString(R.string.female_gender_api_field)),
+//        DEAD("Dead"),
+//        UNKNOWN("unknown")
+//    }
 
     companion object {
         private const val STR_STATUS_ALIVE = "Alive"

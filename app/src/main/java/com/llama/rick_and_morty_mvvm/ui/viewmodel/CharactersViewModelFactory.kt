@@ -25,7 +25,8 @@ class CharactersViewModelFactory(
 
         CharacterDetailsViewModel::class.java -> CharacterDetailsViewModel(
             detailsScreenState,
-            interactor
+            interactor,
+            resources
         ) as T
 
         else -> throw IllegalArgumentException("Unknown ViewModel class inside the factory create method")
