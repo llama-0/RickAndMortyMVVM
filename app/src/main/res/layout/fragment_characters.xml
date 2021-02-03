@@ -18,7 +18,7 @@
         android:textSize="16sp"
         android:textStyle="bold"
         android:visibility="invisible"
-        app:layout_constraintBottom_toTopOf="@+id/chipGroupGender"
+        app:layout_constraintBottom_toTopOf="@+id/hsvChipsContainer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -35,63 +35,69 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.google.android.material.chip.ChipGroup
-        android:id="@+id/chipGroupGender"
-        android:layout_width="wrap_content"
+    <HorizontalScrollView
+        android:id="@+id/hsvChipsContainer"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:visibility="invisible"
+        android:scrollbars="none"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvChooseGender"
-        tools:alpha="0.6"
-        tools:visibility="visible">
+        app:layout_constraintTop_toBottomOf="@+id/tvChooseGender">
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chipFemale"
-            style="@style/Widget.MaterialComponents.Chip.Filter"
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chipGroupGender"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:elevation="8dp"
-            android:text="@string/female_chip_name"
-            app:checkedIcon="@drawable/ic_done_black_24dp"
-            app:chipBackgroundColor="?attr/colorSurface"
-            app:chipStrokeWidth="0.55dp" />
+            android:paddingHorizontal="8dp"
+            android:visibility="invisible"
+            tools:alpha="0.6"
+            tools:visibility="visible">
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chipMale"
-            style="@style/Widget.MaterialComponents.Chip.Filter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:elevation="8dp"
-            android:text="@string/male_chip_name"
-            app:checkedIcon="@drawable/ic_done_black_24dp"
-            app:chipBackgroundColor="?attr/colorSurface"
-            app:chipStrokeWidth="0.55dp" />
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipFemale"
+                style="@style/Widget.MaterialComponents.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:elevation="8dp"
+                android:text="@string/female_chip_name"
+                app:checkedIcon="@drawable/ic_done_black_24dp"
+                app:chipBackgroundColor="?attr/colorSurface"
+                app:chipStrokeWidth="0.55dp" />
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chipGenderless"
-            style="@style/Widget.MaterialComponents.Chip.Filter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:elevation="8dp"
-            android:text="@string/genderless_chip_name"
-            app:checkedIcon="@drawable/ic_done_black_24dp"
-            app:chipBackgroundColor="?attr/colorSurface"
-            app:chipStrokeWidth="0.55dp" />
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipMale"
+                style="@style/Widget.MaterialComponents.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:elevation="8dp"
+                android:text="@string/male_chip_name"
+                app:checkedIcon="@drawable/ic_done_black_24dp"
+                app:chipBackgroundColor="?attr/colorSurface"
+                app:chipStrokeWidth="0.55dp" />
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chipUnknown"
-            style="@style/Widget.MaterialComponents.Chip.Filter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:elevation="8dp"
-            android:text="@string/unknown_gender_chip_name"
-            app:checkedIcon="@drawable/ic_done_black_24dp"
-            app:chipBackgroundColor="?attr/colorSurface"
-            app:chipStrokeWidth="0.55dp" />
-    </com.google.android.material.chip.ChipGroup>
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipGenderless"
+                style="@style/Widget.MaterialComponents.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:elevation="8dp"
+                android:text="@string/genderless_chip_name"
+                app:checkedIcon="@drawable/ic_done_black_24dp"
+                app:chipBackgroundColor="?attr/colorSurface"
+                app:chipStrokeWidth="0.55dp" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipUnknown"
+                style="@style/Widget.MaterialComponents.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:elevation="8dp"
+                android:text="@string/unknown_gender_chip_name"
+                app:checkedIcon="@drawable/ic_done_black_24dp"
+                app:chipBackgroundColor="?attr/colorSurface"
+                app:chipStrokeWidth="0.55dp" />
+        </com.google.android.material.chip.ChipGroup>
+    </HorizontalScrollView>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvItems"
@@ -102,7 +108,7 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/chipGroupGender" />
+        app:layout_constraintTop_toBottomOf="@id/hsvChipsContainer" />
 
     <include
         android:id="@+id/includedErrorLayout"

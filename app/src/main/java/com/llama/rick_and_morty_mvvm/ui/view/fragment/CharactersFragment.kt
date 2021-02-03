@@ -12,7 +12,8 @@ import com.llama.rick_and_morty_mvvm.databinding.FragmentCharactersBinding
 import com.llama.rick_and_morty_mvvm.domain.model.SimpleCharacter
 import com.llama.rick_and_morty_mvvm.ui.base.BaseFragment
 import com.llama.rick_and_morty_mvvm.ui.command.CharactersCommand
-import com.llama.rick_and_morty_mvvm.ui.command.CharactersCommand.*
+import com.llama.rick_and_morty_mvvm.ui.command.CharactersCommand.OpenDetailsScreen
+import com.llama.rick_and_morty_mvvm.ui.command.CharactersCommand.ShowSnackbar
 import com.llama.rick_and_morty_mvvm.ui.model.GenderType.*
 import com.llama.rick_and_morty_mvvm.ui.view.CharactersAdapter
 import com.llama.rick_and_morty_mvvm.ui.view.screenstate.CharactersScreenState
@@ -39,7 +40,6 @@ class CharactersFragment :
 
         initAdapter()
         initRetryButton()
-        collectChipsIds()
         selectChips()
     }
 
@@ -54,30 +54,19 @@ class CharactersFragment :
         }
     }
 
-    private fun collectChipsIds() {
-        with(binding ?: return) {
-            val ids: List<Int> = listOf(
-                chipFemale.id,
-                chipMale.id,
-                chipGenderless.id,
-                chipUnknown.id
-            )
-            viewModel.mapChipsIds(ids)
-        }
-    }
-
+    // kinda hardcode ...
     private fun selectChips() {
         with(binding ?: return) {
-            chipFemale.setOnCheckedChangeListener { _, _ ->
+            chipFemale.setOnClickListener {
                 viewModel.onChipClicked(FEMALE)
             }
-            chipMale.setOnCheckedChangeListener { _, _ ->
+            chipMale.setOnClickListener {
                 viewModel.onChipClicked(MALE)
             }
-            chipGenderless.setOnCheckedChangeListener { _, _ ->
+            chipGenderless.setOnClickListener {
                 viewModel.onChipClicked(GENDERLESS)
             }
-            chipUnknown.setOnCheckedChangeListener { _, _ ->
+            chipUnknown.setOnClickListener {
                 viewModel.onChipClicked(UNKNOWN)
             }
         }
