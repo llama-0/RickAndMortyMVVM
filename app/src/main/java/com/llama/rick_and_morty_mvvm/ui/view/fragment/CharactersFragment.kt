@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.children
 import androidx.core.view.isVisible
 import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
@@ -14,6 +15,8 @@ import com.llama.rick_and_morty_mvvm.ui.base.BaseFragment
 import com.llama.rick_and_morty_mvvm.ui.command.CharactersCommand
 import com.llama.rick_and_morty_mvvm.ui.command.CharactersCommand.OpenDetailsScreen
 import com.llama.rick_and_morty_mvvm.ui.command.CharactersCommand.ShowSnackbar
+import com.llama.rick_and_morty_mvvm.ui.mapper.ChipIdToGenderType
+import com.llama.rick_and_morty_mvvm.ui.model.GenderType
 import com.llama.rick_and_morty_mvvm.ui.model.GenderType.*
 import com.llama.rick_and_morty_mvvm.ui.view.CharactersAdapter
 import com.llama.rick_and_morty_mvvm.ui.view.screenstate.CharactersScreenState
@@ -57,18 +60,27 @@ class CharactersFragment :
     // kinda hardcode ...
     private fun selectChips() {
         with(binding ?: return) {
-            chipFemale.setOnClickListener {
-                viewModel.onChipClicked(FEMALE)
+            // this
+            val chipIdsList: List<Int> = chipGroupGender.children.toList().map { it.id }
+            viewModel.mapChipIdsToGenderTypes(chipIdsList)
+            chipGroupGender.children.forEach { chip ->
+                chip.setOnClickListener {
+                    viewModel.onChipClicked(it.id)
+                }
             }
-            chipMale.setOnClickListener {
-                viewModel.onChipClicked(MALE)
-            }
-            chipGenderless.setOnClickListener {
-                viewModel.onChipClicked(GENDERLESS)
-            }
-            chipUnknown.setOnClickListener {
-                viewModel.onChipClicked(UNKNOWN)
-            }
+            // OR this
+//            chipFemale.setOnClickListener {
+//                viewModel.onChipClicked(FEMALE)
+//            }
+//            chipMale.setOnClickListener {
+//                viewModel.onChipClicked(MALE)
+//            }
+//            chipGenderless.setOnClickListener {
+//                viewModel.onChipClicked(GENDERLESS)
+//            }
+//            chipUnknown.setOnClickListener {
+//                viewModel.onChipClicked(UNKNOWN)
+//            }
         }
     }
 

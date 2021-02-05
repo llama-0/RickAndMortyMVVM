@@ -1,25 +1,24 @@
 package com.llama.rick_and_morty_mvvm.ui.viewmodel
 
-import android.content.res.Resources
 import com.llama.rick_and_morty_mvvm.BuildConfig
 import com.llama.rick_and_morty_mvvm.domain.interactor.CharactersInteractor
 import com.llama.rick_and_morty_mvvm.domain.model.SimpleCharacter
 import com.llama.rick_and_morty_mvvm.ui.base.BaseViewModel
 import com.llama.rick_and_morty_mvvm.ui.command.DetailsCommand
-import com.llama.rick_and_morty_mvvm.ui.command.DetailsCommand.OpenLinkInWebView
 import com.llama.rick_and_morty_mvvm.ui.command.DetailsCommand.OpenLinkInBrowser
+import com.llama.rick_and_morty_mvvm.ui.command.DetailsCommand.OpenLinkInWebView
 import com.llama.rick_and_morty_mvvm.ui.view.screenstate.CharacterDetailsScreenState
 
 class CharacterDetailsViewModel(
     screenState: CharacterDetailsScreenState,
-    private val interactor: CharactersInteractor,
-    private val resources: Resources
+    private val interactor: CharactersInteractor
 ) : BaseViewModel<
         CharacterDetailsScreenState,
         DetailsCommand>(screenState) {
 
     private var character: SimpleCharacter? = null
 
+    @Synchronized
     private fun updateScreenState(
         screenState: CharacterDetailsScreenState = this.screenState,
         characterState: SimpleCharacter? = screenState.character
