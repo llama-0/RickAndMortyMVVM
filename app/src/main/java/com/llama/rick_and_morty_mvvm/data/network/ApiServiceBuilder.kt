@@ -1,5 +1,6 @@
 package com.llama.rick_and_morty_mvvm.data.network
 
+import hu.akarnokd.rxjava3.retrofit.RxJava3CallAdapterFactory
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -31,6 +32,7 @@ class ApiServiceBuilder(url: String) {
     private val retrofit: Retrofit = Retrofit.Builder()
         .baseUrl(url)
         .addConverterFactory(GsonConverterFactory.create())
+        .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
         .client(unsafeClient)
         .build()
 

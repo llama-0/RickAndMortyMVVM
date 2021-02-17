@@ -3,7 +3,6 @@ package com.llama.rick_and_morty_mvvm.ui.viewmodel
 import android.content.res.Resources
 import android.util.Log
 import com.llama.rick_and_morty_mvvm.R
-import com.llama.rick_and_morty_mvvm.domain.FetchCharactersListCallback
 import com.llama.rick_and_morty_mvvm.domain.interactor.CharactersInteractor
 import com.llama.rick_and_morty_mvvm.domain.model.SimpleCharacter
 import com.llama.rick_and_morty_mvvm.ui.base.BaseViewModel
@@ -14,6 +13,8 @@ import com.llama.rick_and_morty_mvvm.ui.mapper.ChipIdToGenderType
 import com.llama.rick_and_morty_mvvm.ui.model.GenderFilter
 import com.llama.rick_and_morty_mvvm.ui.model.GenderType
 import com.llama.rick_and_morty_mvvm.ui.view.screenstate.CharactersScreenState
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.schedulers.Schedulers
 
 class CharactersViewModel(
     private val interactor: CharactersInteractor,
@@ -58,20 +59,22 @@ class CharactersViewModel(
 
     private fun loadCharacters() {
         updateScreenState(progressBarVisibilityState = true)
-
-        interactor.fetchData(object : FetchCharactersListCallback {
-            override fun onSuccess(data: List<SimpleCharacter>) {
-                list = data
+        interactor.fetchData()
+            .observeOn(Schedulers.io())
+            .subscribeOn(AndroidSchedulers.mainThread())
+            .doOnSuccess {
+                list = it
+                Log.e(TAG, "Success ----------------- list size = ${it.size}")
                 updateScreenState(
-                    dataListState = data,
+                    dataListState = it,
                     errorLayoutVisibilityState = false,
                     progressBarVisibilityState = false,
                     chipsGroupVisibilityState = true,
                     isBtnRetryClicked = false
                 )
             }
-
-            override fun onError() {
+            .doOnError {
+                Log.e(TAG, "onError: getCharacters from remote failed", it)
                 if (screenState.isBtnRetryClicked) {
                     executeCommand(ShowSnackbar(resources.getString(R.string.check_internet_connection_message)))
                 }
@@ -81,8 +84,6 @@ class CharactersViewModel(
                     chipsGroupVisibilityState = false
                 )
             }
-
-        })
     }
 
     private fun updateCheckedGenderTypes(genderType: GenderType) {
