@@ -24,4 +24,7 @@ abstract class BaseViewModel<
     protected open fun refreshView() {
         screenStateUpdateEvent.value = screenState
     }
+
+    open fun onItemClicked(id: Int) {
+    }
 }

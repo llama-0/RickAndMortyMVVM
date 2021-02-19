@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_navigationCharacters_to_navigationCharacterDetails"
             app:destination="@id/navigationCharacterDetails" />
+        <action
+            android:id="@+id/action_navigationCharacters_to_favoritesFragment"
+            app:destination="@id/navigationFavorites" />
     </fragment>
     <fragment
         android:id="@+id/navigationCharacterDetails"
@@ -23,6 +26,15 @@
             android:name="characterId"
             android:defaultValue="-1"
             app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/navigationFavorites"
+        android:name="com.llama.rick_and_morty_mvvm.ui.view.fragment.FavoritesFragment"
+        android:label="@string/favorites"
+        tools:layout="@layout/fragment_favorites">
+        <action
+            android:id="@+id/action_navigationFavorites_to_navigationCharacterDetails"
+            app:destination="@id/navigationCharacterDetails" />
     </fragment>
 
 </navigation>

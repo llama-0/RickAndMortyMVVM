@@ -28,6 +28,9 @@
 
     <string name="species_title">Species:</string>
     <string name="gender_title">Gender:</string>
+    <string name="favorites">Favorites</string>
+    <string name="fab" translatable="false">floatingActionButton</string>
+    <string name="no_favorite_items_yet">No favorite items yet</string>
     <!--endregion-->
 
 </resources>

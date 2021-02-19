@@ -9,8 +9,8 @@ import androidx.navigation.fragment.navArgs
 import com.llama.rick_and_morty_mvvm.databinding.FragmentCharacterDetailsBinding
 import com.llama.rick_and_morty_mvvm.ui.base.BaseFragment
 import com.llama.rick_and_morty_mvvm.ui.command.DetailsCommand
-import com.llama.rick_and_morty_mvvm.ui.command.DetailsCommand.OpenLinkInWebView
 import com.llama.rick_and_morty_mvvm.ui.command.DetailsCommand.OpenLinkInBrowser
+import com.llama.rick_and_morty_mvvm.ui.command.DetailsCommand.OpenLinkInWebView
 import com.llama.rick_and_morty_mvvm.ui.view.CharacterDetailsRenderer
 import com.llama.rick_and_morty_mvvm.ui.view.screenstate.CharacterDetailsScreenState
 import com.llama.rick_and_morty_mvvm.ui.viewmodel.CharacterDetailsViewModel

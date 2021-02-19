@@ -1,7 +1,7 @@
 package com.llama.rick_and_morty_mvvm.domain.interactor
 
-import com.llama.rick_and_morty_mvvm.domain.FetchCharactersListCallback
 import com.llama.rick_and_morty_mvvm.data.Repository
+import com.llama.rick_and_morty_mvvm.domain.FetchCharactersListCallback
 import com.llama.rick_and_morty_mvvm.domain.model.SimpleCharacter
 
 class CharactersInteractor(private val repository: Repository) {

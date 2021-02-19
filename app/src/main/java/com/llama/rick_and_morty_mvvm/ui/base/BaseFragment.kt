@@ -6,10 +6,12 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.llama.rick_and_morty_mvvm.App
-import com.llama.rick_and_morty_mvvm.MainActivity
 import com.llama.rick_and_morty_mvvm.R
+import com.llama.rick_and_morty_mvvm.domain.model.SimpleCharacter
+import com.llama.rick_and_morty_mvvm.ui.view.CharactersAdapter
 
 abstract class BaseFragment<
         ScreenState : BaseScreenState,
@@ -47,6 +49,17 @@ abstract class BaseFragment<
 
     protected open fun executeCommand(command: CommandType) {
         showUnderDevelopmentMessage()
+    }
+
+    protected fun initAdapter(rv: RecyclerView) {
+        val list: List<SimpleCharacter> = emptyList()
+        setAdapter(rv, list)
+    }
+
+    protected fun setAdapter(rv: RecyclerView, list: List<SimpleCharacter>) {
+        rv.adapter = CharactersAdapter(list) { character ->
+            viewModel.onItemClicked(character.id)
+        }
     }
 
     protected fun showSnackbar(view: View, message: String) {

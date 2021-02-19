@@ -8,8 +8,7 @@ import com.llama.rick_and_morty_mvvm.domain.interactor.CharactersInteractor
 import com.llama.rick_and_morty_mvvm.domain.model.SimpleCharacter
 import com.llama.rick_and_morty_mvvm.ui.base.BaseViewModel
 import com.llama.rick_and_morty_mvvm.ui.command.CharactersCommand
-import com.llama.rick_and_morty_mvvm.ui.command.CharactersCommand.OpenDetailsScreen
-import com.llama.rick_and_morty_mvvm.ui.command.CharactersCommand.ShowSnackbar
+import com.llama.rick_and_morty_mvvm.ui.command.CharactersCommand.*
 import com.llama.rick_and_morty_mvvm.ui.mapper.ChipIdToGenderType
 import com.llama.rick_and_morty_mvvm.ui.model.GenderFilter
 import com.llama.rick_and_morty_mvvm.ui.model.GenderType
@@ -141,9 +140,15 @@ class CharactersViewModel(
         updateScreenState(isBtnRetryClicked = true)
     }
 
-    fun onItemClicked(id: Int) {
+    override fun onItemClicked(id: Int) {
         executeCommand(
             OpenDetailsScreen(id)
+        )
+    }
+
+    fun onFavoriteClicked() {
+        executeCommand(
+            OpenFavoritesScreen
         )
     }
 

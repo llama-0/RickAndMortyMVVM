@@ -23,5 +23,7 @@
     <string name="show_character_image_clickable_link_name">Покажи аватарку персонажа</string>
     <string name="species_title">Вид:</string>
     <string name="gender_title">Пол:</string>
+    <string name="favorites">Избранное</string>
+    <string name="no_favorite_items_yet">Ваш список любимых персонажей пуст</string>
 
 </resources>

@@ -46,7 +46,7 @@ class CharacterDetailsViewModel(
 
     companion object {
         @Suppress("unused")
-        private const val TAG = "CharacterDetailsFragment"
+        private const val TAG = "CharacterDetailsViewModel"
     }
 
 }

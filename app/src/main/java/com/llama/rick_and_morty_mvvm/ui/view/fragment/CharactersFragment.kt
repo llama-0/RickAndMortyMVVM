@@ -1,24 +1,17 @@
 package com.llama.rick_and_morty_mvvm.ui.view.fragment
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.core.view.children
 import androidx.core.view.isVisible
 import androidx.navigation.NavDirections
+import androidx.navigation.Navigation
 import androidx.navigation.findNavController
-import androidx.recyclerview.widget.RecyclerView
+import com.llama.rick_and_morty_mvvm.R
 import com.llama.rick_and_morty_mvvm.databinding.FragmentCharactersBinding
-import com.llama.rick_and_morty_mvvm.domain.model.SimpleCharacter
 import com.llama.rick_and_morty_mvvm.ui.base.BaseFragment
 import com.llama.rick_and_morty_mvvm.ui.command.CharactersCommand
-import com.llama.rick_and_morty_mvvm.ui.command.CharactersCommand.OpenDetailsScreen
-import com.llama.rick_and_morty_mvvm.ui.command.CharactersCommand.ShowSnackbar
-import com.llama.rick_and_morty_mvvm.ui.mapper.ChipIdToGenderType
-import com.llama.rick_and_morty_mvvm.ui.model.GenderType
-import com.llama.rick_and_morty_mvvm.ui.model.GenderType.*
-import com.llama.rick_and_morty_mvvm.ui.view.CharactersAdapter
+import com.llama.rick_and_morty_mvvm.ui.command.CharactersCommand.*
 import com.llama.rick_and_morty_mvvm.ui.view.screenstate.CharactersScreenState
 import com.llama.rick_and_morty_mvvm.ui.viewmodel.CharactersViewModel
 
@@ -34,6 +27,8 @@ class CharactersFragment :
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        setHasOptionsMenu(true)
+
         binding = FragmentCharactersBinding.inflate(inflater, container, false)
         return binding?.root
     }
@@ -46,9 +41,23 @@ class CharactersFragment :
         selectChips()
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.favorites, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean =
+        when (item.itemId) {
+            R.id.navigationFavorites -> {
+                viewModel.onFavoriteClicked()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+
     private fun initAdapter() {
-        val list: List<SimpleCharacter> = emptyList()
-        setAdapter(list)
+        binding?.let {
+            initAdapter(it.rvItems)
+        }
     }
 
     private fun initRetryButton() {
@@ -84,13 +93,6 @@ class CharactersFragment :
         }
     }
 
-    private fun setAdapter(list: List<SimpleCharacter>) {
-        val rv: RecyclerView = binding?.rvItems ?: return
-        rv.adapter = CharactersAdapter(list) { character ->
-            viewModel.onItemClicked(character.id)
-        }
-    }
-
     override fun renderView(screenState: CharactersScreenState) {
         with(binding ?: return) {
             pbLoading.isVisible = screenState.progressBarVisibility
@@ -98,8 +100,9 @@ class CharactersFragment :
                 screenState.errorLayoutVisibility
             chipGroupGender.isVisible = screenState.chipsGroupVisibility
             tvChooseGender.isVisible = screenState.chipsGroupVisibility
+
+            setAdapter(rvItems, screenState.dataList)
         }
-        setAdapter(screenState.dataList)
     }
 
     override fun executeCommand(command: CharactersCommand) {
@@ -112,6 +115,10 @@ class CharactersFragment :
                 val action: NavDirections = CharactersFragmentDirections
                     .actionNavigationCharactersToNavigationCharacterDetails(command.characterId)
                 requireView().findNavController().navigate(action)
+            }
+
+            OpenFavoritesScreen -> {
+                Navigation.findNavController(requireView()).navigate(R.id.navigationFavorites)
             }
         }
     }
