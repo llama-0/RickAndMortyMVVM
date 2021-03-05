@@ -68,7 +68,7 @@ class CharactersViewModel(
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeWith(object : DisposableSingleObserver<List<SimpleCharacter>>() {
                 override fun onSuccess(t: List<SimpleCharacter>?) {
-                    Log.e(TAG, "Success ----------------- list size = ${t?.size}")
+                    Log.d(TAG, "Success ----------------- list size = ${t?.size}")
                     list = t
                     updateScreenState(
                         dataListState = t ?: return,
@@ -104,28 +104,11 @@ class CharactersViewModel(
         }
     }
 
-    @Suppress("unused")
-    private fun updateCheckedGenderTypes(genderType: GenderType) {
-        // как в задче со скобочками. Если среди screenState.checkedGenderTypes уже есть тип == genderType,
-        // значит мы второй раз нажимаем на чипсину, значит мы должны отселектить её (и удалить из списка)
-        // screenState.checkedGenderTypes.delete(genderType)
-        // а если такого типа ещё нет, то добавить его.
-        if (!screenState.checkedGenderTypes.contains(genderType)) {
-            screenState.checkedGenderTypes.add(genderType)
-        } else {
-            screenState.checkedGenderTypes.remove(genderType)
-        }
-    }
-
     fun mapChipIdsToGenderTypes(ids: List<Int>) {
         chipsIdsToGenderTypes = chipIdToGenderType.map(ids)
     }
 
     private fun updateCheckedGenderTypes(id: Int) {
-        // как в задче со скобочками. Если среди screenState.checkedGenderTypes уже есть тип == genderType,
-        // значит мы второй раз нажимаем на чипсину, значит мы должны отселектить её (и удалить из списка)
-        // screenState.checkedGenderTypes.delete(genderType)
-        // а если такого типа ещё нет, то добавить его.
         val genderType: GenderType = chipsIdsToGenderTypes?.find {
             it.first == id
         }?.second ?: return
@@ -138,16 +121,6 @@ class CharactersViewModel(
 
     fun onChipClicked(id: Int) {
         updateCheckedGenderTypes(id)
-        val filteredList: List<SimpleCharacter>? =
-            list?.let {
-                GenderFilter(resources, it, screenState.checkedGenderTypes)
-                    .filter()
-            }
-        filteredList?.let { updateScreenState(dataListState = it) }
-    }
-
-    fun onChipClicked(genderType: GenderType) {
-        updateCheckedGenderTypes(genderType)
         val filteredList: List<SimpleCharacter>? =
             list?.let {
                 GenderFilter(resources, it, screenState.checkedGenderTypes)

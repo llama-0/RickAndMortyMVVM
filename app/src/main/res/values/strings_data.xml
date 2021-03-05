@@ -5,6 +5,8 @@
     <string name="female_gender_api_field" translatable="false">Female</string>
     <string name="genderless_gender_api_field" translatable="false">Genderless</string>
     <string name="unknown_gender_api_field" translatable="false">Unknown</string>
+    <string name="status_alive_api_field" translatable="false">Alive</string>
+    <string name="status_dead_api_field" translatable="false">Dead</string>
     <!--endregion-->
 
     <!--region character details view-->

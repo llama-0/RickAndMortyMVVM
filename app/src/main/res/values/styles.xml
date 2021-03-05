@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="TextView.Normal.Bold" parent="">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextView.Big.Bold" parent="TextView.Normal.Bold">
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="Widget.MaterialComponents.Chip.Filter.Custom" parent="Widget.MaterialComponents.Chip.Filter">
+        <item name="android:elevation">8dp</item>
+        <item name="chipBackgroundColor">?attr/colorSurface</item>
+        <item name="chipStrokeWidth">0.55dp</item>
+    </style>
+
+</resources>
