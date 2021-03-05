@@ -11,7 +11,7 @@ class CharactersMapper {
     fun map(input: List<Character>): List<SimpleCharacter> =
         input.map(::mapSimpleCharacter)
 
-    fun mapSimpleCharacter(input: Character): SimpleCharacter =
+    private fun mapSimpleCharacter(input: Character): SimpleCharacter =
         SimpleCharacter(
             input.id,
             input.name,

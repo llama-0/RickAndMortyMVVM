@@ -66,10 +66,8 @@ class CharactersFragment :
         }
     }
 
-    // kinda hardcode ...
     private fun selectChips() {
         with(binding ?: return) {
-            // this
             val chipIdsList: List<Int> = chipGroupGender.children.toList().map { it.id }
             viewModel.mapChipIdsToGenderTypes(chipIdsList)
             chipGroupGender.children.forEach { chip ->
@@ -77,19 +75,6 @@ class CharactersFragment :
                     viewModel.onChipClicked(it.id)
                 }
             }
-            // OR this
-//            chipFemale.setOnClickListener {
-//                viewModel.onChipClicked(FEMALE)
-//            }
-//            chipMale.setOnClickListener {
-//                viewModel.onChipClicked(MALE)
-//            }
-//            chipGenderless.setOnClickListener {
-//                viewModel.onChipClicked(GENDERLESS)
-//            }
-//            chipUnknown.setOnClickListener {
-//                viewModel.onChipClicked(UNKNOWN)
-//            }
         }
     }
 

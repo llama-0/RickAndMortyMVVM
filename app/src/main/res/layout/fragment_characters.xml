@@ -9,15 +9,14 @@
 
     <TextView
         android:id="@+id/tvChooseGender"
-        android:layout_width="match_parent"
+        style="@style/TextView.Big.Bold"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:gravity="center"
         android:letterSpacing="0.02"
         android:text="@string/choose_gender_label"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:visibility="invisible"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/hsvChipsContainer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -27,7 +26,7 @@
 
     <ProgressBar
         android:id="@+id/pbLoading"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/rvItems"
@@ -37,7 +36,7 @@
 
     <HorizontalScrollView
         android:id="@+id/hsvChipsContainer"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:scrollbars="none"
         app:layout_constraintEnd_toEndOf="parent"
@@ -55,53 +54,41 @@
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chipFemale"
-                style="@style/Widget.MaterialComponents.Chip.Filter"
+                style="@style/Widget.MaterialComponents.Chip.Filter.Custom"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:elevation="8dp"
                 android:text="@string/female_chip_name"
-                app:checkedIcon="@drawable/ic_done_black_24dp"
-                app:chipBackgroundColor="?attr/colorSurface"
-                app:chipStrokeWidth="0.55dp" />
+                app:checkedIcon="@drawable/ic_done_black_24dp" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chipMale"
-                style="@style/Widget.MaterialComponents.Chip.Filter"
+                style="@style/Widget.MaterialComponents.Chip.Filter.Custom"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:elevation="8dp"
                 android:text="@string/male_chip_name"
-                app:checkedIcon="@drawable/ic_done_black_24dp"
-                app:chipBackgroundColor="?attr/colorSurface"
-                app:chipStrokeWidth="0.55dp" />
+                app:checkedIcon="@drawable/ic_done_black_24dp" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chipGenderless"
-                style="@style/Widget.MaterialComponents.Chip.Filter"
+                style="@style/Widget.MaterialComponents.Chip.Filter.Custom"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:elevation="8dp"
                 android:text="@string/genderless_chip_name"
-                app:checkedIcon="@drawable/ic_done_black_24dp"
-                app:chipBackgroundColor="?attr/colorSurface"
-                app:chipStrokeWidth="0.55dp" />
+                app:checkedIcon="@drawable/ic_done_black_24dp" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chipUnknown"
-                style="@style/Widget.MaterialComponents.Chip.Filter"
+                style="@style/Widget.MaterialComponents.Chip.Filter.Custom"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:elevation="8dp"
                 android:text="@string/unknown_gender_chip_name"
-                app:checkedIcon="@drawable/ic_done_black_24dp"
-                app:chipBackgroundColor="?attr/colorSurface"
-                app:chipStrokeWidth="0.55dp" />
+                app:checkedIcon="@drawable/ic_done_black_24dp" />
         </com.google.android.material.chip.ChipGroup>
     </HorizontalScrollView>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvItems"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:paddingBottom="88dp"
         android:scrollbars="vertical"

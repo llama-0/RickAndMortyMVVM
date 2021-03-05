@@ -1,26 +1,20 @@
 package com.llama.rick_and_morty_mvvm.domain.interactor
 
 import com.llama.rick_and_morty_mvvm.data.Repository
-import com.llama.rick_and_morty_mvvm.domain.FetchCharactersListCallback
 import com.llama.rick_and_morty_mvvm.domain.model.SimpleCharacter
+import io.reactivex.rxjava3.core.Single
 
 class CharactersInteractor(private val repository: Repository) {
 
     private val cachedData: ArrayList<SimpleCharacter> = arrayListOf()
 
-    fun fetchData(listCallback: FetchCharactersListCallback) {
-        repository.getCharacters(object : FetchCharactersListCallback {
-            override fun onSuccess(data: List<SimpleCharacter>) {
-                listCallback.onSuccess(data)
+    fun fetchData(): Single<List<SimpleCharacter>> {
+        return repository.getCharacters()
+            .flatMap {
                 cachedData.clear()
-                cachedData.addAll(data)
+                cachedData.addAll(it)
+                Single.just(it)
             }
-
-            override fun onError() {
-                listCallback.onError()
-            }
-
-        })
     }
 
     fun getCachedData(): List<SimpleCharacter> =
@@ -31,3 +25,4 @@ class CharactersInteractor(private val repository: Repository) {
         private const val TAG = "CharactersInteractor"
     }
 }
+

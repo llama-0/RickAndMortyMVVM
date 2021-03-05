@@ -50,26 +50,13 @@ class CharacterDetailsRenderer(
         }
     }
 
-    // move logic to viewmodel: ScreenState(+ isAlive, isDead, isUnknown <- but in compact way). One Boolean like `isAlive` is not enough, decoding by -1, 0, 1 is unclear
     private fun setImageViewStatus(status: String) {
         with(binding) {
             when (status) {
-                STR_STATUS_ALIVE -> ivStatus.setDrawable(R.drawable.oval_status_alive)
-                STR_STATUS_DEAD -> ivStatus.setDrawable(R.drawable.oval_status_dead)
+                resources.getString(R.string.status_alive_api_field) -> ivStatus.setDrawable(R.drawable.oval_status_alive)
+                resources.getString(R.string.status_dead_api_field) -> ivStatus.setDrawable(R.drawable.oval_status_dead)
                 else -> ivStatus.setDrawable(R.drawable.oval_status_unknown)
             }
         }
-    }
-
-    // call it in when(status) { Status.ALIVE.value -> ...}
-//    inner enum class Status(val value: String) {
-//        ALIVE(resources.getString(R.string.female_gender_api_field)),
-//        DEAD("Dead"),
-//        UNKNOWN("unknown")
-//    }
-
-    companion object {
-        private const val STR_STATUS_ALIVE = "Alive"
-        private const val STR_STATUS_DEAD = "Dead"
     }
 }
