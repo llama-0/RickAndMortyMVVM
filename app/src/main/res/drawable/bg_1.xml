@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <bitmap xmlns:android="http://schemas.android.com/apk/res/android"
     android:alpha="0.2"
-    android:src="@drawable/rick_piccle_fun_art">
+    android:src="@drawable/rick_pickle_fun_art">
 
 </bitmap>

@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/navigationCharacters"
-        android:name="com.llama.rick_and_morty_mvvm.ui.view.fragment.CharactersFragment"
+        android:name="com.llama.rick_and_morty_mvvm.presentation.fragments.CharactersFragment"
         android:label="@string/title_characters"
         tools:layout="@layout/fragment_characters">
         <action
@@ -19,7 +19,7 @@
     </fragment>
     <fragment
         android:id="@+id/navigationCharacterDetails"
-        android:name="com.llama.rick_and_morty_mvvm.ui.view.fragment.CharacterDetailsFragment"
+        android:name="com.llama.rick_and_morty_mvvm.presentation.fragments.CharacterDetailsFragment"
         android:label="@string/title_character_details"
         tools:layout="@layout/fragment_character_details">
         <argument
@@ -29,7 +29,7 @@
     </fragment>
     <fragment
         android:id="@+id/navigationFavorites"
-        android:name="com.llama.rick_and_morty_mvvm.ui.view.fragment.FavoritesFragment"
+        android:name="com.llama.rick_and_morty_mvvm.presentation.fragments.FavoritesFragment"
         android:label="@string/favorites"
         tools:layout="@layout/fragment_favorites">
         <action

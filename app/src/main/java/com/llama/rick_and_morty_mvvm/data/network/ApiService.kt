@@ -1,7 +1,7 @@
 package com.llama.rick_and_morty_mvvm.data.network
 
-import com.llama.rick_and_morty_mvvm.data.model.Character
-import com.llama.rick_and_morty_mvvm.data.model.CharactersInfo
+import com.llama.rick_and_morty_mvvm.data.models.Character
+import com.llama.rick_and_morty_mvvm.data.models.CharactersInfo
 import io.reactivex.rxjava3.core.Single
 import retrofit2.http.GET
 import retrofit2.http.Path

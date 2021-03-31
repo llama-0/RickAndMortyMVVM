@@ -1,8 +1,8 @@
 package com.llama.rick_and_morty_mvvm
 
 import android.app.Application
-import com.llama.rick_and_morty_mvvm.ui.model.ViewModelFactoryCreator
-import com.llama.rick_and_morty_mvvm.ui.viewmodel.CharactersViewModelFactory
+import com.llama.rick_and_morty_mvvm.presentation.models.ViewModelFactoryCreator
+import com.llama.rick_and_morty_mvvm.presentation.viewmodels.CharactersViewModelFactory
 
 class App : Application() {
 
